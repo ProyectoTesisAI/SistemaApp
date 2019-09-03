@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TallerAgegarActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Tema"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@+id/etTemaTallerCrear"
+        android:layout_marginBottom="15dp"
+    />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número de Taller"
+        android:id="@+id/etNumeroTallerCrear"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha"
+        android:id="@+id/etFechaTallerCrear"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora"
+        android:id="@+id/etHoraTallerCrear"/>
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_agregar_item_taller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            android:tooltipText="Agregar Actividad"
+            android:src="@drawable/ic_add"/>
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_items_taller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

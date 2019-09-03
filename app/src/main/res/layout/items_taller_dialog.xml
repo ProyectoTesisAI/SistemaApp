@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:padding="16dp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView android:layout_width="wrap_content"
+              android:text="Actividad: "
+              android:layout_height="wrap_content"/>
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/etActividad"
+
+    />
+
+    <TextView android:layout_width="wrap_content"
+              android:text="Objetivo: "
+              android:layout_height="wrap_content"/>
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/etObjetivo"
+
+    />
+
+    <TextView android:layout_width="wrap_content"
+              android:text="Responsable: "
+              android:layout_height="wrap_content"/>
+    <EditText android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/etResponsable"
+
+    />
+    <RelativeLayout
+            android:layout_gravity="bottom|end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <Button
+                android:id="@+id/btnCancelar"
+                android:text="Cancelar"
+                android:layout_marginEnd="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <Button
+
+                android:text="Agregar"
+                android:id="@+id/btnAgregar"
+                android:layout_toRightOf="@id/btnCancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
