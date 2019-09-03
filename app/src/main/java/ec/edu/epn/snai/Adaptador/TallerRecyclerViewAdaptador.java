@@ -12,6 +12,7 @@ import ec.edu.epn.snai.R;
 import java.util.ArrayList;
 import java.util.List;
 
+//Clase Adaptador correspondiente al RecyclerView del Taller
 public class TallerRecyclerViewAdaptador extends RecyclerView.Adapter<TallerRecyclerViewAdaptador.TallerViewHolder>{
 
     private List<Taller> talleres= new ArrayList<>();
