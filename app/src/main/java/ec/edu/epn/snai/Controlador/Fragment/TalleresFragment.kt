@@ -1,4 +1,4 @@
-package ec.edu.epn.snai
+package ec.edu.epn.snai.Controlador.Fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.edu.epn.snai.Adaptador.TallerRecyclerViewAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.TallerRecyclerViewAdaptador
+import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
+import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.Taller
+import ec.edu.epn.snai.R
 import java.util.ArrayList
 
 class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClickListener{
@@ -20,7 +23,7 @@ class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClick
     private lateinit var taller: Taller
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView= inflater.inflate(R.layout.talleres_fragment,container,false)
+        val rootView= inflater.inflate(R.layout.fragment_talleres,container,false)
 
         val t1=Taller("Psicologia",1)
         val t2=Taller("Fisica",2)
@@ -36,7 +39,7 @@ class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClick
         val fabTaller:FloatingActionButton= rootView.findViewById(R.id.fab_agregar_taller)
         fabTaller.setOnClickListener {
 
-            val intent = Intent(context,TallerAgegarActivity::class.java)
+            val intent = Intent(context, TallerAgregarActivity::class.java)
             startActivity(intent)
         }
 
@@ -45,7 +48,7 @@ class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClick
 
     override fun OnItemClick(posicion: Int) {
 
-        val intent = Intent(context,TallerActivity::class.java)
+        val intent = Intent(context, VerTallerActivity::class.java)
         intent.putExtra("taller_seleccionado", listaTalleres[posicion])
         startActivity(intent)
     }

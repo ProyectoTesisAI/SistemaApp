@@ -1,4 +1,4 @@
-package ec.edu.epn.snai.Adaptador;
+package ec.edu.epn.snai.Controlador.Adaptador;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +26,7 @@ public class TallerRecyclerViewAdaptador extends RecyclerView.Adapter<TallerRecy
     @NonNull
     @Override
     public TallerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_taller,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_taller,viewGroup, false);
         TallerViewHolder holder= new TallerViewHolder(view,onItemClickListenerTaller);
         return holder;
     }

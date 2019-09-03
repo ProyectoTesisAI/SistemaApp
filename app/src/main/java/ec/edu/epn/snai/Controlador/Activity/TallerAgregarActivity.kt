@@ -1,4 +1,4 @@
-package ec.edu.epn.snai
+package ec.edu.epn.snai.Controlador.Activity
 
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -8,13 +8,11 @@ import android.view.MenuItem
 import android.widget.EditText
 import ec.edu.epn.snai.R
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
-import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
 
 
-class TallerAgegarActivity : AppCompatActivity() {
+class TallerAgregarActivity : AppCompatActivity() {
 
     private var txtTema: EditText? = null
     private var txtNumeroTaller: EditText? = null
@@ -26,7 +24,7 @@ class TallerAgegarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_crear_taller)
+        setContentView(R.layout.activity_agregar_taller)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         //var taller : Taller?=null
@@ -53,7 +51,7 @@ class TallerAgegarActivity : AppCompatActivity() {
 
         val inflater =layoutInflater
         //obtengo la vista o layout del dialogo
-        val view = inflater.inflate(R.layout.items_taller_dialog, null)
+        val view = inflater.inflate(R.layout.dialog_activity_taller, null)
 
         //añado la vista al builder
         builder.setView(view)
@@ -79,7 +77,7 @@ class TallerAgegarActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_agregar, menu)
+        menuInflater.inflate(R.menu.menu_gestion, menu)
 
         menu.findItem(R.id.menu_editar).isVisible = false
         menu.findItem(R.id.menu_eliminar).isVisible=false
