@@ -1,12 +1,13 @@
-package ec.edu.epn.snai
+package ec.edu.epn.snai.Controlador.Activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.TextView
 import ec.edu.epn.snai.Modelo.Taller
+import ec.edu.epn.snai.R
 
-class TallerActivity : AppCompatActivity(){
+class VerTallerActivity : AppCompatActivity(){
 
     private var txtTema: TextView?=null
     private var txtNumeroTaller: TextView?=null
@@ -16,7 +17,7 @@ class TallerActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_taller)
+        setContentView(R.layout.activity_ver_taller)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i = intent

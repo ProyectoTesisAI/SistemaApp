@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TallerAgegarActivity">
+    tools:context=".Controlador.Activity.TallerAgregarActivity">
 
     <EditText
         android:layout_width="match_parent"
