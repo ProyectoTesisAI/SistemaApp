@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="#ffff"
+        android:layout_marginBottom="8dp">
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtItemActividad"
+            android:gravity="start"
+            android:text="Actividad"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:paddingBottom="5px"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtItemObjetivo"
+            android:textSize="13dp"
+            android:text="Objetivo"/>
+
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtItemMateriales"
+            android:textSize="13dp"
+            android:text="Materiales"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtItemResponsable"
+            android:textSize="13dp"
+            android:text="Responsable"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtItemDuracion"
+            android:inputType="number"
+            android:textSize="13dp"
+            android:text="Duracion"/>
+</LinearLayout>

@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del Taller, hecho en Java
-public class TallerRecyclerViewAdaptador extends RecyclerView.Adapter<TallerRecyclerViewAdaptador.TallerViewHolder>{
+public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.TallerViewHolder>{
 
     private List<Taller> talleres= new ArrayList<>();
     private TallerOnItemClickListener onItemClickListenerTaller;
 
-    public TallerRecyclerViewAdaptador(List<Taller> talleres, TallerOnItemClickListener onItemClickListener) {
+    public TallerAdaptador(List<Taller> talleres, TallerOnItemClickListener onItemClickListener) {
         this.talleres = talleres;
         this.onItemClickListenerTaller=onItemClickListener;
     }

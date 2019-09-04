@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.edu.epn.snai.Controlador.Adaptador.TallerRecyclerViewAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
 import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
 import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.Taller
@@ -19,11 +19,10 @@ import ec.edu.epn.snai.Servicios.TallerServicio
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.ArrayList
 
-class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClickListener{
+class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
 
-    private var adaptador: TallerRecyclerViewAdaptador? = null
+    private var adaptador: TallerAdaptador? = null
     private var listaTalleres: List<Taller>?=null
     private lateinit var recyclerViewTaller: RecyclerView
 
@@ -44,7 +43,7 @@ class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClick
 
                     listaTalleres = response.body()
 
-                    adaptador = TallerRecyclerViewAdaptador(listaTalleres, this@TalleresFragment)
+                    adaptador = TallerAdaptador(listaTalleres, this@TalleresFragment)
                     recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
                     recyclerViewTaller.adapter=adaptador
                     recyclerViewTaller.layoutManager=LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
