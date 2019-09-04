@@ -14,27 +14,51 @@ import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
 import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
+import ec.edu.epn.snai.Servicios.ClienteApiRest
+import ec.edu.epn.snai.Servicios.TallerServicio
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.ArrayList
 
 class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClickListener{
 
     private var adaptador: TallerRecyclerViewAdaptador? = null
-    var listaTalleres= ArrayList<Taller>()
-    private lateinit var taller: Taller
+    private var listaTalleres: List<Taller>?=null
+    private lateinit var recyclerViewTaller: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView= inflater.inflate(R.layout.fragment_talleres,container,false)
 
-        val t1=Taller("Psicologia",1)
-        val t2=Taller("Fisica",2)
 
-        listaTalleres.add (t1)
-        listaTalleres.add(t2)
+        /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
+        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
 
-        adaptador = TallerRecyclerViewAdaptador(listaTalleres, this)
-        val recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
-        recyclerViewTaller.adapter=adaptador
-        recyclerViewTaller.layoutManager=LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        val call = servicio.obtenerTalleres()
+
+        call.enqueue(object : Callback<List<Taller>> {
+
+            override fun onResponse(call: Call<List<Taller>>, response: Response<List<Taller>>) {
+
+                if (response.isSuccessful) {
+
+                    listaTalleres = response.body()
+
+                    adaptador = TallerRecyclerViewAdaptador(listaTalleres, this@TalleresFragment)
+                    recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
+                    recyclerViewTaller.adapter=adaptador
+                    recyclerViewTaller.layoutManager=LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<List<Taller>>, t: Throwable) {
+                call.cancel()
+
+            }
+        })
+
 
         val fabTaller:FloatingActionButton= rootView.findViewById(R.id.fab_agregar_taller)
         fabTaller.setOnClickListener {
@@ -49,7 +73,7 @@ class TalleresFragment: Fragment(),TallerRecyclerViewAdaptador.TallerOnItemClick
     override fun OnItemClick(posicion: Int) {
 
         val intent = Intent(context, VerTallerActivity::class.java)
-        intent.putExtra("taller_seleccionado", listaTalleres[posicion])
+        intent.putExtra("taller_seleccionado", listaTalleres?.get(posicion))
         startActivity(intent)
     }
 
