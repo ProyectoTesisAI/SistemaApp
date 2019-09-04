@@ -8,18 +8,24 @@ import android.view.MenuItem
 import android.widget.EditText
 import ec.edu.epn.snai.R
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.Toast
+import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
+import ec.edu.epn.snai.Modelo.ItemTaller
+import java.util.ArrayList
 
 
-class TallerAgregarActivity : AppCompatActivity() {
+class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener {
 
     private var txtTema: EditText? = null
     private var txtNumeroTaller: EditText? = null
     private var txtFecha: EditText? = null
     private var txtHora: EditText? = null
-
     private lateinit var fabItemsTallers:FloatingActionButton
+
+    private var itemsTaller: MutableList<ItemTaller> =ArrayList<ItemTaller>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,24 +36,21 @@ class TallerAgregarActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        //var taller : Taller?=null
 
         txtTema = findViewById<EditText>(R.id.etTemaTallerCrear)
         txtNumeroTaller = findViewById<EditText>(R.id.etNumeroTallerCrear)
         txtFecha = findViewById<EditText>(R.id.etFechaTallerCrear)
         txtHora = findViewById<EditText>(R.id.etHoraTallerCrear)
 
-//        taller?.tema=txtTema?.text.toString()
-//        taller?.numeroTaller= txtNumeroTaller?.text.toString().toIntOrNull()
 
         fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
-            dialogoAgregarItemTaller()
+            dialogoAgregarActividadTaller()
         }
 
     }
 
-    fun dialogoAgregarItemTaller(){
+    fun dialogoAgregarActividadTaller(){
 
         //Creo el builder perteneciente al cuadro de dialogo
         val builder = AlertDialog.Builder(this)
@@ -63,13 +66,43 @@ class TallerAgregarActivity : AppCompatActivity() {
         val dialogo :AlertDialog= builder.create()
         dialogo.show()
 
-        val etActividad= view.findViewById<EditText>(R.id.etActividad)
-        val etResponsable=view.findViewById<EditText>(R.id.etResponsable)
+        var etActividad= view.findViewById<EditText?>(R.id.etActividad)
+        var etObjetivo=view.findViewById<EditText?>(R.id.etObjetivo)
+        var etMateriales=view.findViewById<EditText?>(R.id.etMateriales)
+        var etResponsable=view.findViewById<EditText?>(R.id.etResponsable)
+        var etDuracion=view.findViewById<EditText?>(R.id.etDuracion)
+
 
         val btnAgregar=view.findViewById<Button>(R.id.btnAgregar)
         btnAgregar.setOnClickListener {
-            Toast.makeText(getApplicationContext(),"Conectando...",Toast.LENGTH_SHORT).show();
-            dialogo.dismiss();
+
+            if(etActividad?.text.isNullOrBlank()|| etResponsable?.text.isNullOrBlank() || etDuracion?.text.isNullOrEmpty() ){
+                Toast.makeText(getApplicationContext(),"Actividad, Responsable y Duración es requerido, ingrese un valor",Toast.LENGTH_SHORT).show();
+                dialogo.dismiss();
+
+            }
+            else{
+
+                var actividadTaller=ItemTaller()
+                actividadTaller?.actividad=etActividad?.text.toString()
+                actividadTaller?.objetivoEspecifico=etObjetivo?.text.toString()
+                actividadTaller?.materiales=etMateriales?.text.toString()
+                actividadTaller?.responsable=etResponsable?.text.toString()
+                actividadTaller?.duracion= etDuracion?.text.toString().toInt()
+
+                Toast.makeText(getApplicationContext(),actividadTaller.toString(),Toast.LENGTH_SHORT).show();
+                dialogo.dismiss();
+
+                itemsTaller.add(actividadTaller)
+
+                var adaptadorItemTaller = ItemTallerAdaptador(itemsTaller,this@TallerAgregarActivity)
+                var recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
+                recyclerViewItemTaller.adapter=adaptadorItemTaller
+                recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+
+
+            }
+
         }
 
         val btnCancelar=view.findViewById<Button>(R.id.btnCancelar)
@@ -101,6 +134,11 @@ class TallerAgregarActivity : AppCompatActivity() {
         }
         return true
     }
+
+    override fun OnItemClick(posicion: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 
 }
