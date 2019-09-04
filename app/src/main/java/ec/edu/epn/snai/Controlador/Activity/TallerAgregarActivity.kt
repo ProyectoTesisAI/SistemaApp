@@ -25,7 +25,10 @@ class TallerAgregarActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregar_taller)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
+        //supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
+        if(supportActionBar!=null){
+            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        }
 
         //var taller : Taller?=null
 

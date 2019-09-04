@@ -13,4 +13,12 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+    <string name="prompt_user">Usuario</string>
+    <string name="prompt_password">Constraseña</string>
+    <string name="action_login">Acceder</string>
+    <string name="msj_exito">"Login exitoso!"</string>
+    <string name="user_invalido">Usuario incorrecta</string>
+    <string name="password_invalido">Contraseña incorrecta</string>
+    <string name="error_login">"Accede no permitido"</string>
 </resources>
