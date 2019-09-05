@@ -9,6 +9,8 @@ import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.Informe;
 import ec.edu.epn.snai.R;
 
+import java.sql.SQLOutput;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,9 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
     private List<Informe> informes = new ArrayList<>();
     private InformeOnItemClickListener onItemClickListenerInforme;
 
+    String pattern = "dd/MM/yyyy";
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
     public InformeAdaptador(List<Informe> informes, InformeOnItemClickListener onItemClickListener) {
         this.informes = informes;
         this.onItemClickListenerInforme=onItemClickListener;
@@ -26,7 +31,7 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
     @NonNull
     @Override
     public InformeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_taller,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_informe,viewGroup, false);
         InformeViewHolder holder= new InformeViewHolder(view,onItemClickListenerInforme);
         return holder;
     }
@@ -37,10 +42,9 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
         //Seteo los valores en los diferentes controles
         viewHolder.txtTema.setText(informes.get(i).getIdTaller().getTema());
         viewHolder.txtNumeroTaller.setText(informes.get(i).getIdTaller().getNumeroTaller().toString());
-
-        //String fecha=informes.get(i).getFecha().getDay()+"/"+informes.get(i).getFecha().getMonth()+"/"+informes.get(i).getFecha().getYear()+1900;
-        //viewHolder.txtFecha.setText(fecha);
-        //viewHolder.txtHora.setText( informes.get(i).getHoraInicio().toString());
+        String fecha = simpleDateFormat.format(informes.get(i).getIdTaller().getFecha());
+        viewHolder.txtFecha.setText(fecha.toString());
+        viewHolder.txtTipo.setText(informes.get(i).getIdTaller().getTipo());
     }
 
     @Override
@@ -50,15 +54,15 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
 
     public class InformeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView txtTema, txtNumeroTaller,txtFecha,txtHora;
+        TextView txtTema, txtNumeroTaller,txtFecha,txtTipo;
         InformeOnItemClickListener informeOnItemClickListener;
 
         public InformeViewHolder(View itemView, InformeOnItemClickListener onItemClickListener){
             super(itemView);
             txtTema=itemView.findViewById(R.id.txtTema);
             txtNumeroTaller=itemView.findViewById(R.id.txtNumeroTaller);
-            //txtFecha=itemView.findViewById(R.id.txtFecha);
-            //txtHora=itemView.findViewById(R.id.txtHora);
+            txtFecha=itemView.findViewById(R.id.txtFecha);
+            txtTipo=itemView.findViewById(R.id.txtTipo);
             this.informeOnItemClickListener=onItemClickListener;
 
             itemView.setOnClickListener(this);

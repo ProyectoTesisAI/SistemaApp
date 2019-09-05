@@ -13,6 +13,7 @@
             android:theme="@style/AppTheme">
 
         <activity android:name=".Controlador.Activity.VerTallerActivity" />
+        <activity android:name=".Controlador.Activity.VerInformeActivity" />
         <activity android:name=".Controlador.Activity.TallerAgregarActivity"
                   android:label="Agregar Taller"
         />
