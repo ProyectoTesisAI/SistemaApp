@@ -11,10 +11,18 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import ec.edu.epn.snai.Modelo.ItemTaller
-import java.util.ArrayList
+import android.widget.DatePicker
+import android.app.DatePickerDialog
+import android.support.v4.app.SupportActivity
+import android.support.v4.app.SupportActivity.ExtraData
+import android.support.v4.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.service.autofill.Dataset
+import java.util.*
 
 
 class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener {
@@ -42,6 +50,26 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
         fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
             dialogoAgregarActividadTaller()
+        }
+
+        var etFechaTaller=findViewById<EditText>(R.id.etFechaTallerCrear)
+
+
+        etFechaTaller.setOnClickListener {
+
+            val cldr = Calendar.getInstance()
+            val diaSeleccionado = cldr.get(Calendar.DAY_OF_MONTH)
+            val mesSeleccionado = cldr.get(Calendar.MONTH)
+            val añoSeleccionado = cldr.get(Calendar.YEAR)
+            // date picker dialog
+            val picker = DatePickerDialog(this@TallerAgregarActivity,
+
+                DatePickerDialog.OnDateSetListener {
+                        datePicker, año, mes, dia ->  etFechaTaller.setText( dia.toString() + "/" + (mes + 1) + "/" + año)
+
+                }, añoSeleccionado, mesSeleccionado, diaSeleccionado
+            )
+            picker.show()
         }
 
     }

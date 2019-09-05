@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if(usuario!= null){
 
+            itemsMenuRol(usuario,navView)
+
             if (savedInstanceState == null) {
 
                 //Agrego en el bundle la variable token
@@ -124,5 +126,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fm=supportFragmentManager.beginTransaction()
         fm.replace(R.id.frameLayout,fragment)
         fm.commit()
+    }
+
+
+    private fun itemsMenuRol(usuario: Usuario,navView: NavigationView){
+
+        val rolUsuario:String=usuario.idRolUsuarioCentro.idRol.rol
+        val menu=navView.menu
+
+        menu.findItem(R.id.menu_juridico).isVisible = false
+        menu.findItem(R.id.menu_psicologo).isVisible=false
+        menu.findItem(R.id.menu_inspector_educador).isVisible=false
+
+        if (rolUsuario.contains("JURIDICO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+            menu.findItem(R.id.menu_juridico).isVisible = true
+        }
+
+        if (rolUsuario.contains("PSICOLOGO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+            menu.findItem(R.id.menu_psicologo).isVisible = true
+        }
+
+        if ("INSPECTOR EDUCADOR".equals(rolUsuario) || "COORDINADOR CAI".equals(rolUsuario) || "DIRECTOR TECNICO DE MEDIDAS PRIVATIVAS Y ATENCIÓN".equals(rolUsuario) || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+            menu.findItem(R.id.menu_inspector_educador).isVisible=true
+        }
+
+
     }
 }
