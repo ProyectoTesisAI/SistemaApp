@@ -92,7 +92,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_talleres_fragment -> {
-                cargarTalleresFragment(TalleresFragment())
+
+                //Agrego en el bundle la variable token
+                var bundle = Bundle()
+                bundle.putSerializable("token", usuario?.token)
+
+                //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
+                val talleresFragment=TalleresFragment()
+                talleresFragment.arguments=bundle
+
+                cargarTalleresFragment(talleresFragment)
             }
             R.id.nav_informes_layout -> {
                 cargarInformesFragment(InformesFragment())
