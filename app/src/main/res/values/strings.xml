@@ -42,5 +42,13 @@
     <string name="txt_hora_fin_informe">Hora Fin</string>
     <string name="txt_numero_adolescentes_informe">Número Adolescentes</string>
     <string name="txt_objetivo_general_informe">Objetivo</string>
+    <string name="txt_socializacion_desarrollo">Socialización Desarrollo</string>
+    <string name="txt_socializacion_objetivos">Socialización Objetivos</string>
+    <string name="txt_cierre_evaluacion">Cierre y Evaluacion</string>
+    <string name="txt_conclusiones">Conclusiones</string>
+    <string name="txt_recomendaciones">Recomendaciones</string>
+    <string name="txt_observaciones">Observaciones</string>
+
+    <string name="txt_rol">Rol</string>
 
 </resources>

@@ -106,7 +106,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 cargarTalleresFragment(talleresFragment)
             }
             R.id.nav_informes_layout -> {
-                cargarInformesFragment(InformesFragment())
+                //Agrego en el bundle la variable token
+                var bundle = Bundle()
+                bundle.putSerializable("token", usuario?.token)
+
+                //Seteo el bundle en el argumento de InformesFragment, el cual contiene el token del usuario
+                val informesFragment=InformesFragment()
+                informesFragment.arguments=bundle
+                cargarInformesFragment(informesFragment)
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
