@@ -21,4 +21,14 @@
     <string name="user_invalido">Usuario incorrecta</string>
     <string name="password_invalido">Contraseña incorrecta</string>
     <string name="error_login">"Accede no permitido"</string>
+
+    <string name="txt_titulo_taller">Taller</string>
+    <string name="txt_titulo_infome">Informe</string>
+    <string name="txt_numero_taller">Número de taller</string>
+    <string name="txt_fecha_taller">Fecha</string>
+    <string name="txt_hora_inicio_taller">Hora Inicio</string>
+    <string name="txt_hora_fin_informe">Hora Fin</string>
+    <string name="txt_numero_adolescentes_informe">Número Adolescentes</string>
+    <string name="txt_objetivo_general_informe">Objetivo</string>
+
 </resources>
