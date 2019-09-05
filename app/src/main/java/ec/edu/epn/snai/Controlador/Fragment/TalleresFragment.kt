@@ -13,6 +13,7 @@ import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
 import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
 import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.Taller
+import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
@@ -25,15 +26,23 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
     private var adaptador: TallerAdaptador? = null
     private var listaTalleres: List<Taller>?=null
     private lateinit var recyclerViewTaller: RecyclerView
+    private lateinit var token:String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if(arguments!=null){
+            token=arguments?.getSerializable("token") as String
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView= inflater.inflate(R.layout.fragment_talleres,container,false)
 
-
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
 
-        val call = servicio.obtenerTalleres()
+        val call = servicio.obtenerTalleres("Bearer "+ token)
 
         call.enqueue(object : Callback<List<Taller>> {
 

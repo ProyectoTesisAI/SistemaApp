@@ -16,11 +16,13 @@
         <activity android:name=".Controlador.Activity.TallerAgregarActivity"
                   android:label="Agregar Taller"
         />
-        <activity android:name=".Controlador.Activity.MainActivity" />
+        <activity android:name=".Controlador.Activity.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  />
         <activity
                 android:name=".Controlador.Activity.LoginActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:theme="@style/AppTheme.NoActionBar"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

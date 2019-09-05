@@ -31,11 +31,7 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregar_taller)
-        //supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
-        if(supportActionBar!=null){
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         txtTema = findViewById<EditText>(R.id.etTemaTallerCrear)
         txtNumeroTaller = findViewById<EditText>(R.id.etNumeroTallerCrear)

@@ -1,6 +1,8 @@
 package ec.edu.epn.snai.Modelo;
 
-public class Usuario{
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
 
     private Integer idUsuario;
     private String nombres;
