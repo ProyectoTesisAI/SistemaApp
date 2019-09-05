@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Toast
 import cc.duduhuo.util.digest.Digest
+import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -17,6 +18,7 @@ import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity(){
+
     private var user = Usuario()
     private lateinit var btnAcceder : Button
 
@@ -25,11 +27,11 @@ class LoginActivity : AppCompatActivity(){
         setContentView(R.layout.activity_login)
 
         btnAcceder=findViewById(R.id.btn_acceder_login)
+
         btnAcceder.setOnClickListener {
+
             val txtUsuario = user_login.text.toString().trim()
-            System.out.println(txtUsuario)
             val txtPassword = password_login.text.toString().trim()
-            System.out.println(txtPassword)
 
             if(txtUsuario.isEmpty()){
                 user_login.error = "Usuario requerido"
@@ -43,10 +45,8 @@ class LoginActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            user?.usuario = txtUsuario
-            user?.contraseña = cifrarPassword(txtPassword)
-            System.out.println("usuario"+user?.usuario)
-            System.out.println("pass"+user?.contraseña)
+            user?.usuario = "oscar_espana"//txtUsuario
+            user?.contraseña = cifrarPassword("oscar_snai_2019") //txtPassword
 
             val servicio_login = ClienteApiRest.getRetrofitInstance().create(UsuarioServicio::class.java)
             val call = servicio_login.login(user)
@@ -59,9 +59,20 @@ class LoginActivity : AppCompatActivity(){
 
                 override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
                     if(response.isSuccessful){
-                        Toast.makeText(applicationContext, response.body()?.toString(), Toast.LENGTH_LONG).show()
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
+
+
+                        var usuario: Usuario?=response.body()
+
+                        if(usuario!= null){
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            intent.putExtra("usuario", usuario)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(applicationContext, "Ha ingresado un Usuario o Contraseña Incorrectas", Toast.LENGTH_LONG).show()
+                        }
+
+
                     }
                 }
 

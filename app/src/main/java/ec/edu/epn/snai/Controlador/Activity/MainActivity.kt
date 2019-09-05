@@ -9,12 +9,15 @@ import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Fragment.InformesFragment
 import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
+import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private lateinit var usuario:Usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,12 +25,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-//        val fab: FloatingActionButton = findViewById(R.id.fab)
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -41,14 +38,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(
-                R.id.frameLayout,
-                TalleresFragment()
-            ).commit()
-            navView.setCheckedItem(R.id.nav_talleres_fragment)
-        }
+        usuario = intent.getSerializableExtra("usuario") as Usuario
 
+        if(usuario!= null){
+
+            if (savedInstanceState == null) {
+
+                //Agrego en el bundle la variable token
+                var bundle = Bundle()
+                bundle.putSerializable("token", usuario?.token)
+
+                //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
+                val talleresFragment=TalleresFragment()
+                talleresFragment.arguments=bundle
+
+                supportFragmentManager.beginTransaction().
+                    replace(R.id.frameLayout, talleresFragment).commit()
+                navView.setCheckedItem(R.id.nav_talleres_fragment)
+            }
+        }
+        else{
+            Toast.makeText(applicationContext, "Ha caducado la sesión del Usuario", Toast.LENGTH_LONG).show()
+        }
 
     }
 
@@ -81,7 +92,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_talleres_fragment -> {
-                cargarTalleresFragment(TalleresFragment())
+
+                //Agrego en el bundle la variable token
+                var bundle = Bundle()
+                bundle.putSerializable("token", usuario?.token)
+
+                //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
+                val talleresFragment=TalleresFragment()
+                talleresFragment.arguments=bundle
+
+                cargarTalleresFragment(talleresFragment)
             }
             R.id.nav_informes_layout -> {
                 cargarInformesFragment(InformesFragment())
@@ -93,6 +113,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun cargarTalleresFragment(fragment: TalleresFragment){
+
+
         val fm=supportFragmentManager.beginTransaction()
         fm.replace(R.id.frameLayout,fragment)
         fm.commit()

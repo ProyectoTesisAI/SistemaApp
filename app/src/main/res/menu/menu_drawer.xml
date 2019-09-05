@@ -3,18 +3,22 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-                android:id="@+id/nav_talleres_fragment"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/menu_home"/>
-        <item
-                android:id="@+id/nav_informes_layout"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_gallery"/>
-    </group>
+    <item android:title="Psicologo">
+        <menu>
 
-    <item android:title="Communicate">
+            <item
+                    android:id="@+id/nav_talleres_fragment"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/crear_taller_psicologia"/>
+            <item
+                    android:id="@+id/nav_informes_layout"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="@string/menu_gallery"/>
+        </menu>
+    </item>
+
+
+    <item android:title="Juridico">
         <menu>
             <item
                     android:id="@+id/nav_share"
@@ -22,5 +26,6 @@
                     android:title="@string/menu_share"/>
         </menu>
     </item>
+
 
 </menu>

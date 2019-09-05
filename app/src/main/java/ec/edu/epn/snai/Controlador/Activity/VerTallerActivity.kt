@@ -18,7 +18,7 @@ class VerTallerActivity : AppCompatActivity(){
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_taller)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i = intent
         val taller = i.getSerializableExtra("taller_seleccionado") as Taller?
