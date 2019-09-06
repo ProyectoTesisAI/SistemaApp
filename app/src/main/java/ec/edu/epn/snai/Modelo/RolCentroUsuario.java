@@ -8,8 +8,6 @@ public class RolCentroUsuario implements Serializable {
     private CAI idCai;
     private UDI idUdi;
     private Rol idRol;
-    
-    
 
     public RolCentroUsuario() {
     }

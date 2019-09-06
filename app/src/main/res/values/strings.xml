@@ -43,4 +43,10 @@
     <string name="txt_numero_adolescentes_informe">Número Adolescentes</string>
     <string name="txt_objetivo_general_informe">Objetivo</string>
 
+    <string name="prompTipoCentro">Tipo Centro</string>
+    <string-array name="tipoCentro">
+        <item>UZDI</item>
+        <item>CAI</item>
+    </string-array>
+
 </resources>
