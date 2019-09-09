@@ -51,4 +51,10 @@
 
     <string name="txt_rol">Rol</string>
 
+    <string name="prompTipoCentro">Tipo Centro</string>
+    <string-array name="tipoCentro">
+        <item>UZDI</item>
+        <item>CAI</item>
+    </string-array>
+
 </resources>
