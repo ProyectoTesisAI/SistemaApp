@@ -1,5 +1,7 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.app.Activity
+import android.app.Application
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +14,7 @@ import android.support.v7.widget.RecyclerView
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import ec.edu.epn.snai.Modelo.ItemTaller
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.support.v4.app.SupportActivity
 import android.support.v4.app.SupportActivity.ExtraData
 import android.support.v4.content.ContextCompat.getSystemService
@@ -35,10 +38,6 @@ import java.util.*
 
 class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener {
 
-    private var txtTema: EditText? = null
-    private var txtNumeroTaller: EditText? = null
-    private var txtFecha: EditText? = null
-    private var txtHora: EditText? = null
     private lateinit var fabItemsTallers:FloatingActionButton
     private var spCentro:Spinner?=null
 
@@ -46,7 +45,7 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
     private var listaUZDI: List<UDI>? =null
     private var listaCAI: List<CAI>? =null
     private lateinit var token:String
-
+    private var posicionActividadSeleccionada: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -54,12 +53,6 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás}
 
         token = intent.getSerializableExtra("token") as String
-
-        txtTema = findViewById<EditText>(R.id.etTemaTallerCrear)
-        txtNumeroTaller = findViewById<EditText>(R.id.etNumeroTallerCrear)
-        txtFecha = findViewById<EditText>(R.id.etFechaTallerCrear)
-        txtHora = findViewById<EditText>(R.id.etHoraTallerCrear)
-
 
         fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
@@ -357,7 +350,34 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
     }
 
     override fun OnItemClick(posicion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+        posicionActividadSeleccionada=posicion
+
+        val intent = Intent(applicationContext, EditarActividadTallerActivity::class.java)
+        intent.putExtra("actividad_seleccionada", itemsTaller?.get(posicion))
+        startActivityForResult(intent,1)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode==1){
+            if(resultCode== Activity.RESULT_OK){
+                val actividadRescatada:ItemTaller = data?.getSerializableExtra("actividad_rescatada") as ItemTaller
+
+                itemsTaller.removeAt(posicionActividadSeleccionada)
+                itemsTaller.add(actividadRescatada)
+
+                var adaptadorItemTaller = ItemTallerAdaptador(itemsTaller,this@TallerAgregarActivity)
+                var recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
+                recyclerViewItemTaller.adapter=adaptadorItemTaller
+                recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+
+
+
+            }
+        }
     }
 }
 
