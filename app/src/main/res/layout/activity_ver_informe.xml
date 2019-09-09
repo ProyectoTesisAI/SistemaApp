@@ -50,4 +50,39 @@
             android:layout_height="wrap_content"
             android:text="@string/txt_objetivo_general_informe"
             android:id="@+id/txtObjetivoGeneralInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_socializacion_desarrollo"
+            android:id="@+id/txtSocializacionDesarrolloInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_socializacion_objetivos"
+            android:id="@+id/txtSocializacionObjetivosInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_cierre_evaluacion"
+            android:id="@+id/txtCierreEvaluacionInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_conclusiones"
+            android:id="@+id/txtConclusionesInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_recomendaciones"
+            android:id="@+id/txtRecomendacionesInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_observaciones"
+            android:id="@+id/txtObservacionesInformeSeleccionado"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---------------------------------------------------------------------------------"/>
+
 </LinearLayout>
