@@ -25,13 +25,22 @@ class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
     private var adaptador : InformeAdaptador?=null
     private var listaInformes : List<Informe>?=null
     private lateinit var recyclerViewInforme: RecyclerView
+    private lateinit var token:String
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if(arguments!=null){
+            token=arguments?.getSerializable("token") as String
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView=inflater.inflate(R.layout.fragment_informes,container,false)
 
         val servicio = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
 
-        val call = servicio.obtenerInformes()
+        val call = servicio.obtenerInformes("Bearer "+ token)
         call.enqueue(object : Callback<List<Informe>>{
             override fun onFailure(call: Call<List<Informe>>, t: Throwable) {
                 call.cancel()

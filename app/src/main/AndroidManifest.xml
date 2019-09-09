@@ -13,13 +13,15 @@
             android:theme="@style/AppTheme">
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
         </activity>
-        <activity android:name=".Controlador.Activity.VerTallerActivity"/>
-        <activity
-                android:name=".Controlador.Activity.TallerAgregarActivity"
-                android:label="Agregar Taller"/>
-        <activity
-                android:name=".Controlador.Activity.MainActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".Controlador.Activity.VerTallerActivity" />
+        <activity android:name=".Controlador.Activity.VerInformeActivity" />
+        <activity android:name=".Controlador.Activity.TallerAgregarActivity"
+                  android:label="Agregar Taller"
+        />
+        <activity android:name=".Controlador.Activity.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  />
         <activity
                 android:name=".Controlador.Activity.LoginActivity"
                 android:theme="@style/AppTheme.NoActionBar">
