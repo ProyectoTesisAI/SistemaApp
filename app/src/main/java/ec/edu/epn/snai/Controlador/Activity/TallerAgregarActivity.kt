@@ -21,6 +21,7 @@ import android.view.View
 import android.widget.*
 import ec.edu.epn.snai.Modelo.CAI
 import ec.edu.epn.snai.Modelo.UDI
+import ec.edu.epn.snai.R.id.fab_agregar_item_taller
 import ec.edu.epn.snai.Servicios.CaiServicio
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
@@ -205,8 +206,11 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
 
                 if (response.isSuccessful) {
 
-                    val numeroParticipantes=response.body()
-                    txtNumeroParticipantesTallerCrear.text=numeroParticipantes
+                    var numeroParticipantes=response.body()
+                    if(numeroParticipantes==null){
+                        numeroParticipantes="0"
+                    }
+                    txtNumeroParticipantesTallerCrear.text="Número de Adolescentes: " +numeroParticipantes
 
                 }
 
@@ -231,8 +235,12 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
 
                 if (response.isSuccessful) {
 
-                    val numeroParticipantes=response.body()
-                    txtNumeroParticipantesTallerCrear.text=numeroParticipantes
+                    var numeroParticipantes=response.body()
+
+                    if(numeroParticipantes==null){
+                        numeroParticipantes="0"
+                    }
+                    txtNumeroParticipantesTallerCrear.text="Número de Adolescentes: " +numeroParticipantes
 
                 }
 

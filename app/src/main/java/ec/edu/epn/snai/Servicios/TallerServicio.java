@@ -15,7 +15,7 @@ public interface TallerServicio {
     Call<List<Taller>> obtenerTalleres(@Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Taller/ListarAdolescentesPorUzdi")
+    @POST("Taller/NumeroAdolescentesPorUzdi")
     Call<String> obtenerNumeroParticipantesUZDI(@Body UDI udi, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
