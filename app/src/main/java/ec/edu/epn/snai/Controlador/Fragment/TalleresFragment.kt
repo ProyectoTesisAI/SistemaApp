@@ -82,6 +82,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
 
         val intent = Intent(context, VerTallerActivity::class.java)
         intent.putExtra("taller_seleccionado", listaTalleres?.get(posicion))
+        intent.putExtra("token", token)
         startActivity(intent)
     }
 

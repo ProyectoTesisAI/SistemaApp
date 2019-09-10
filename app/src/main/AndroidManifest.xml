@@ -14,6 +14,8 @@
 
         <activity android:name=".Controlador.Activity.VerTallerActivity" />
         <activity android:name=".Controlador.Activity.VerInformeActivity" />
+        <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity" />
+        <activity android:name=".Controlador.Activity.VerListadoAsistenciaActivity" />
         <activity android:name=".Controlador.Activity.TallerAgregarActivity"
                   android:label="Agregar Taller"
         />

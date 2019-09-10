@@ -1,9 +1,7 @@
 package ec.edu.epn.snai.Modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Taller implements Serializable {
     private Integer idTaller;
@@ -15,12 +13,12 @@ public class Taller implements Serializable {
     private Integer numeroTotalParticipantes;
     private String recomendaciones;
     private String tipo;
+    private CAI idCai;
+    private UDI idUdi;
+    private Usuario idUsuario;
 
-    public Taller(String tema, Integer numeroTaller) {
-        this.tema=tema;
-        this.numeroTaller=numeroTaller;
+    public Taller() {
     }
-
 
     public Integer getIdTaller() {
         return idTaller;
@@ -94,4 +92,45 @@ public class Taller implements Serializable {
         this.tipo = tipo;
     }
 
+    public CAI getIdCai() {
+        return idCai;
+    }
+
+    public void setIdCai(CAI idCai) {
+        this.idCai = idCai;
+    }
+
+    public UDI getIdUdi() {
+        return idUdi;
+    }
+
+    public void setIdUdi(UDI idUdi) {
+        this.idUdi = idUdi;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return "Taller{" +
+                "idTaller=" + idTaller +
+                ", tema='" + tema + '\'' +
+                ", numeroTaller=" + numeroTaller +
+                ", fecha=" + fecha +
+                ", horaInicio=" + horaInicio +
+                ", objetivo='" + objetivo + '\'' +
+                ", numeroTotalParticipantes=" + numeroTotalParticipantes +
+                ", recomendaciones='" + recomendaciones + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", idCai=" + idCai +
+                ", idUdi=" + idUdi +
+                ", idUsuario=" + idUsuario +
+                '}';
+    }
 }

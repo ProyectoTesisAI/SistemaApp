@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         usuario = intent.getSerializableExtra("usuario") as Usuario
+        println("TOKEN EN MAIN"+usuario?.token)
 
         if(usuario!= null){
 
@@ -122,8 +123,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun cargarTalleresFragment(fragment: TalleresFragment){
-
-
         val fm=supportFragmentManager.beginTransaction()
         fm.replace(R.id.frameLayout,fragment)
         fm.commit()

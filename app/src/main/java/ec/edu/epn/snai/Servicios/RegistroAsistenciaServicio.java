@@ -9,18 +9,18 @@ import java.util.List;
 public interface RegistroAsistenciaServicio {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("ListaAdolescentesPorUzdi")
+    @POST("Registro_Asistencia/ListaAdolescentesPorUzdi")
     Call<List<AdolescenteInfractor>> listaAdolescentesInfractoresPorUzdi(@Body UDI udi, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("ListaAdolescentesPorCai")
-    Call<List<AdolescenteInfractor>> listaAdolescentesInfractoresPorUzdi(@Body CAI cai, @Header("Authorization") String token);
+    @POST("Registro_Asistencia/ListaAdolescentesPorCai")
+    Call<List<AdolescenteInfractor>> listaAdolescentesInfractoresPorCai(@Body CAI cai, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("ListaAdolescentesPorTaller")
+    @POST("Registro_Asistencia/ListaAdolescentesPorTaller")
     Call<List<AdolescenteInfractor>> listaAdolescentesInfractoresPorTaller(@Body Taller taller, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("Taller/NumeroAsistentes/{id}")
+    @GET("Registro_Asistencia/Taller/NumeroAsistentes/{id}")
     Call<Integer> obtenerNumeroAdolescentesPorTaller(@Path("id") Integer idTaller, @Header("Authorization") String token);
 }
