@@ -16,9 +16,7 @@ import retrofit2.Response
 
 class VerRegistroAsistenciaActivity : AppCompatActivity(){
 
-    private var adaptador: RegistroAsistenciaAdaptador? = null
     private var listaAdolescentesInfractores: List<AdolescenteInfractor>?=null
-    private lateinit var recyclerViewRegistroAsistencia: RecyclerView
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
@@ -40,10 +38,10 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
                 override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
                     if (response.isSuccessful) {
                         listaAdolescentesInfractores = response.body()
-                        recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia)
-                        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@VerRegistroAsistenciaActivity)
-                        adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores,this@VerRegistroAsistenciaActivity)
-                        recyclerViewRegistroAsistencia.adapter=adaptador
+
+                        if(listaAdolescentesInfractores!=null){
+                            mostrarListadoAsistencia()
+                        }
                     }
                 }
 
@@ -56,11 +54,12 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
             call.enqueue(object : Callback<List<AdolescenteInfractor>> {
                 override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
                     if (response.isSuccessful) {
+
                         listaAdolescentesInfractores = response.body()
-                        recyclerViewRegistroAsistencia=findViewById (R.id.rv_registro_asistencia)
-                        recyclerViewRegistroAsistencia.layoutManager=LinearLayoutManager(this@VerRegistroAsistenciaActivity)
-                        adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores,this@VerRegistroAsistenciaActivity)
-                        recyclerViewRegistroAsistencia.adapter=adaptador
+
+                        if(listaAdolescentesInfractores!=null){
+                            mostrarListadoAsistencia()
+                        }
                     }
                 }
 
@@ -69,5 +68,15 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
                 }
             })
         }
+
+    }
+
+    fun mostrarListadoAsistencia(){
+
+        var recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
+        var adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
+        recyclerViewRegistroAsistencia.adapter=adaptador
+        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@VerRegistroAsistenciaActivity)
+
     }
 }

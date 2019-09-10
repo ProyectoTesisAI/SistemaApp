@@ -43,7 +43,7 @@ class VerTallerActivity : AppCompatActivity(){
         btnListarAdolescentePorTaller.setOnClickListener{
             var tallerActual: Taller?=null
             tallerActual=taller
-            val intent = Intent(this@VerTallerActivity, VerRegistroAsistenciaActivity::class.java)
+            val intent = Intent(this@VerTallerActivity, VerListadoAsistenciaActivity::class.java)
             intent.putExtra("tallerActual", tallerActual)
             intent.putExtra("token", token)
             startActivity(intent)

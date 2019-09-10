@@ -27,7 +27,7 @@
 
         <TextView
                 android:id="@+id/txtFecha"
-                android:layout_width="45dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -39,18 +39,16 @@
     </RelativeLayout>
 
     <TextView
+            android:id="@+id/txtTipoTaller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:text="@string/txt_rol"/>
+    <TextView
             android:id="@+id/txtNumeroTaller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13dp"
             android:text="@string/txt_numero_taller"
     />
-
-
-    <TextView
-            android:id="@+id/txtRol"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:text="@string/txt_rol"/>
 </LinearLayout>

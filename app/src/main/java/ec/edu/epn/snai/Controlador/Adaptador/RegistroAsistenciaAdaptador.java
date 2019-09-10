@@ -18,20 +18,18 @@ import java.util.List;
 public class RegistroAsistenciaAdaptador extends RecyclerView.Adapter<RegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
     private List<AdolescenteInfractor> adolescenteInfractoresLista= new ArrayList<>();
-    private Context context;
 
     public RegistroAsistenciaAdaptador() {
     }
 
-    public RegistroAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista, Context context) {
+    public RegistroAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
-        this.context=context;
     }
 
     @NonNull
     @Override
     public RegistroAsistenciaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(context).inflate(R.layout.activity_item_registro_asistencia,null);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_registro_asistencia,viewGroup,false);
         RegistroAsistenciaViewHolder holder= new RegistroAsistenciaViewHolder(view);
         return holder;
     }
