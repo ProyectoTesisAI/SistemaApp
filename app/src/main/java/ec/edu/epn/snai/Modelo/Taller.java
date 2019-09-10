@@ -1,9 +1,7 @@
 package ec.edu.epn.snai.Modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class Taller implements Serializable {
     private Integer idTaller;
@@ -105,4 +103,5 @@ public class Taller implements Serializable {
     public Usuario getIdUsuario() { return idUsuario; }
 
     public void setIdUsuario(Usuario idUsuario) { this.idUsuario = idUsuario; }
+
 }

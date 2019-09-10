@@ -67,6 +67,7 @@ class LoginActivity : AppCompatActivity(){
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.putExtra("usuario", usuario)
                             startActivity(intent)
+                            Toast.makeText(applicationContext,response?.body().toString(),Toast.LENGTH_LONG).show()
                         }
                         else{
                             Toast.makeText(applicationContext, "Ha ingresado un Usuario o Contraseña Incorrectas", Toast.LENGTH_LONG).show()
