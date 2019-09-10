@@ -2,6 +2,7 @@ package ec.edu.epn.snai.Controlador.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.widget.Button
@@ -18,6 +19,8 @@ class VerTallerActivity : AppCompatActivity(){
     private var txtHora: TextView?=null
 
     private lateinit var btnListarAdolescentePorTaller: Button
+
+    private lateinit var btnAgregarInforme: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,6 +44,16 @@ class VerTallerActivity : AppCompatActivity(){
 
         btnListarAdolescentePorTaller=findViewById(R.id.btnListarAdolescentes)
         btnListarAdolescentePorTaller.setOnClickListener{
+            var tallerActual: Taller?=null
+            tallerActual=taller
+            val intent = Intent(this@VerTallerActivity, VerListadoAsistenciaActivity::class.java)
+            intent.putExtra("tallerActual", tallerActual)
+            intent.putExtra("token", token)
+            startActivity(intent)
+        }
+
+        btnAgregarInforme = findViewById(R.id.fab_agregar_informe)
+        btnAgregarInforme.setOnClickListener {
             var tallerActual: Taller?=null
             tallerActual=taller
             val intent = Intent(this@VerTallerActivity, VerRegistroAsistenciaActivity::class.java)

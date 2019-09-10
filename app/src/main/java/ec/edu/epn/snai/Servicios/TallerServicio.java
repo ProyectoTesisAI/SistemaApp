@@ -21,4 +21,6 @@ public interface TallerServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Taller/NumeroAdolescentesPorCai")
     Call<String> obtenerNumeroParticipantesCAI(@Body CAI cai,@Header("Authorization") String token);
+
+
 }
