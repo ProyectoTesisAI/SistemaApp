@@ -6,14 +6,17 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.R
 import kotlinx.android.synthetic.main.activity_editar_actividad_taller.*
+import android.content.DialogInterface
+import android.app.AlertDialog
+
 
 class EditarActividadTallerActivity : AppCompatActivity() {
 
-    var actividadAux=ItemTaller()
+    private var actividadAux=ItemTaller()
+    private lateinit var menuAux:Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,8 @@ class EditarActividadTallerActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        menuAux=menu
         menuInflater.inflate(R.menu.menu_gestion, menu)
 
         menu.findItem(R.id.menu_editar).isVisible = true
@@ -60,10 +65,32 @@ class EditarActividadTallerActivity : AppCompatActivity() {
                 finish()
             }
             R.id.menu_editar->{
+
                 habilitarDeshabilitarAtributos(true)
                 habilitarDeshabilitarFocus(true)
+
+                menuAux.findItem(R.id.menu_guardar).isVisible=true
+                menuAux.findItem(R.id.menu_editar).isVisible=false
+                menuAux.findItem(R.id.menu_eliminar).isVisible=false
             }
             R.id.menu_eliminar->{
+
+                val builder = AlertDialog.Builder(this)
+
+                builder.setTitle("Eliminar")
+                builder.setMessage("¿Está seguro de eliminar?")
+                builder.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+
+                        val intent = Intent()
+                        setResult(Activity.RESULT_FIRST_USER,intent)
+                        finish()
+                    })
+                builder.setNegativeButton("CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        finish()
+                    })
+                builder.show()
 
             }
             else->{
