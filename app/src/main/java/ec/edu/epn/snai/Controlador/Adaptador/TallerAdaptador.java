@@ -10,6 +10,7 @@ import ec.edu.epn.snai.Modelo.Taller;
 import ec.edu.epn.snai.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del Taller, hecho en Java
@@ -37,10 +38,9 @@ public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.Taller
         //Seteo los valores en los diferentes controles
         viewHolder.txtTema.setText(talleres.get(i).getTema());
         viewHolder.txtNumeroTaller.setText(talleres.get(i).getNumeroTaller().toString());
+        viewHolder.txtFecha.setText(fomatearFecha(talleres.get(i).getFecha()));
+        viewHolder.txtTipo.setText( talleres.get(i).getTipo());
 
-        //String fecha=talleres.get(i).getFecha().getDay()+"/"+talleres.get(i).getFecha().getMonth()+"/"+talleres.get(i).getFecha().getYear()+1900;
-        //viewHolder.txtFecha.setText(fecha);
-        //viewHolder.txtHora.setText( talleres.get(i).getHoraInicio().toString());
     }
 
     @Override
@@ -50,15 +50,15 @@ public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.Taller
 
     public class TallerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView txtTema, txtNumeroTaller,txtFecha,txtHora;
+        TextView txtTema, txtNumeroTaller,txtFecha,txtTipo;
         TallerOnItemClickListener tallerOnItemClickListener;
 
         public TallerViewHolder(View itemView, TallerOnItemClickListener onItemClickListener){
             super(itemView);
             txtTema=itemView.findViewById(R.id.txtTema);
             txtNumeroTaller=itemView.findViewById(R.id.txtNumeroTaller);
-            //txtFecha=itemView.findViewById(R.id.txtFecha);
-            //txtHora=itemView.findViewById(R.id.txtHora);
+            txtFecha=itemView.findViewById(R.id.txtFecha);
+            txtTipo=itemView.findViewById(R.id.txtTipoTaller);
             this.tallerOnItemClickListener=onItemClickListener;
 
             itemView.setOnClickListener(this);
@@ -75,5 +75,26 @@ public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.Taller
 
         void OnItemClick(int posicion);
 
+    }
+
+    private String fomatearFecha(Date fecha){
+        int dia=fecha.getDay();
+        int mes=fecha.getMonth();
+        int año=fecha.getYear();
+
+        String dia_string=String.valueOf(dia);
+        if(dia<10){
+            dia_string=String.format("0"+dia);
+        }
+
+        String mes_string=String.valueOf(dia);
+        if(mes<10){
+            mes_string=String.format("0"+mes);
+        }
+        año=año+1900;
+        String año_String=String.valueOf(año);
+
+        String fechaAux=dia_string+"/"+mes_string+"/"+año_String;
+        return  fechaAux;
     }
 }

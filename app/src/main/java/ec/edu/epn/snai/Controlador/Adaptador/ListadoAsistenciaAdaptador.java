@@ -17,20 +17,16 @@ import java.util.List;
 public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
     private List<AdolescenteInfractor> adolescenteInfractoresLista= new ArrayList<>();
-    private Context context;
 
-    public ListadoAsistenciaAdaptador() {
-    }
 
-    public ListadoAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista, Context context) {
+    public ListadoAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
-        this.context=context;
     }
 
     @NonNull
     @Override
     public RegistroAsistenciaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(context).inflate(R.layout.activity_item_listado_asistencia,null);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_listado_asistencia,viewGroup,false);
         RegistroAsistenciaViewHolder holder= new RegistroAsistenciaViewHolder(view);
         return holder;
     }
@@ -39,8 +35,8 @@ public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsis
     public void onBindViewHolder(@NonNull RegistroAsistenciaViewHolder viewHolder, int i) {
 
         //Seteo los valores en los diferentes controles
-        viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getNombres());
-        viewHolder.txtApellidos.setText(adolescenteInfractoresLista.get(i).getApellidos());
+        viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getNombres().toUpperCase());
+        viewHolder.txtApellidos.setText(adolescenteInfractoresLista.get(i).getApellidos().toUpperCase());
         viewHolder.txtCedula.setText(adolescenteInfractoresLista.get(i).getCedula());
         viewHolder.txtDocumento.setText( adolescenteInfractoresLista.get(i).getDocumento());
     }
