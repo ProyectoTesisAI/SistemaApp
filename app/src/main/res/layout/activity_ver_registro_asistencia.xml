@@ -46,7 +46,7 @@
                 <TextView
                         android:layout_width="126dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_documento_cedula"
+                        android:text="@string/txt_documento"
                         android:textSize="14dp"/>
             </TableRow>
             <android.support.v7.widget.RecyclerView
