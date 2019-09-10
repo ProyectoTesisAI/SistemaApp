@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import ec.edu.epn.snai.Modelo.ItemTaller
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.support.v4.app.SupportActivity
 import android.support.v4.app.SupportActivity.ExtraData
@@ -62,6 +63,11 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
         var etFechaTaller=findViewById<EditText>(R.id.etFechaTallerCrear)
         etFechaTaller.setOnClickListener {
             dialogoFechaTaller(etFechaTaller)
+        }
+
+        var etHoraTaller=findViewById<EditText>(R.id.etHoraTallerCrear)
+        etHoraTaller.setOnClickListener {
+            dialogoObtenerHora(etHoraTaller)
         }
 
 
@@ -287,16 +293,11 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
                 actividadTaller ?.responsable=etResponsable?.text.toString()
                 actividadTaller?.duracion= etDuracion?.text.toString().toInt()
 
-                Toast.makeText(getApplicationContext(),actividadTaller.toString(),Toast.LENGTH_SHORT).show();
                 dialogo.dismiss();
 
                 itemsTaller.add(actividadTaller)
 
-                var adaptadorItemTaller = ItemTallerAdaptador(itemsTaller,this@TallerAgregarActivity)
-                var recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
-                recyclerViewItemTaller.adapter=adaptadorItemTaller
-                recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
-
+                mostrarListaItemsTaller(itemsTaller)
 
             }
 
@@ -309,6 +310,42 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
 
     }
 
+    fun dialogoObtenerHora(etHoraTaller: EditText){
+
+        //Calendario para obtener fecha & hora
+        val c = Calendar.getInstance();
+
+        //Variables para obtener la hora hora
+        val horaActual = c.get(Calendar.HOUR_OF_DAY);
+        val minutoActual = c.get(Calendar.MINUTE);
+
+        val obtenerHora = TimePickerDialog(this,  TimePickerDialog.OnTimeSetListener() {
+
+             view, hora, minuto ->
+
+                var horaFormateada:String=hora.toString()
+                //Formateo la hora obtenido: antepone el 0 si son menores de 10
+                if(hora<10){
+                    horaFormateada= String.format("0"+hora)
+                }
+
+                //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                var minutoFormateado = minuto.toString()
+                if(minuto<10){
+                    minutoFormateado= String.format("0"+minuto)
+                }
+
+                //Muestro la hora con el formato deseado
+                etHoraTaller.setText(horaFormateada + ":" + minutoFormateado);
+
+        //Estos valores deben ir en ese orden
+        //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+        //Pero el sistema devuelve la hora en formato 24 horas
+        }, horaActual, minutoActual, false)
+
+        obtenerHora.show();
+    }
+
     fun dialogoFechaTaller(etFechaTaller: EditText){
         val cldr = Calendar.getInstance()
         val diaSeleccionado = cldr.get(Calendar.DAY_OF_MONTH)
@@ -317,8 +354,22 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
         // date picker dialog
         val picker = DatePickerDialog(this@TallerAgregarActivity,
 
-            DatePickerDialog.OnDateSetListener {
-                    datePicker, año, mes, dia ->  etFechaTaller.setText( dia.toString() + "/" + (mes + 1) + "/" + año)
+            DatePickerDialog.OnDateSetListener { datePicker, año, mes, dia ->
+
+                var mesFormateado: String = mes.toString()
+                //Formateo el año obtenido: antepone el 0 si son menores de 10
+                if ((mes + 1) < 10) {
+                    mesFormateado = String.format("0" + mes)
+                }
+
+                var diaFormateado: String = dia.toString()
+                //Formateo el año obtenido: antepone el 0 si son menores de 10
+                if (dia < 10) {
+                    diaFormateado = String.format("0" + dia)
+                }
+
+
+                etFechaTaller.setText(diaFormateado + "/" + mesFormateado + "/" + año)
 
             }, añoSeleccionado, mesSeleccionado, diaSeleccionado
         )
@@ -355,10 +406,12 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
 
         val intent = Intent(applicationContext, EditarActividadTallerActivity::class.java)
         intent.putExtra("actividad_seleccionada", itemsTaller?.get(posicion))
-        startActivityForResult(intent,1)
+        startActivityForResult(intent,1) //lanzo o ejecuto un nuevo activity, pero además espero una respuesta
 
     }
 
+    //Método que se ejecuta una vez que obtengo una respuesta del activity EditarActividadTallerActivity, es decir, se ejecuta cuando
+    // finaliza el activity  EditarActividadTallerActivity y manda una respuesta a través de un intent
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -369,15 +422,24 @@ class TallerAgregarActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTaller
                 itemsTaller.removeAt(posicionActividadSeleccionada)
                 itemsTaller.add(actividadRescatada)
 
-                var adaptadorItemTaller = ItemTallerAdaptador(itemsTaller,this@TallerAgregarActivity)
-                var recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
-                recyclerViewItemTaller.adapter=adaptadorItemTaller
-                recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
-
-
+                mostrarListaItemsTaller(itemsTaller)
 
             }
+            else if(resultCode==Activity.RESULT_FIRST_USER){
+
+                itemsTaller.removeAt(posicionActividadSeleccionada)
+
+                mostrarListaItemsTaller(itemsTaller)
+            }
         }
+    }
+
+    fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
+        var adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@TallerAgregarActivity)
+        var recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
+        recyclerViewItemTaller.adapter=adaptadorItemTaller
+        recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+
     }
 }
 
