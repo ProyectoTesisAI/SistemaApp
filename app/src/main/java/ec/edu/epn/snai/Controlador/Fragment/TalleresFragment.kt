@@ -72,6 +72,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
         fabTaller.setOnClickListener {
 
             val intent = Intent(context, TallerAgregarActivity::class.java)
+            intent.putExtra("token",token)
             startActivity(intent)
         }
 

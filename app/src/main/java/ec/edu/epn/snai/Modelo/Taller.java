@@ -92,45 +92,16 @@ public class Taller implements Serializable {
         this.tipo = tipo;
     }
 
-    public CAI getIdCai() {
-        return idCai;
-    }
+    public CAI getIdCai() { return idCai; }
 
-    public void setIdCai(CAI idCai) {
-        this.idCai = idCai;
-    }
+    public void setIdCai(CAI idCai) { this.idCai = idCai; }
 
-    public UDI getIdUdi() {
-        return idUdi;
-    }
+    public UDI getIdUdi() { return idUdi; }
 
-    public void setIdUdi(UDI idUdi) {
-        this.idUdi = idUdi;
-    }
+    public void setIdUdi(UDI idUdi) { this.idUdi = idUdi;}
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
+    public Usuario getIdUsuario() { return idUsuario; }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+    public void setIdUsuario(Usuario idUsuario) { this.idUsuario = idUsuario; }
 
-    @Override
-    public String toString() {
-        return "Taller{" +
-                "idTaller=" + idTaller +
-                ", tema='" + tema + '\'' +
-                ", numeroTaller=" + numeroTaller +
-                ", fecha=" + fecha +
-                ", horaInicio=" + horaInicio +
-                ", objetivo='" + objetivo + '\'' +
-                ", numeroTotalParticipantes=" + numeroTotalParticipantes +
-                ", recomendaciones='" + recomendaciones + '\'' +
-                ", tipo='" + tipo + '\'' +
-                ", idCai=" + idCai +
-                ", idUdi=" + idUdi +
-                ", idUsuario=" + idUsuario +
-                '}';
-    }
 }
