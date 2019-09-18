@@ -4,6 +4,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/layout_taller"
                 tools:context=".Controlador.Activity.TallerAgregarActivity">
 
     <android.support.v4.widget.NestedScrollView
@@ -161,6 +162,12 @@
                 />
             </android.support.design.widget.TextInputLayout>
 
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="listado"
+                    android:id="@+id/btnListarAdolescentes"
+            />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_items_taller"
