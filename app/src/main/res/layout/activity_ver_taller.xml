@@ -40,6 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="listado"
-            android:id="@+id/btnListarAdolescentes"
+            android:id="@+id/btnListarAdolescentes2"
     />
 </LinearLayout>
