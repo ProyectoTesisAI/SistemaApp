@@ -1,9 +1,12 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.CheckBox
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor
 import ec.edu.epn.snai.Modelo.Taller
@@ -20,6 +23,10 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
+
+    private lateinit var btnAgregarInforme : FloatingActionButton
+
+    private lateinit var ckcAdolescenteSeleccionado:CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +76,15 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
             })
         }
 
+
+        btnAgregarInforme = findViewById(R.id.fab_agregar_informe_nuevo)
+        btnAgregarInforme.setOnClickListener {
+            val intent = Intent(this@VerRegistroAsistenciaActivity, InformeAgregarActivity::class.java)
+            intent.putExtra("tallerActual", tallerActual)
+            intent.putExtra("token", token)
+            startActivity(intent)
+        }
+
     }
 
     fun mostrarListadoAsistencia(){
@@ -77,6 +93,7 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
         var adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@VerRegistroAsistenciaActivity)
+
 
     }
 }
