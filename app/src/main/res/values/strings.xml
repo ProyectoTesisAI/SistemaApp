@@ -62,6 +62,7 @@
         <item>UZDI</item>
         <item>CAI</item>
     </string-array>
+    <string name="title_activity_ver_info_taller">Información Taller</string>
 
 
 </resources>
