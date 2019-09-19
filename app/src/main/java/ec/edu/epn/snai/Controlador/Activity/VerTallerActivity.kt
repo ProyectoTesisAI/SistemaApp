@@ -44,6 +44,8 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
     private lateinit var btnListarAdolescentePorTaller: Button
 
+    private lateinit var btnAgregarInforme: FloatingActionButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -93,6 +95,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
             intent.putExtra("token", token)
             startActivity(intent)
         }
+
 
         asignarVariablesTaller()
         spTipoCentro.setSelection(obtenerItemTipoCentro())
