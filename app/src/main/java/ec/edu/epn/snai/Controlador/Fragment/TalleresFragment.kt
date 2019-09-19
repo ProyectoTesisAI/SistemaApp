@@ -17,6 +17,7 @@ import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
+import ec.edu.epn.snai.VerInfoTallerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -81,7 +82,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
 
     override fun OnItemClick(posicion: Int) {
 
-        val intent = Intent(context, VerTallerActivity::class.java)
+        val intent = Intent(context, VerInfoTallerActivity::class.java)
         intent.putExtra("taller_seleccionado", listaTalleres?.get(posicion))
         intent.putExtra("token", token)
         startActivity(intent)

@@ -11,22 +11,25 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity
+                android:name=".VerInfoTallerActivity"
+                android:label="@string/title_activity_ver_info_taller"
+        >
+        </activity>
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
         </activity>
-
-        <activity android:name=".Controlador.Activity.VerTallerActivity" />
-        <activity android:name=".Controlador.Activity.VerInformeActivity" />
-        <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity" />
-        <activity android:name=".Controlador.Activity.VerListadoAsistenciaActivity"
-            android:screenOrientation="landscape"
-
-        />
-        <activity android:name=".Controlador.Activity.TallerAgregarActivity"
-                  android:label="Agregar Taller"
-        />
-        <activity android:name=".Controlador.Activity.MainActivity"
-                  android:theme="@style/AppTheme.NoActionBar"
-                  />
+        <activity android:name=".Controlador.Activity.VerTallerActivity"/>
+        <activity android:name=".Controlador.Activity.VerInformeActivity"/>
+        <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity"/>
+        <activity
+                android:name=".Controlador.Activity.VerListadoAsistenciaActivity"
+                android:screenOrientation="landscape"/>
+        <activity
+                android:name=".Controlador.Activity.TallerAgregarActivity"
+                android:label="Agregar Taller"/>
+        <activity
+                android:name=".Controlador.Activity.MainActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
         <activity
                 android:name=".Controlador.Activity.LoginActivity"
                 android:theme="@style/AppTheme.NoActionBar">
