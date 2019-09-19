@@ -26,7 +26,8 @@
                         android:hint="Tema"
                         android:textSize="18dp"
                         android:gravity="center"
-                        android:id="@+id/tvTemaTaller"
+                        android:textStyle="bold"
+                        android:id="@+id/tvTemaTallerFr"
                 />
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -43,11 +44,12 @@
                                 android:layout_width="196dp"
                                 android:layout_height="wrap_content"
                                 android:textSize="15dp"
+                                android:textStyle="bold"
                                 android:text="Número de Taller: "/>
                         <TextView
                                 android:layout_width="193dp"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/tvNumeroInforme"
+                                android:id="@+id/tvNumeroInformeFr"
                                 android:drawableEnd="@drawable/ic_null"
                                 android:inputType="number"
                                 android:textSize="15dp"
@@ -83,13 +85,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="15dp"
+                                    android:textStyle="bold"
                                     android:text="Fecha: "/>
                             <TextView
                                     android:layout_width="148dp"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
                                     android:focusableInTouchMode="false"
-                                    android:id="@+id/tvFechaTaller"
+                                    android:id="@+id/tvFechaTallerFr"
                                     android:drawableEnd="@drawable/ic_today_black_24dp"
                                     android:textSize="15dp"
                                     android:hint="Fecha"/>
@@ -121,6 +124,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="15dp"
+                                        android:textStyle="bold"
                                         android:text="Hora Inicio: "/>
                                 <TextView
                                         android:layout_width="match_parent"
@@ -130,7 +134,7 @@
                                         android:focusableInTouchMode="false"
                                         android:drawableEnd="@drawable/ic_access_time_black_24dp"
                                         android:hint="Hora"
-                                        android:id="@+id/tvHoraInicioTaller"/>
+                                        android:id="@+id/tvHoraInicioTallerFr"/>
                             </LinearLayout>
                         </LinearLayout>
                     </android.support.design.widget.TextInputLayout>
@@ -155,6 +159,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textSize="15dp"
+                                        android:textStyle="bold"
                                         android:text="Hora Fin: "/>
                                 <TextView
                                         android:layout_width="wrap_content"
@@ -164,25 +169,42 @@
                                         android:focusableInTouchMode="false"
                                         android:drawableEnd="@drawable/ic_access_time_black_24dp"
                                         android:hint="Hora"
-                                        android:id="@+id/tvHoraFinTaller"/>
+                                        android:id="@+id/tvHoraFinTallerFr"/>
                             </LinearLayout>
                         </LinearLayout>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                    android:id="@+id/tvNumeroParticipantesTaller"
-                    android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilNumeroParticipantes"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Número de total de participantes: 0"
-            />
+                    android:layout_weight="1">
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                    <LinearLayout android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:orientation="horizontal">
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                android:text="Número de total de participantes: "
+                        />
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=""
-            />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="####"
+                                android:id="@+id/tvNumeroParticipantesTallerFr"
+                        />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -192,6 +214,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Objetivo General: "
                         android:textSize="15dp"
                 />
@@ -200,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Objetivo General"
                         android:textSize="15dp"
-                        android:id="@+id/tvObjetivoTaller"
+                        android:id="@+id/tvObjetivoTallerFr"
                 />
             </LinearLayout>
 
@@ -212,6 +235,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Antecedentes y justificación: "
                         android:textSize="15dp"/>
                 <EditText
@@ -219,12 +243,13 @@
                         android:layout_height="wrap_content"
                         android:hint="Antecedentes y justificación"
                         android:textSize="15dp"
-                        android:id="@+id/etAntecendentesInforme"
+                        android:id="@+id/etAntecendentesInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_items_informe"
+                    android:id="@+id/rv_items_informe_fr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -236,6 +261,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Desarrollo: "
                         android:textSize="15dp"/>
                 <EditText
@@ -243,7 +269,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Desarrollo"
                         android:textSize="15dp"
-                        android:id="@+id/etDesarrolloInforme"
+                        android:id="@+id/etDesarrolloInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
 
@@ -255,6 +282,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Objetivos Específicos: "
                         android:textSize="15dp"/>
                 <EditText
@@ -262,7 +290,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Objetivos Específicos"
                         android:textSize="15dp"
-                        android:id="@+id/etObjetivosEspecificosInforme"
+                        android:id="@+id/etObjetivosEspecificosInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
 
@@ -274,6 +303,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Cierre y evaluación: "
                         android:textSize="15dp"/>
                 <EditText
@@ -281,7 +311,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Cierre y evaluación"
                         android:textSize="15dp"
-                        android:id="@+id/etCierreInforme"
+                        android:id="@+id/etCierreInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
 
@@ -293,6 +324,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Conclusiones: "
                         android:textSize="15dp"/>
                 <EditText
@@ -300,7 +332,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Conclusiones"
                         android:textSize="15dp"
-                        android:id="@+id/etConclusionesInforme"
+                        android:id="@+id/etConclusionesInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
             <LinearLayout
@@ -311,6 +344,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Recomendaciones: "
                         android:textSize="15dp"/>
                 <EditText
@@ -318,7 +352,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Recomendaciones"
                         android:textSize="15dp"
-                        android:id="@+id/etRecomendacionesInforme"
+                        android:id="@+id/etRecomendacionesInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
             <LinearLayout
@@ -329,6 +364,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
                         android:text="Observaciones: "
                         android:textSize="15dp"/>
                 <EditText
@@ -336,7 +372,8 @@
                         android:layout_height="wrap_content"
                         android:hint="Observaciones"
                         android:textSize="15dp"
-                        android:id="@+id/etObservacionesInforme"
+                        android:id="@+id/etObservacionesInformeFr"
+                        android:enabled="false"
                 />
             </LinearLayout>
 
