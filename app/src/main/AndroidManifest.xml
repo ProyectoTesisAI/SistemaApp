@@ -11,11 +11,17 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Controlador.Activity.EditarActividadTallerActivity"/>
+        <activity
+                android:name=".VerInfoTallerActivity"
+                android:label="@string/title_activity_ver_info_taller"
+        >
+        </activity>
+        <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
+        </activity>
         <activity android:name=".Controlador.Activity.VerTallerActivity"/>
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity"/>
-        <activity android:name=".Controlador.Activity.VerEditarInformeActivity"/>
+      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"/>
         <activity
                 android:name=".Controlador.Activity.VerListadoAsistenciaActivity"
                 android:screenOrientation="landscape"/>

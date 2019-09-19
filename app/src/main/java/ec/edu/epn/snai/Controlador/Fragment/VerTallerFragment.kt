@@ -1,4 +1,4 @@
-package ec.edu.epn.snai.Controlador.Activity
+package ec.edu.epn.snai.Controlador.Fragment
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -7,14 +7,17 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
+import ec.edu.epn.snai.Controlador.Activity.EditarActividadTallerActivity
+import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
+import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
+import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
+import ec.edu.epn.snai.Controlador.Activity.VerListadoAsistenciaActivity
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
@@ -28,78 +31,78 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener{
-
+class VerTallerFragment : Fragment(){
 
     private lateinit var fabItemsTallers: FloatingActionButton
-    var spCentro:Spinner?=null
+    var spCentro: Spinner?=null
 
-    private var itemsTaller: MutableList<ItemTaller> =ArrayList<ItemTaller>()
+    private var itemsTaller: MutableList<ItemTaller> = ArrayList<ItemTaller>()
     private var listaUZDI: List<UDI>?=null
     private var listaCAI: List<CAI>?= null
     private lateinit var token:String
     private lateinit var taller:Taller
     private var posicionActividadSeleccionada: Int = 0
-    private lateinit var menuAux:Menu
+    private lateinit var menuAux: Menu
 
     private lateinit var btnListarAdolescentePorTaller: Button
 
-    private lateinit var btnAgregarInforme: FloatingActionButton
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_ver_taller)
-        setContentView(R.layout.activity_agregar_taller)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
-        val i = intent
-        this.taller = i.getSerializableExtra("taller_seleccionado") as Taller
-        this.token = i.getSerializableExtra("token") as String
+        if(arguments!=null){
+            token=arguments?.getSerializable("token") as String
+            taller=arguments?.getSerializable("taller_seleccionado") as Taller
+        }
 
         asynTaskObtenerListadoCai()
         asynTaskObtenerListadoUzdi()
 
-        fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
+
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.activity_agregar_taller, container, false)
+
+        fabItemsTallers=rootView.findViewById(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
             dialogoAgregarActividadTaller()
         }
 
-        val etFechaTaller=findViewById<EditText>(R.id.etFechaTallerCrear)
+        val etFechaTaller=rootView.findViewById<EditText>(R.id.etFechaTallerCrear)
         etFechaTaller.setOnClickListener {
             dialogoFechaTaller(etFechaTaller)
         }
 
-        val etHoraTaller=findViewById<EditText>(R.id.etHoraTallerCrear)
+        val etHoraTaller=rootView.findViewById<EditText>(R.id.etHoraTallerCrear)
         etHoraTaller.setOnClickListener {
             dialogoObtenerHora(etHoraTaller)
         }
 
 
-        val spTipoCentro: Spinner =findViewById<Spinner>(R.id.spTipoCentro)
+        val spTipoCentro: Spinner =rootView.findViewById<Spinner>(R.id.spTipoCentro)
 
         //Adaptador del Tipo de Centro para el Spinner
         val adapterTipoCentro=
-            ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
+            ArrayAdapter<String>(context,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTipoCentro.adapter=adapterTipoCentro
 
-        spCentro=findViewById(R.id.spUdiCai)
+        spCentro=rootView.findViewById(R.id.spUdiCai)
 
-        btnListarAdolescentePorTaller=findViewById(R.id.btnListarAdolescentes)
+        btnListarAdolescentePorTaller=rootView.findViewById(R.id.btnListarAdolescentes)
         btnListarAdolescentePorTaller.setOnClickListener{
 
             val tallerActual: Taller = taller
-            val intent = Intent(this@VerTallerActivity, VerListadoAsistenciaActivity::class.java)
+            val intent = Intent(context, VerListadoAsistenciaActivity::class.java)
             intent.putExtra("tallerActual", tallerActual)
             intent.putExtra("token", token)
             startActivity(intent)
         }
 
-
         asignarVariablesTaller()
         spTipoCentro.setSelection(obtenerItemTipoCentro())
-        habilitarDeshabilitarAtributos(false)
+        //habilitarDeshabilitarAtributos(false)
 
         //Evento itemSelected del Spinner Tipo de Centro
         spTipoCentro.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
@@ -123,37 +126,37 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
             }
 
         }
+
+        return rootView
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
-        menuAux=menu
-        menuInflater.inflate(R.menu.menu_gestion, menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menuAux=menu!!
+        inflater?.inflate(R.menu.menu_gestion, menu)
 
         menu.findItem(R.id.menu_editar).isVisible = true
         menu.findItem(R.id.menu_eliminar).isVisible=false
         menu.findItem(R.id.menu_guardar).isVisible=false
-        return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when(item?.itemId){
             R.id.menu_guardar->{
-
-                finish()
             }
             R.id.menu_editar->{
                 habilitarDeshabilitarAtributos(true)
             }
             else->{
-                finish()
             }
         }
         return true
     }
 
     private fun habilitarDeshabilitarAtributos(habilitado: Boolean){
+
 
         etTemaTallerCrear.isEnabled=habilitado
         etNumeroTallerCrear.isEnabled=habilitado
@@ -181,7 +184,8 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         }
 
 
-        val adapterTipoCentro=ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
+        val adapterTipoCentro=
+            ArrayAdapter<String>(context,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCentro?.adapter=adapterTipoCentro
 
@@ -193,7 +197,8 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
             listaCAIAux.add(c.cai)
         }
 
-        val adapterTipoCentro=ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
+        val adapterTipoCentro=
+            ArrayAdapter<String>(context,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCentro?.adapter=adapterTipoCentro
 
@@ -330,7 +335,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
     private fun dialogoAgregarActividadTaller(){
 
         //Creo el builder perteneciente al cuadro de dialogo
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(context!!)
 
         //obtengo la vista o layout del dialogo
         val view = layoutInflater.inflate(R.layout.dialog_activity_taller, null)
@@ -353,7 +358,8 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         btnAgregar.setOnClickListener {
 
             if(etActividad?.text.isNullOrBlank()|| etResponsable?.text.isNullOrBlank() || etDuracion?.text.isNullOrEmpty() ){
-                Toast.makeText(getApplicationContext(),"Actividad, Responsable y Duración es requerido, ingrese un valor",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Actividad, Responsable y Duración es requerido, ingrese un valor",
+                    Toast.LENGTH_SHORT).show();
                 dialogo.dismiss()
 
             }
@@ -370,7 +376,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
                 itemsTaller.add(actividadTaller)
 
-                mostrarListaItemsTaller(itemsTaller)
+                //mostrarListaItemsTaller(itemsTaller)
 
             }
 
@@ -392,7 +398,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         val horaActual = c.get(Calendar.HOUR_OF_DAY)
         val minutoActual = c.get(Calendar.MINUTE)
 
-        val obtenerHora = TimePickerDialog(this,  TimePickerDialog.OnTimeSetListener() {
+        val obtenerHora = TimePickerDialog(context,  TimePickerDialog.OnTimeSetListener() {
 
                 view, hora, minuto ->
 
@@ -425,7 +431,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         val mesSeleccionado = cldr.get(Calendar.MONTH)
         val anioSeleccionado = cldr.get(Calendar.YEAR)
         // date picker dialog
-        val picker = DatePickerDialog(this@VerTallerActivity,
+        val picker = DatePickerDialog(context,
 
             DatePickerDialog.OnDateSetListener { datePicker, anio, mes, dia ->
 
@@ -450,15 +456,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
     }
 
-    override fun OnItemClick(posicion: Int) {
 
-        posicionActividadSeleccionada=posicion
-
-        val intent = Intent(applicationContext, EditarActividadTallerActivity::class.java)
-        intent.putExtra("actividad_seleccionada", itemsTaller.get(posicion))
-        startActivityForResult(intent,1) //lanzo o ejecuto un nuevo activity, pero además espero una respuesta
-
-    }
 
     //Método que se ejecuta una vez que obtengo una respuesta del activity EditarActividadTallerActivity, es decir, se ejecuta cuando
     // finaliza el activity  EditarActividadTallerActivity y manda una respuesta a través de un intent
@@ -472,25 +470,19 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
                 itemsTaller.removeAt(posicionActividadSeleccionada)
                 itemsTaller.add(actividadRescatada)
 
-                mostrarListaItemsTaller(itemsTaller)
+                //mostrarListaItemsTaller(itemsTaller)
 
             }
             else if(resultCode== Activity.RESULT_FIRST_USER){
 
                 itemsTaller.removeAt(posicionActividadSeleccionada)
 
-                mostrarListaItemsTaller(itemsTaller)
+                //mostrarListaItemsTaller(itemsTaller)
             }
         }
     }
 
-    fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
-        val adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@VerTallerActivity)
-        val recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
-        recyclerViewItemTaller.adapter=adaptadorItemTaller
-        recyclerViewItemTaller.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
 
-    }
 
     private fun asignarVariablesTaller(){
 
@@ -583,6 +575,5 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
         return posicionItem
     }
-
 
 }
