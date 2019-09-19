@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.CheckBox
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -19,14 +20,12 @@ import retrofit2.Response
 
 class VerRegistroAsistenciaActivity : AppCompatActivity(){
 
-    private var listaAdolescentesInfractores: List<AdolescenteInfractor>?=null
+    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
 
     private lateinit var btnAgregarInforme : FloatingActionButton
-
-    private lateinit var ckcAdolescenteSeleccionado:CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +38,10 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-        if(tallerActual.idCai!=null ){
-            val call = servicio.listaAdolescentesInfractoresPorCai(tallerActual.idCai,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
-                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
+        if(tallerActual!=null ){
+            val call = servicio.listaAdolescentesInfractoresPorTaller(tallerActual,"Bearer "+ token)
+            call.enqueue(object : Callback<List<AsistenciaAdolescente>> {
+                override fun onResponse(call: Call<List<AsistenciaAdolescente>>, response: Response<List<AsistenciaAdolescente>>) {
                     if (response.isSuccessful) {
                         listaAdolescentesInfractores = response.body()
 
@@ -52,36 +51,18 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
                     }
                 }
 
-                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
-                    call.cancel()
-                }
-            })
-        }else if(tallerActual.idUdi!=null){
-            val call = servicio.listaAdolescentesInfractoresPorUzdi(tallerActual.idUdi,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
-                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
-                    if (response.isSuccessful) {
-
-                        listaAdolescentesInfractores = response.body()
-
-                        if(listaAdolescentesInfractores!=null){
-                            mostrarListadoAsistencia()
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
+                override fun onFailure(call: Call<List<AsistenciaAdolescente>>, t: Throwable) {
                     call.cancel()
                 }
             })
         }
-
 
         btnAgregarInforme = findViewById(R.id.fab_agregar_informe_nuevo)
         btnAgregarInforme.setOnClickListener {
             val intent = Intent(this@VerRegistroAsistenciaActivity, InformeAgregarActivity::class.java)
             intent.putExtra("tallerActual", tallerActual)
             intent.putExtra("token", token)
+            println(listaAdolescentesInfractores)
             startActivity(intent)
         }
 
@@ -93,7 +74,5 @@ class VerRegistroAsistenciaActivity : AppCompatActivity(){
         var adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@VerRegistroAsistenciaActivity)
-
-
     }
 }

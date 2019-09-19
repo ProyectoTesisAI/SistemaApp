@@ -55,7 +55,11 @@ public class AsistenciaAdolescente implements Serializable {
 
     @Override
     public String toString() {
-        return "epn.edu.ec.entidades.AsistenciaAdolescente[ idAsistenciaAdolescentePk=" + idAsistenciaAdolescente + " ]";
+        return "AsistenciaAdolescente{" +
+                "idAsistenciaAdolescente=" + idAsistenciaAdolescente +
+                ", idAdolescenteInfractor=" + idAdolescenteInfractor +
+                ", idRegistroAsistencia=" + idRegistroAsistencia +
+                ", asistio=" + asistio +
+                '}';
     }
-    
 }
