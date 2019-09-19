@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import ec.edu.epn.snai.Controlador.Adaptador.ListadoAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -16,7 +17,7 @@ import retrofit2.Response
 
 class VerListadoAsistenciaActivity : AppCompatActivity(){
 
-    private var listaAdolescentesInfractores: List<AdolescenteInfractor>?=null
+    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
@@ -32,10 +33,10 @@ class VerListadoAsistenciaActivity : AppCompatActivity(){
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-        if(tallerActual.idCai!=null ){
-            val call = servicio.listaAdolescentesInfractoresPorCai(tallerActual.idCai,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
-                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
+        if(tallerActual!=null ){
+            val call = servicio.listaAdolescentesInfractoresPorTaller(tallerActual,"Bearer "+ token)
+            call.enqueue(object : Callback<List<AsistenciaAdolescente>> {
+                override fun onResponse(call: Call<List<AsistenciaAdolescente>>, response: Response<List<AsistenciaAdolescente>>) {
                     if (response.isSuccessful) {
                         listaAdolescentesInfractores = response.body()
 
@@ -45,11 +46,11 @@ class VerListadoAsistenciaActivity : AppCompatActivity(){
                     }
                 }
 
-                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
+                override fun onFailure(call: Call<List<AsistenciaAdolescente>>, t: Throwable) {
                     call.cancel()
                 }
             })
-        }else if(tallerActual.idUdi!=null){
+        }/*else if(tallerActual.idUdi!=null){
             val call = servicio.listaAdolescentesInfractoresPorUzdi(tallerActual.idUdi,"Bearer "+ token)
             call.enqueue(object : Callback<List<AdolescenteInfractor>> {
                 override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
@@ -67,7 +68,7 @@ class VerListadoAsistenciaActivity : AppCompatActivity(){
                     call.cancel()
                 }
             })
-        }
+        }*/
     }
 
     fun mostrarListadoAsistencia(){

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor;
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente;
 import ec.edu.epn.snai.R;
 
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import java.util.List;
 //Clase Adaptador correspondiente al RecyclerView del RegistoAsistencia, hecho en Java
 public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
-    private List<AdolescenteInfractor> adolescenteInfractoresLista= new ArrayList<>();
+    private List<AsistenciaAdolescente> adolescenteInfractoresLista= new ArrayList<>();
 
 
-    public ListadoAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista) {
+    public ListadoAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
     }
 
@@ -35,10 +36,10 @@ public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsis
     public void onBindViewHolder(@NonNull RegistroAsistenciaViewHolder viewHolder, int i) {
 
         //Seteo los valores en los diferentes controles
-        viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getNombres().toUpperCase());
-        viewHolder.txtApellidos.setText(adolescenteInfractoresLista.get(i).getApellidos().toUpperCase());
-        viewHolder.txtCedula.setText(adolescenteInfractoresLista.get(i).getCedula());
-        viewHolder.txtDocumento.setText( adolescenteInfractoresLista.get(i).getDocumento());
+        viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getIdAdolescenteInfractor().getNombres().toUpperCase());
+        viewHolder.txtApellidos.setText(adolescenteInfractoresLista.get(i).getIdAdolescenteInfractor().getApellidos().toUpperCase());
+        viewHolder.txtCedula.setText(adolescenteInfractoresLista.get(i).getIdAdolescenteInfractor().getCedula());
+        viewHolder.txtDocumento.setText( adolescenteInfractoresLista.get(i).getIdAdolescenteInfractor().getDocumento());
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface RegistroAsistenciaServicio {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Registro_Asistencia/ListaAdolescentesPorTaller")
-    Call<List<AdolescenteInfractor>> listaAdolescentesInfractoresPorTaller(@Body Taller taller, @Header("Authorization") String token);
+    Call<List<AsistenciaAdolescente>> listaAdolescentesInfractoresPorTaller(@Body Taller taller, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("Registro_Asistencia/Taller/NumeroAsistentes/{id}")

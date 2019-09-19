@@ -3,15 +3,14 @@ package ec.edu.epn.snai.Controlador.Fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ec.edu.epn.snai.Controlador.Activity.VerEditarInformeActivity
 import ec.edu.epn.snai.Controlador.Activity.VerInformeActivity
 import ec.edu.epn.snai.Controlador.Adaptador.InformeAdaptador
-import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -66,8 +65,9 @@ class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
     }
 
     override fun OnItemClick(posicion: Int) {
-        val intent = Intent(context,VerInformeActivity::class.java)
+        val intent = Intent(context,VerEditarInformeActivity::class.java)
         intent.putExtra("informeSeleccionado",listaInformes?.get(posicion))
+        intent.putExtra("token",token)
         startActivity(intent)
     }
 }
