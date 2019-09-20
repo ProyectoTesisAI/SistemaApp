@@ -28,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 
-class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener{
+class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener{
 
 
     private lateinit var fabItemsTallers: FloatingActionButton
@@ -42,14 +42,10 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
     private var posicionActividadSeleccionada: Int = 0
     private lateinit var menuAux:Menu
 
-    private lateinit var btnListarAdolescentePorTaller: Button
-
-    private lateinit var btnAgregarInforme: FloatingActionButton
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_ver_taller)
+
         setContentView(R.layout.activity_agregar_taller)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
@@ -80,26 +76,15 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
         //Adaptador del Tipo de Centro para el Spinner
         val adapterTipoCentro=
-            ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
+            ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTipoCentro.adapter=adapterTipoCentro
 
         spCentro=findViewById(R.id.spUdiCai)
 
-        btnListarAdolescentePorTaller=findViewById(R.id.btnListarAdolescentes)
-        btnListarAdolescentePorTaller.setOnClickListener{
-
-            val tallerActual: Taller = taller
-            val intent = Intent(this@VerTallerActivity, VerListadoAsistenciaActivity::class.java)
-            intent.putExtra("tallerActual", tallerActual)
-            intent.putExtra("token", token)
-            startActivity(intent)
-        }
-
 
         asignarVariablesTaller()
         spTipoCentro.setSelection(obtenerItemTipoCentro())
-        habilitarDeshabilitarAtributos(false)
 
         //Evento itemSelected del Spinner Tipo de Centro
         spTipoCentro.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
@@ -130,9 +115,9 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         menuAux=menu
         menuInflater.inflate(R.menu.menu_gestion, menu)
 
-        menu.findItem(R.id.menu_editar).isVisible = true
+        menu.findItem(R.id.menu_editar).isVisible = false
         menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=false
+        menu.findItem(R.id.menu_guardar).isVisible=true
         return true
     }
 
@@ -143,9 +128,6 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
 
                 finish()
             }
-            R.id.menu_editar->{
-                habilitarDeshabilitarAtributos(true)
-            }
             else->{
                 finish()
             }
@@ -153,25 +135,6 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         return true
     }
 
-    private fun habilitarDeshabilitarAtributos(habilitado: Boolean){
-
-        etTemaTallerCrear.isEnabled=habilitado
-        etNumeroTallerCrear.isEnabled=habilitado
-        etFechaTallerCrear.isEnabled=habilitado
-        etHoraTallerCrear.isEnabled=habilitado
-        spTipoCentro.isEnabled=habilitado
-        spUdiCai.isEnabled=habilitado
-        etObjetivoTallerCrear.isEnabled=habilitado
-        etRecomendacionesTallerCrear.isEnabled=habilitado
-
-        if(habilitado){
-            fab_agregar_item_taller.hide()
-        }
-        else{
-            fab_agregar_item_taller.show()
-        }
-
-    }
 
     private fun asignarListaUzdiSpinner(){
 
@@ -181,7 +144,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         }
 
 
-        val adapterTipoCentro=ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
+        val adapterTipoCentro=ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCentro?.adapter=adapterTipoCentro
 
@@ -193,7 +156,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
             listaCAIAux.add(c.cai)
         }
 
-        val adapterTipoCentro=ArrayAdapter<String>(this@VerTallerActivity,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
+        val adapterTipoCentro=ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCentro?.adapter=adapterTipoCentro
 
@@ -425,7 +388,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
         val mesSeleccionado = cldr.get(Calendar.MONTH)
         val anioSeleccionado = cldr.get(Calendar.YEAR)
         // date picker dialog
-        val picker = DatePickerDialog(this@VerTallerActivity,
+        val picker = DatePickerDialog(this@EditarTallerActivity,
 
             DatePickerDialog.OnDateSetListener { datePicker, anio, mes, dia ->
 
@@ -485,7 +448,7 @@ class VerTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnIt
     }
 
     fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
-        val adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@VerTallerActivity)
+        val adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@EditarTallerActivity)
         val recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
         recyclerViewItemTaller.adapter=adaptadorItemTaller
         recyclerViewItemTaller.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)

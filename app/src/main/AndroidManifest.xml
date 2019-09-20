@@ -12,18 +12,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".VerInfoTallerActivity"
+                android:name=".Controlador.Activity.VerInfoTallerActivity"
                 android:label="@string/title_activity_ver_info_taller"
+                android:screenOrientation="landscape"
         >
         </activity>
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
         </activity>
-        <activity android:name=".Controlador.Activity.VerTallerActivity"/>
+        <activity android:name=".Controlador.Activity.EditarTallerActivity"
+            android:label="Editar Taller"
+        />
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity"/>
-        <activity
-                android:name=".Controlador.Activity.VerListadoAsistenciaActivity"
-                android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.TallerAgregarActivity"
                 android:label="Agregar Taller"/>

@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
-import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
+//import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
 import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
