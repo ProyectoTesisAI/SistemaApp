@@ -6,17 +6,20 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import ec.edu.epn.snai.Controlador.Fragment.VerRegistroAsistenciaFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerTallerFragment
+import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
 
-class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Taller) : FragmentPagerAdapter(fm) {
+class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Taller, itemsTallerAux: List<ItemTaller>) : FragmentPagerAdapter(fm) {
 
     val token=tokenAux
     val taller= tallerAux
+    val itemsTaller=itemsTallerAux
 
     private fun obtenerBundle() : Bundle{
         var bundle = Bundle()
         bundle.putSerializable("token", token)
         bundle.putSerializable("taller_seleccionado", taller)
+        bundle.putSerializable("items_taller_seleccionado",ArrayList(itemsTaller))
         return  bundle
     }
 

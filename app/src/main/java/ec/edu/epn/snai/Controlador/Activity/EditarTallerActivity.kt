@@ -27,6 +27,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener{
 
@@ -34,7 +35,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
     private lateinit var fabItemsTallers: FloatingActionButton
     var spCentro:Spinner?=null
 
-    private var itemsTaller: MutableList<ItemTaller> =ArrayList<ItemTaller>()
+    private var itemsTaller: ArrayList<ItemTaller> =ArrayList<ItemTaller>()
     private var listaUZDI: List<UDI>?=null
     private var listaCAI: List<CAI>?= null
     private lateinit var token:String
@@ -52,6 +53,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         val i = intent
         this.taller = i.getSerializableExtra("taller_seleccionado") as Taller
         this.token = i.getSerializableExtra("token") as String
+        this.itemsTaller=i.getSerializableExtra("items_taller_seleccionado") as ArrayList<ItemTaller>
 
         asynTaskObtenerListadoCai()
         asynTaskObtenerListadoUzdi()
@@ -82,8 +84,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         spCentro=findViewById(R.id.spUdiCai)
 
-
-        asignarVariablesTaller()
         spTipoCentro.setSelection(obtenerItemTipoCentro())
 
         //Evento itemSelected del Spinner Tipo de Centro
@@ -108,6 +108,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             }
 
         }
+
+        asignarVariablesTaller()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -464,6 +466,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         etObjetivoTallerCrear?.setText(this.taller.objetivo.toString())
         etRecomendacionesTallerCrear?.setText(this.taller.recomendaciones.toString())
+
+        mostrarListaItemsTaller(itemsTaller)
     }
 
     private fun formatearFecha(fecha: Date): String {
