@@ -24,9 +24,13 @@
         />
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity"/>
+      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"/>
         <activity
                 android:name=".Controlador.Activity.TallerAgregarActivity"
                 android:label="Agregar Taller"/>
+        <activity
+                android:name=".Controlador.Activity.InformeAgregarActivity"
+                android:label="Agregar Informe"/>
         <activity
                 android:name=".Controlador.Activity.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar"/>

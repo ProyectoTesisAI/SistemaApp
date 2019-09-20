@@ -102,4 +102,21 @@ public class Taller implements Serializable {
 
     public void setIdUsuario(Usuario idUsuario) { this.idUsuario = idUsuario; }
 
+    @Override
+    public String toString() {
+        return "Taller{" +
+                "idTaller=" + idTaller +
+                ", tema='" + tema + '\'' +
+                ", numeroTaller=" + numeroTaller +
+                ", fecha=" + fecha +
+                ", horaInicio=" + horaInicio +
+                ", objetivo='" + objetivo + '\'' +
+                ", numeroTotalParticipantes=" + numeroTotalParticipantes +
+                ", recomendaciones='" + recomendaciones + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", idCai=" + idCai +
+                ", idUdi=" + idUdi +
+                ", idUsuario=" + idUsuario +
+                '}';
+    }
 }

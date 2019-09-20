@@ -1,6 +1,7 @@
 package ec.edu.epn.snai.Servicios;
 
 import ec.edu.epn.snai.Modelo.CAI;
+import ec.edu.epn.snai.Modelo.ItemTaller;
 import ec.edu.epn.snai.Modelo.Taller;
 import ec.edu.epn.snai.Modelo.UDI;
 import retrofit2.Call;
@@ -22,5 +23,7 @@ public interface TallerServicio {
     @POST("Taller/NumeroAdolescentesPorCai")
     Call<String> obtenerNumeroParticipantesCAI(@Body CAI cai,@Header("Authorization") String token);
 
-
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("Taller/ItemsTaller/{id}")
+    Call<List<ItemTaller>> listarItemsPorTaller(@Path("id") String id, @Header("Authorization") String token);
 }

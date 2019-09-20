@@ -40,7 +40,4 @@ dependencies {
 
     //dependencias para encriptar
     implementation 'cc.duduhuo.util:digest-util:1.1.1'
-
-    //dependencia de anko
-    implementation "org.jetbrains.anko:anko-design:0.10.5"
 }

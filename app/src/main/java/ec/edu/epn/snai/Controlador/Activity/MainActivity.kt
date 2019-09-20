@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         usuario = intent.getSerializableExtra("usuario") as Usuario
-        println("TOKEN EN MAIN"+usuario?.token)
 
         if(usuario!= null){
 
