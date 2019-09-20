@@ -15,10 +15,10 @@ import java.util.List;
 //Clase Adaptador correspondiente al RecyclerView del ItemInforme
 public class ItemInformeAdaptador extends RecyclerView.Adapter<ItemInformeAdaptador.ItemInformeViewHolder>{
 
-    private List<ItemTaller> itemsInforme= new ArrayList<>();
+    private List<ItemTaller> itemsTaller = new ArrayList<>();
 
     public ItemInformeAdaptador(List<ItemTaller> itemsInforme) {
-        this.itemsInforme = itemsInforme;
+        this.itemsTaller = itemsInforme;
     }
 
     @NonNull
@@ -32,17 +32,17 @@ public class ItemInformeAdaptador extends RecyclerView.Adapter<ItemInformeAdapta
     @Override
     public void onBindViewHolder(@NonNull ItemInformeViewHolder viewHolder, int i) {
         //Seteo los valores en los diferentes controles
-        viewHolder.txtActividad.setText(itemsInforme.get(i).getActividad());
-        viewHolder.txtObjetivo.setText(itemsInforme.get(i).getObjetivoEspecifico());
-        viewHolder.txtMateriales.setText(itemsInforme.get(i).getMateriales());
-        viewHolder.txtResponsable.setText(itemsInforme.get(i).getResponsable());
-        viewHolder.txtDuracion.setText(itemsInforme.get(i).getDuracion().toString());
+        viewHolder.txtActividad.setText(itemsTaller.get(i).getActividad());
+        viewHolder.txtObjetivo.setText(itemsTaller.get(i).getObjetivoEspecifico());
+        viewHolder.txtMateriales.setText(itemsTaller.get(i).getMateriales());
+        viewHolder.txtResponsable.setText(itemsTaller.get(i).getResponsable());
+        viewHolder.txtDuracion.setText(itemsTaller.get(i).getDuracion().toString());
 
     }
 
     @Override
     public int getItemCount() {
-        return itemsInforme.size();
+        return itemsTaller.size();
     }
 
 

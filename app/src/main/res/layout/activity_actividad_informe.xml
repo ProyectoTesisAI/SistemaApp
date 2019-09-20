@@ -8,108 +8,96 @@
         android:background="#ffff"
         android:layout_marginBottom="8dp">
 
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:layout_marginBottom="3sp">
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:text="Actividad: "
-                                android:textSize="14dp"
-                                android:textStyle="bold"
-                                android:paddingBottom="5px"/>
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"/>
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/txtItemActividadI"
                                 android:gravity="start"
                                 android:hint="Actividad"
-                                android:textSize="13dp"
-                                android:paddingBottom="5px"/>
+                                android:layout_marginTop="-1sp"
+                                android:fontFamily="sans-serif-light"
+                                android:textSize="12sp"/>
                 </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:layout_marginBottom="3sp">
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:text="Objetivo: "
-                                android:textSize="14dp"
-                                android:textStyle="bold"
-                                android:paddingBottom="5px"/>
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"/>
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/txtItemObjetivoI"
-                                android:textSize="13dp"
+                                android:textSize="12sp"
+                                android:layout_marginTop="-1sp"
+                                android:fontFamily="sans-serif-light"
                                 android:hint="Objetivo"/>
                 </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="3sp">
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:text="Materiales: "
-                                android:textSize="14dp"
-                                android:textStyle="bold"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
                                 android:paddingBottom="5px"/>
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/txtItemMaterialesI"
-                                android:textSize="13dp"
+                                android:textSize="12sp"
+                                android:fontFamily="sans-serif-light"
                                 android:hint="Materiales"/>
                 </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="3sp">
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:text="Responsable: "
-                                android:textSize="14dp"
-                                android:textStyle="bold"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
                                 android:paddingBottom="5px"/>
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/txtItemResponsableI"
-                                android:textSize="13dp"
+                                android:textSize="12sp"
+                                android:fontFamily="sans-serif-light"
                                 android:hint="Responsable"/>
                 </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -119,16 +107,16 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="start"
                                 android:text="Duración: "
-                                android:textSize="14dp"
-                                android:textStyle="bold"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif-medium"
                                 android:paddingBottom="5px"/>
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/txtItemDuracionI"
                                 android:inputType="number"
-                                android:textSize="13dp"
+                                android:textSize="12sp"
+                                android:fontFamily="sans-serif-light"
                                 android:hint="Duracion"/>
                 </LinearLayout>
-        </LinearLayout>
 </LinearLayout>

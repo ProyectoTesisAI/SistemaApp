@@ -16,6 +16,8 @@ class VerEditarInformeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ver_editar_informe)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
+        supportActionBar?.elevation=0F
 
         val i = intent
         informeSeleccionado= i.getSerializableExtra("informeSeleccionado") as Informe
