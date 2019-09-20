@@ -20,6 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class VerEditarRegistroAsistenciaFragment: Fragment(){
+
     private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
 
     private lateinit var informeSeleccionado: Informe

@@ -3,9 +3,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/layout_taller"
-                tools:context=".Controlador.Activity.TallerAgregarActivity">
+                android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -20,154 +18,225 @@
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="13sp">
 
                 <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Tema"
-                        android:textSize="18dp"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif-light"
                         android:gravity="center"
                         android:id="@+id/etTemaTallerCrear"
                 />
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
 
-
-                <android.support.design.widget.TextInputLayout
-                        android:id="@+id/tilNumeroTaller"
+                <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etNumeroTallerCrear"
-                            android:drawableEnd="@drawable/ic_null"
-                            android:inputType="number"
-                            android:textSize="15dp"
-                            android:hint="Número de Taller" android:layout_alignStart="@+id/tilNumeroTaller"
-                            android:layout_alignBottom="@+id/tilNumeroTaller"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
-
-                <android.support.design.widget.TextInputLayout
-                        android:id="@+id/tilFechaTaller"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        >
-
-                    <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:id="@+id/etFechaTallerCrear"
-                            android:drawableEnd="@drawable/ic_today_black_24dp"
-                            android:textSize="15dp"
-                            android:hint="Fecha"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:layout_weight="1"
-                        android:layout_marginBottom="10dp">
-
-                    <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:drawableEnd="@drawable/ic_access_time_black_24dp"
-                            android:hint="Hora"
-                            android:id="@+id/etHoraTallerCrear"/>
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
-
-                <Spinner
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:spinnerMode="dialog"
-                        android:layout_weight="1"
-                        android:prompt="@string/prompTipoCentro"
-                        android:id="@+id/spTipoCentro"
-                        android:textAlignment="viewStart"/>
-
-                <Spinner
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:layout_gravity="left"
-                        android:gravity="left"
-                        android:spinnerMode="dropdown"
-                        android:id="@+id/spUdiCai"/>
-
-            </LinearLayout>
-
-            <TextView
-                    android:id="@+id/txtNumeroParticipantesTallerCrear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Número de Adolescentes: 0"
-            />
-
-
-
-            <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Número de Taller" />
 
                 <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Objetivo"
-                        android:textSize="15dp"
-                        android:id="@+id/etObjetivoTallerCrear"
-                />
-            </android.support.design.widget.TextInputLayout>
+                        android:id="@+id/etNumeroTallerCrear"
+                        android:inputType="number"
+                        android:textSize="15sp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:hint="Número de Taller" />
+
+            </LinearLayout>
 
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10sp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingRight="12sp"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text=" Fecha"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:id="@+id/etFechaTallerCrear"
+                            android:drawableEnd="@drawable/ic_today_black_24dp"
+                            android:textSize="15sp"
+                            android:paddingTop="4sp"
+                            android:fontFamily="sans-serif-light"
+                            android:hint="Fecha" android:focusableInTouchMode="false"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:paddingLeft="12sp"
+                              android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text=" Hora"/>
+
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:drawableEnd="@drawable/ic_access_time_black_24dp"
+                            android:hint="Hora"
+                            android:paddingTop="4sp"
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/etHoraTallerCrear"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="0sp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingRight="12sp"
+                        android:layout_weight="2">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text=" Tipo Centro"/>
+                    <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:spinnerMode="dialog"
+                            android:layout_marginTop="0sp"
+                            android:gravity="top|start"
+                            android:prompt="@string/prompTipoCentro"
+                            android:id="@+id/spTipoCentro"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="12sp"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text=" Centro"/>
+
+                    <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:spinnerMode="dropdown"
+                            android:layout_marginTop="0sp"
+                            style="@style/MiSpinner"
+                            android:id="@+id/spUdiCai"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                    android:id="@+id/txtNumeroParticipantesTallerCrear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:layout_marginTop="0sp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Número de Adolescentes: 0"
+                    android:layout_marginBottom="15sp"
+            />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Objetivo"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Objetivo"
+                        android:textSize="15sp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:id="@+id/etObjetivoTallerCrear"
+                />
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Recomendaciones"/>
+
 
                 <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Recomendaciones"
                         android:textSize="15dp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
                         android:id="@+id/etRecomendacionesTallerCrear"
                 />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="listado"
-                    android:id="@+id/btnListarAdolescentes"
-            />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_items_taller"

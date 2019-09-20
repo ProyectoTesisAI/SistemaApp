@@ -10,14 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
-import ec.edu.epn.snai.Controlador.Activity.VerTallerActivity
 import ec.edu.epn.snai.Controlador.Activity.TallerAgregarActivity
 import ec.edu.epn.snai.Modelo.Taller
-import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
-import ec.edu.epn.snai.VerInfoTallerActivity
+import ec.edu.epn.snai.Controlador.Activity.VerInfoTallerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,12 +1,14 @@
-package ec.edu.epn.snai.Controlador.Activity
+package ec.edu.epn.snai.Controlador.Fragment
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import ec.edu.epn.snai.Controlador.Adaptador.ListadoAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor
-import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -15,42 +17,47 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class VerListadoAsistenciaActivity : AppCompatActivity(){
+class VerRegistroAsistenciaFragment: Fragment() {
 
-    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
+    private var listaAdolescentesInfractores: List<AdolescenteInfractor>?=null
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ver_listado_asistencia)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
-        tallerActual = intent.getSerializableExtra("tallerActual") as Taller
-        token = intent.getSerializableExtra("token") as String
+        if(arguments!=null){
+            token=arguments?.getSerializable("token") as String
+            tallerActual=arguments?.getSerializable("taller_seleccionado") as Taller
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_ver_listado_asistencia, container, false)
 
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-        if(tallerActual!=null ){
-            val call = servicio.listaAdolescentesInfractoresPorTaller(tallerActual,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AsistenciaAdolescente>> {
-                override fun onResponse(call: Call<List<AsistenciaAdolescente>>, response: Response<List<AsistenciaAdolescente>>) {
+        if(tallerActual.idCai!=null ){
+            val call = servicio.listaAdolescentesInfractoresPorCai(tallerActual.idCai,"Bearer "+ token)
+            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
+                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
                     if (response.isSuccessful) {
                         listaAdolescentesInfractores = response.body()
 
                         if(listaAdolescentesInfractores!=null){
-                            mostrarListadoAsistencia()
+                            mostrarListadoAsistencia(rootView!!)
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<List<AsistenciaAdolescente>>, t: Throwable) {
+                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
                     call.cancel()
                 }
             })
-        }/*else if(tallerActual.idUdi!=null){
+        }else if(tallerActual.idUdi!=null){
             val call = servicio.listaAdolescentesInfractoresPorUzdi(tallerActual.idUdi,"Bearer "+ token)
             call.enqueue(object : Callback<List<AdolescenteInfractor>> {
                 override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
@@ -58,7 +65,7 @@ class VerListadoAsistenciaActivity : AppCompatActivity(){
                         listaAdolescentesInfractores = response.body()
 
                         if(listaAdolescentesInfractores!=null){
-                            mostrarListadoAsistencia()
+                            mostrarListadoAsistencia(rootView!!)
                         }
 
                     }
@@ -68,15 +75,16 @@ class VerListadoAsistenciaActivity : AppCompatActivity(){
                     call.cancel()
                 }
             })
-        }*/
+        }
+        return rootView
     }
 
-    fun mostrarListadoAsistencia(){
+    fun mostrarListadoAsistencia(view: View){
 
-        var recyclerViewRegistroAsistencia=findViewById(R.id.rv_listado_asistencia) as RecyclerView
+        var recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
         var adaptador = ListadoAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
-        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
     }
 }
