@@ -1,5 +1,7 @@
 package ec.edu.epn.snai.Modelo;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class RegistroFotografico implements Serializable {
@@ -7,6 +9,7 @@ public class RegistroFotografico implements Serializable {
     private Integer idRegistroFotografico;
     private byte[] imagen;
     private Informe idInforme;
+    private Bitmap foto;
     
     public RegistroFotografico() {
     }
@@ -35,5 +38,7 @@ public class RegistroFotografico implements Serializable {
         this.idInforme = idInforme;
     }
 
-    
+    public Bitmap getFoto() {
+        return foto;
+    }
 }
