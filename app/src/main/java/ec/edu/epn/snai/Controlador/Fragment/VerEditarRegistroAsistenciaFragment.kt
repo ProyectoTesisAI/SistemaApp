@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Informe
-import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.RegistroAsistenciaServicio
@@ -35,7 +34,7 @@ class VerEditarRegistroAsistenciaFragment: Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView=inflater.inflate(R.layout.fragment_ver_editar_registro_asistencia,container,false)
+        val rootView=inflater.inflate(R.layout.fragment_ver_registro_asistencia,container,false)
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 

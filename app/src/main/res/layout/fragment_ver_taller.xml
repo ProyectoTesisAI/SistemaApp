@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/layout_taller"
-                tools:context=".Controlador.Activity.TallerAgregarActivity">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:id="@+id/layout_taller"
+                                                 tools:context=".Controlador.Activity.TallerAgregarActivity">
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -18,16 +18,16 @@
                 android:orientation="vertical">
 
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tema"
-                        android:textSize="17sp"
-                        android:gravity="center"
-                        android:layout_marginBottom="13sp"
-                        android:fontFamily="sans-serif-medium"
-                        android:id="@+id/txtTemaTallerVer"
-                />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tema"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:layout_marginBottom="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/txtTemaTallerVer"
+            />
 
             <LinearLayout
                     android:layout_width="match_parent"
@@ -59,51 +59,51 @@
                     android:orientation="horizontal"
                     android:layout_marginBottom="10dp">
 
-                    <LinearLayout
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="15sp"
+                            android:text="Fecha:  "/>
+                    <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/txtFechaTallerVer"
+                            android:textSize="14sp"
+                            android:paddingRight="20sp"
+                            android:text="Fecha"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-medium"
-                                android:textSize="15sp"
-                                android:text="Fecha:  "/>
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="sans-serif-light"
-                                android:id="@+id/txtFechaTallerVer"
-                                android:textSize="14sp"
-                                android:paddingRight="20sp"
-                                android:text="Fecha"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
 
-                    </LinearLayout>
-                    <LinearLayout
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Hora:  "
+                            android:paddingLeft="20sp"/>
+
+                    <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_weight="1">
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Hora"
+                            android:id="@+id/txtHoraTallerVer"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                android:fontFamily="sans-serif-medium"
-                                android:text="Hora:  "
-                                android:paddingLeft="20sp"/>
-
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="14sp"
-                                android:fontFamily="sans-serif-light"
-                                android:text="Hora"
-                                android:id="@+id/txtHoraTallerVer"/>
-
-                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -190,33 +190,33 @@
                     android:text="Objetivos"
                     android:textSize="15sp"
                     android:fontFamily="sans-serif-medium"/>
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="No se han agregado objetivos"
-                        android:textSize="14sp"
-                        android:layout_marginBottom="10dp"
-                        android:id="@+id/txtObjetivoTallerVer"
-                        android:fontFamily="sans-serif-light"
-                />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No se han agregado objetivos"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/txtObjetivoTallerVer"
+                    android:fontFamily="sans-serif-light"
+            />
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Recomendaciones"
-                        android:textSize="15sp"
-                        android:fontFamily="sans-serif-medium"
-                />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recomendaciones"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+            />
 
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="No se han agregrado recomendaciones"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_marginBottom="10dp"
-                        android:id="@+id/txtRecomendacionesTallerVer"
-                />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No se han agregrado recomendaciones"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/txtRecomendacionesTallerVer"
+            />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_items_taller"

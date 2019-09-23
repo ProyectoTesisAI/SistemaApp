@@ -46,8 +46,13 @@ class VerTallerFragment : Fragment(){
 
         view.txtTemaTallerVer?.text=this.taller.tema
         view.txtNumeroTallerVer?.text= this.taller.numeroTaller.toString()
-        view.txtFechaTallerVer?.text= this.formatearFecha(this.taller.fecha)
-        view.txtHoraTallerVer?.text= this.formatearHora(this.taller.horaInicio)
+        if (this.taller.fecha != null) {
+            view.txtFechaTallerVer?.text= this.formatearFecha(this.taller.fecha)
+        }
+        if(this.taller.horaInicio != null){
+            view.txtHoraTallerVer?.text= this.formatearHora(this.taller.horaInicio)
+        }
+
         view.txtTipoCentroVer?.text=this.obtenerTipoCentro()
         view.txtUdiCaiVer?.text=this.obtenerItemUzdiCai()
         view.txtNumeroParticipantesTallerVer?.text=this.taller.numeroTotalParticipantes.toString()
