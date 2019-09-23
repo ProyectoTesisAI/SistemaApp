@@ -24,7 +24,8 @@
         />
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.VerRegistroAsistenciaActivity"/>
-      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"/>
+      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
+                android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.TallerAgregarActivity"
                 android:label="Agregar Taller"/>

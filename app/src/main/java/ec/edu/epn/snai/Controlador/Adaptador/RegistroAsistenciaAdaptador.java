@@ -21,9 +21,6 @@ public class RegistroAsistenciaAdaptador extends RecyclerView.Adapter<RegistroAs
 
     private List<AsistenciaAdolescente> adolescenteInfractoresLista= new ArrayList<>();
 
-    public RegistroAsistenciaAdaptador() {
-    }
-
     public RegistroAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
     }

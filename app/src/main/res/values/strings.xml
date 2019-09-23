@@ -55,7 +55,7 @@
     <string name="txt_apellidos">Apellidos</string>
     <string name="txt_cedula">Cédula</string>
     <string name="txt_documento">Documento</string>
-
+    <string name="txt_asistio">¿Asistió?</string>
 
     <string name="prompTipoCentro">Tipo Centro</string>
     <string-array name="tipoCentro">

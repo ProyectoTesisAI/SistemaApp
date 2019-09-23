@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_agregar_taller.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -74,7 +76,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         }
 
 
-        val spTipoCentro: Spinner =findViewById<Spinner>(R.id.spTipoCentro)
+        val spTipoCentro: Spinner =findViewById(R.id.spTipoCentro)
 
         //Adaptador del Tipo de Centro para el Spinner
         val adapterTipoCentro=
@@ -128,7 +130,9 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         when(item?.itemId){
             R.id.menu_guardar->{
 
-                finish()
+                //finish()
+                //
+                guardarTaller()
             }
             else->{
                 finish()
@@ -248,7 +252,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                     if(numeroParticipantes==null){
                         numeroParticipantes="0"
                     }
-                    txtNumeroParticipantesTallerCrear.text= "Número de Adolescentes: $numeroParticipantes"
+                    txtNumeroParticipantesTallerCrear.text= "$numeroParticipantes"
 
                 }
 
@@ -278,7 +282,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                     if(numeroParticipantes==null){
                         numeroParticipantes="0"
                     }
-                    txtNumeroParticipantesTallerCrear.text= "Número de Adolescentes: $numeroParticipantes"
+                    txtNumeroParticipantesTallerCrear.text= "$numeroParticipantes"
 
                 }
 
@@ -397,7 +401,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 var mesFormateado: String = mes.toString()
                 //Formateo el año obtenido: antepone el 0 si son menores de 10
                 if ((mes + 1) < 10) {
-                    mesFormateado = String.format("0$mes")
+                    val mesAux=mes+1
+                    mesFormateado = String.format("0$mesAux")
                 }
 
                 var diaFormateado: String = dia.toString()
@@ -461,8 +466,13 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         etTemaTallerCrear?.setText(this.taller.tema)
         etNumeroTallerCrear?.setText(this.taller.numeroTaller.toString())
-        etFechaTallerCrear?.setText( formatearFecha(this.taller.fecha))
-        etHoraTallerCrear?.setText( formatearHora(this.taller.horaInicio))
+
+        if (this.taller.fecha != null) {
+            etFechaTallerCrear?.setText( formatearFecha(this.taller.fecha))
+        }
+        if (this.taller.horaInicio != null) {
+            etHoraTallerCrear?.setText( formatearHora(this.taller.horaInicio))
+        }
 
         etObjetivoTallerCrear?.setText(this.taller.objetivo.toString())
         etRecomendacionesTallerCrear?.setText(this.taller.recomendaciones.toString())
@@ -551,5 +561,82 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         return posicionItem
     }
 
+    private fun guardarTaller(){
 
+        val tallerEditar= obtenerVariablesTaller()
+        if(tallerEditar!= null){
+
+            if(tallerEditar.numeroTotalParticipantes>0){
+                asynTaskEditarTaller(tallerEditar)
+            }
+            else{
+                Toast.makeText(applicationContext, "Error al guardar, debe seleccionar una Unidad Zonal o CAI con adolescentes infractores", Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+    private fun obtenerVariablesTaller(): Taller?{
+
+        if(taller!= null){
+            val tallerAux= taller
+
+            tallerAux.tema=etTemaTallerCrear?.text.toString()
+            tallerAux.numeroTaller=etNumeroTallerCrear.text.toString().toInt()
+
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            var convertedDate: Date? = null
+            convertedDate = sdf.parse(etFechaTallerCrear.text.toString())
+            tallerAux.fecha=convertedDate
+
+            val sdfH = SimpleDateFormat("HH:mm")
+            var horaConvertida: Date?= null
+            horaConvertida=sdfH.parse(etHoraTallerCrear.text.toString())
+            tallerAux.horaInicio=horaConvertida
+
+            tallerAux.numeroTotalParticipantes=txtNumeroParticipantesTallerCrear.text.toString().toInt()
+            tallerAux.objetivo=etObjetivoTallerCrear.text.toString()
+            tallerAux.recomendaciones=etRecomendacionesTallerCrear.text.toString()
+
+            val indiceCentro: Int?=spCentro?.selectedItemPosition
+
+            if(spTipoCentro.selectedItem.toString()=="UZDI"){
+
+                tallerAux.idUdi= listaUZDI?.get(indiceCentro!!)
+                tallerAux.idCai=null
+            }
+            else if(spTipoCentro.selectedItem.toString()=="CAI"){
+                tallerAux.idCai= listaCAI?.get(indiceCentro!!)
+                tallerAux.idUdi=null
+
+            }
+            return tallerAux
+        }
+        else{
+            return null
+        }
+    }
+
+    private fun guardarEdicionTaller(tallerAux: Taller): Taller{
+
+        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+        val call =servicioTaller.editarTaller( tallerAux,"Bearer $token")
+        val tallerGuardado = call.execute().body()
+        return  tallerGuardado!!
+
+    }
+
+    private fun asynTaskEditarTaller(tallerAux: Taller){
+
+        val miclase = object : AsyncTask<Unit, Unit, Taller>(){
+
+            override fun doInBackground(vararg p0: Unit?): Taller {
+                val tallerEditado=guardarEdicionTaller(tallerAux)
+                return tallerEditado
+            }
+
+        }
+        val tallerRescatado=miclase.execute().get()
+        Log.i("taller",tallerRescatado.toString())
+    }
 }

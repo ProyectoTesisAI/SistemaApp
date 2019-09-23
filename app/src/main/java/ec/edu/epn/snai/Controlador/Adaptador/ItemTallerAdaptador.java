@@ -27,7 +27,7 @@ public class ItemTallerAdaptador extends RecyclerView.Adapter<ItemTallerAdaptado
     @NonNull
     @Override
     public ItemTallerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_taller,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_informe,viewGroup, false);
         ItemTallerViewHolder holder= new ItemTallerViewHolder(view,onItemTallerClickListener);
         return holder;
     }
@@ -58,11 +58,11 @@ public class ItemTallerAdaptador extends RecyclerView.Adapter<ItemTallerAdaptado
 
         public ItemTallerViewHolder(View itemView, ItemTallerOnItemClickListener onItemClickListener){
             super(itemView);
-            txtActividad=itemView.findViewById(R.id.txtItemActividad);
-            txtObjetivo=itemView.findViewById(R.id.txtItemObjetivo);
-            txtMateriales=itemView.findViewById(R.id.txtItemMateriales);
-            txtResponsable=itemView.findViewById(R.id.txtItemResponsable);
-            txtDuracion=itemView.findViewById(R.id.txtItemDuracion);
+            txtActividad=itemView.findViewById(R.id.txtItemActividadI);
+            txtObjetivo=itemView.findViewById(R.id.txtItemObjetivoI);
+            txtMateriales=itemView.findViewById(R.id.txtItemMaterialesI);
+            txtResponsable=itemView.findViewById(R.id.txtItemResponsableI);
+            txtDuracion=itemView.findViewById(R.id.txtItemDuracionI);
 
             this.itemTallerOnItemClickListener =onItemClickListener;
 

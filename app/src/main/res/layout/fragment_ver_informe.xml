@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12sp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tema"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:layout_marginBottom="13sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/tvTemaTallerFr"
+            />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Número de Taller:  "
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvNumeroInformeFr"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginBottom="10sp"
+                        android:text="Número de Taller"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="15sp"
+                        android:text="Fecha:  "/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:id="@+id/tvFechaTallerFr"
+                        android:textSize="14sp"
+                        android:paddingRight="20sp"
+                        android:text="Fecha"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="15sp"
+                            android:text="Hora Inicio:  "/>
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/tvHoraInicioTallerFr"
+                            android:textSize="14sp"
+                            android:paddingRight="20sp"
+                            android:text="Hora Inicio"/>
+
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Hora Fin:  "
+                            android:paddingLeft="20sp"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-light"
+                            android:text="Hora Fin"
+                            android:id="@+id/tvHoraFinTallerFr"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Número Total  Participantes:  "
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15sp"
+                />
+                <TextView
+                        android:id="@+id/tvNumeroParticipantesTallerFr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Número de Adolescentes"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="14sp"
+                />
+
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Objetivos"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No se han agregado objetivos"
+                    android:id="@+id/tvObjetivoTallerFr"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="sans-serif-light"
+            />
+
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Antecedentes y justificación: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Antecedentes y justificación"
+                        android:id="@+id/etAntecendentesInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="15sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_items_informe_fr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15sp"/>
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Desarrollo: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Desarrollo"
+                        android:id="@+id/etDesarrolloInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Objetivos Específicos: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Objetivos Específicos"
+                        android:id="@+id/etObjetivosEspecificosInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Cierre y evaluación: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Cierre y evaluación"
+                        android:id="@+id/etCierreInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Conclusiones: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Conclusiones"
+                        android:id="@+id/etConclusionesInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Recomendaciones: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Recomendaciones"
+                        android:id="@+id/etRecomendacionesInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Observaciones: "
+                        android:textSize="15sp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Observaciones"
+                        android:id="@+id/etObservacionesInformeFr"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10sp"
+                        android:fontFamily="sans-serif-light"
+                />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -26,4 +26,9 @@ public interface TallerServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("Taller/ItemsTaller/{id}")
     Call<List<ItemTaller>> listarItemsPorTaller(@Path("id") String id, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @PUT("Taller")
+    Call<Taller> editarTaller(@Body Taller taller,@Header("Authorization") String token);
+
 }

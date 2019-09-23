@@ -38,7 +38,9 @@ public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.Taller
         //Seteo los valores en los diferentes controles
         viewHolder.txtTema.setText(talleres.get(i).getTema());
         viewHolder.txtNumeroTaller.setText(talleres.get(i).getNumeroTaller().toString());
-        viewHolder.txtFecha.setText(fomatearFecha(talleres.get(i).getFecha()));
+        if(talleres.get(i).getFecha()!=null){
+            viewHolder.txtFecha.setText(fomatearFecha(talleres.get(i).getFecha()));
+        }
         viewHolder.txtTipo.setText( talleres.get(i).getTipo());
 
     }
