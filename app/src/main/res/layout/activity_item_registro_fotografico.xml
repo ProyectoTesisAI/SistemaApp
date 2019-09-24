@@ -5,11 +5,11 @@
         android:layout_height="wrap_content">
 
     <ImageView
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
             android:id="@+id/imgRegistroFotografico"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:text="Large Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:layout_centerHorizontal="true"/>
 </RelativeLayout>

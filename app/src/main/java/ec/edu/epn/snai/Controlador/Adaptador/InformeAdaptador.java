@@ -42,8 +42,13 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
         //Seteo los valores en los diferentes controles
         viewHolder.txtTema.setText(informes.get(i).getIdTaller().getTema());
         viewHolder.txtNumeroTaller.setText(informes.get(i).getIdTaller().getNumeroTaller().toString());
-        String fecha = simpleDateFormat.format(informes.get(i).getIdTaller().getFecha());
-        viewHolder.txtFecha.setText(fecha.toString());
+
+        if(informes.get(i).getIdTaller().getFecha() != null){
+
+            String fecha = simpleDateFormat.format(informes.get(i).getIdTaller().getFecha());
+            viewHolder.txtFecha.setText(fecha.toString());
+        }
+
         viewHolder.txtTipo.setText(informes.get(i).getIdTaller().getTipo());
     }
 

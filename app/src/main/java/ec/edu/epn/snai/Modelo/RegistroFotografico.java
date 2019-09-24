@@ -9,10 +9,10 @@ import java.io.Serializable;
 public class RegistroFotografico implements Serializable {
 
     private Integer idRegistroFotografico;
-    private byte[] imagen;
+    private String imagenAux;
     private Informe idInforme;
     private Bitmap foto;
-    
+
     public RegistroFotografico() {
     }
 
@@ -24,18 +24,12 @@ public class RegistroFotografico implements Serializable {
         this.idRegistroFotografico = idRegistroFotografico;
     }
 
-    public byte[] getImagen() {
-        return imagen;
+    public String getImagenAux() {
+        return imagenAux;
     }
 
-    public void setImagen(byte[] imagen) {
-        this.imagen=imagen;
-        try{
-            byte[] byteDatos = Base64.decode(imagen, Base64.DEFAULT);
-            this.foto= BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public void setImagenAux(String imagenAux) {
+        this.imagenAux = imagenAux;
     }
 
     public Informe getIdInforme() {
@@ -48,5 +42,9 @@ public class RegistroFotografico implements Serializable {
 
     public Bitmap getFoto() {
         return foto;
+    }
+
+    public void setFoto(Bitmap foto) {
+        this.foto = foto;
     }
 }
