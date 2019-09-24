@@ -1,7 +1,9 @@
 package ec.edu.epn.snai.Controlador.Adaptador;
 
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ public class RegistroFotograficoAdaptador extends RecyclerView.Adapter<RegistroF
     @Override
     public void onBindViewHolder(@NonNull RegistroFotograficoViewHolder viewHolder, int i) {
 
+        byte[] byteDatos = Base64.decode(fotografias.get(i).getImagenAux(), Base64.DEFAULT);
+        fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length));
         //Seteo los valores en los diferentes controles
         viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
     }

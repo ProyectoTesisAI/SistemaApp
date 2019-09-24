@@ -59,13 +59,24 @@ class VerEditarInformeFragment : Fragment(){
 
         rootView.tvTemaTallerFr?.text = informeSeleccionado.idTaller.tema
         rootView.tvNumeroInformeFr?.text= informeSeleccionado.idTaller.numeroTaller.toString()
-        val fecha = simpleDateFormat.format(informeSeleccionado.idTaller.fecha)
-        rootView.tvFechaTallerFr?.text=fecha
-        val horaInicio = simpleHourFormat.format(informeSeleccionado.idTaller.horaInicio)
-        rootView.tvHoraInicioTallerFr?.text= horaInicio
+
+        if( informeSeleccionado.idTaller.fecha != null){
+            val fecha = simpleDateFormat.format(informeSeleccionado.idTaller.fecha)
+            rootView.tvFechaTallerFr?.text=fecha
+        }
+
+        if(informeSeleccionado.idTaller.horaInicio != null){
+            val horaInicio = simpleHourFormat.format(informeSeleccionado.idTaller.horaInicio)
+            rootView.tvHoraInicioTallerFr?.text= horaInicio
+        }
+
         val horaFinObtener = obtenerHoraFin(itemsTaller as ArrayList<ItemTaller>)
-        val horaFin=simpleHourFormat.format(horaFinObtener)
-        rootView.tvHoraFinTallerFr?.text=horaFin
+
+        if(horaFinObtener != null){
+            val horaFin=simpleHourFormat.format(horaFinObtener)
+            rootView.tvHoraFinTallerFr?.text=horaFin
+        }
+
         rootView.tvNumeroParticipantesTallerFr?.text=informeSeleccionado.numeroAdolescentes.toString()
         rootView.etAntecendentesInformeFr?.setText(informeSeleccionado.adolescentesJustificacion)
         rootView.tvObjetivoTallerFr?.setText(informeSeleccionado.idTaller.objetivo)

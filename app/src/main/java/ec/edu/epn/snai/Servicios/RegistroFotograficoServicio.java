@@ -12,7 +12,7 @@ public interface RegistroFotograficoServicio {
     @PUT("Registro_Fotografico")
     Call<RegistroFotografico> guardarRegistroFotografico(@Body RegistroFotografico registro, @Header("Authorization") String token);
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("Registro_Fotografico/Informe/{id}")
+    @Headers({ "Content-Type: application/octet-stream;charset=UTF-8"})
+    @GET("Registro_Fotografico/Informe/Movil/{id}")
     Call<List<RegistroFotografico>> obtenerRegistroFotograficoPorInforme(@Path("id") String id, @Header("Authorization") String token);
 }
