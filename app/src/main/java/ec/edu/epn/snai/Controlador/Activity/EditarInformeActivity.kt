@@ -1,12 +1,12 @@
 package ec.edu.epn.snai.Controlador.Activity
 
-import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.InformePagerAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
@@ -17,7 +17,7 @@ import ec.edu.epn.snai.Servicios.TallerServicio
 import kotlinx.android.synthetic.main.activity_ver_editar_informe.*
 import java.util.ArrayList
 
-class VerEditarInformeActivity : AppCompatActivity() {
+class EditarInformeActivity : AppCompatActivity() {
 
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
@@ -36,6 +36,9 @@ class VerEditarInformeActivity : AppCompatActivity() {
         val i = intent
         this.informeSeleccionado= i.getSerializableExtra("informeSeleccionado") as Informe
         this.token = i.getSerializableExtra("token") as String
+        this.listaFotos=i.getSerializableExtra("listaFotos") as ArrayList<RegistroFotografico>
+        this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
+        this.listaRegistroAsistencia = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
 
         asynTaskObtenerListadoFotografico()
         asynTaskObtenerListadoRegistroAsistencia()
@@ -52,34 +55,11 @@ class VerEditarInformeActivity : AppCompatActivity() {
         menuAux=menu
         menuInflater.inflate(R.menu.menu_gestion, menu)
 
-        menu.findItem(R.id.menu_editar).isVisible = true
+        menu.findItem(R.id.menu_editar).isVisible = false
         menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=false
+        menu.findItem(R.id.menu_guardar).isVisible=true
         return true
 
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
-        when(item?.itemId){
-
-            R.id.menu_editar->{
-
-                val intent = Intent(applicationContext, EditarRegistroAsistenciaActivity::class.java)
-                intent.putExtra("token",token)
-                intent.putExtra("informeSeleccionado", informeSeleccionado)
-                intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
-                intent.putExtra("listaAsistencia", ArrayList(listaRegistroAsistencia))
-                intent.putExtra("listaFotos",ArrayList(listaFotos))
-                startActivity(intent)
-
-            }
-            else->{
-                finish()
-            }
-        }
-        return true
     }
 
     private fun asynTaskObtenerListadoFotografico(){
@@ -213,4 +193,5 @@ class VerEditarInformeActivity : AppCompatActivity() {
             return null
         }
     }
+
 }

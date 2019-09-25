@@ -98,5 +98,19 @@ public class Usuario implements Serializable {
         this.idRolUsuarioCentro = idRolUsuarioCentro;
     }
 
-      
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUsuario=" + idUsuario +
+                ", nombres='" + nombres + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", cedula='" + cedula + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", usuario='" + usuario + '\'' +
+                ", contraseña='" + contraseña + '\'' +
+                ", activo=" + activo +
+                ", token='" + token + '\'' +
+                ", idRolUsuarioCentro=" + idRolUsuarioCentro +
+                '}';
+    }
 }

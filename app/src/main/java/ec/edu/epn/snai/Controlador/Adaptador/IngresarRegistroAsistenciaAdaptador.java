@@ -29,7 +29,7 @@ public class IngresarRegistroAsistenciaAdaptador extends RecyclerView.Adapter<In
     @NonNull
     @Override
     public IngresarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_registro_asistencia,viewGroup,false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_editar_registro_asistencia,viewGroup,false);
         RegistroAsistenciaViewHolder holder= new RegistroAsistenciaViewHolder(view);
         return holder;
     }
@@ -70,11 +70,11 @@ public class IngresarRegistroAsistenciaAdaptador extends RecyclerView.Adapter<In
 
         public RegistroAsistenciaViewHolder(View itemView){
             super(itemView);
-            txtNombres=itemView.findViewById(R.id.txtNombresAI);
-            txtApellidos=itemView.findViewById(R.id.txtApellidosAI);
-            txtCedula=itemView.findViewById(R.id.txtCedulaAI);
-            txtDocumento=itemView.findViewById(R.id.txtDocumentoAI);
-            cbxAsistio=itemView.findViewById(R.id.cbxAdolescenteSeleccionado);
+            txtNombres=itemView.findViewById(R.id.txtNombresAIEditar);
+            txtApellidos=itemView.findViewById(R.id.txtApellidosAIEditar);
+            txtCedula=itemView.findViewById(R.id.txtCedulaAIEditar);
+            txtDocumento=itemView.findViewById(R.id.txtDocumentoAIEditar);
+            cbxAsistio=itemView.findViewById(R.id.cbxAdolescenteSeleccionadoEditar);
         }
 
     }

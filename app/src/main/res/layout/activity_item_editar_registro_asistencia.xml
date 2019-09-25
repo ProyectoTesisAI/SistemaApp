@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/txtApellidosAI"
+            android:id="@+id/txtApellidosAIEditar"
             android:textSize="13sp"
             android:text="Apellidos"/>
 
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/txtNombresAI"
+            android:id="@+id/txtNombresAIEditar"
             android:textSize="13sp"
             android:text="Nombres"/>
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/txtCedulaAI"
+            android:id="@+id/txtCedulaAIEditar"
             android:text="@string/txt_cedula"
             android:textSize="14sp"/>
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:id="@+id/txtDocumentoAI"
+            android:id="@+id/txtDocumentoAIEditar"
             android:text="@string/txt_documento"
             android:textSize="14sp"/>
 
@@ -53,8 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:id="@+id/cbxAdolescenteSeleccionado"
-                android:enabled="false"/>
+                android:id="@+id/cbxAdolescenteSeleccionadoEditar"/>
     </RelativeLayout>
 
 

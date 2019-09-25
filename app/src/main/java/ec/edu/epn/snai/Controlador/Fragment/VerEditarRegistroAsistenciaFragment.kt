@@ -20,45 +20,31 @@ import retrofit2.Response
 
 class VerEditarRegistroAsistenciaFragment: Fragment(){
 
-    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
-
     private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
+    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
+
+    private var adaptadorRegistroAsistencia:RegistroAsistenciaAdaptador?=null
+    private lateinit var recyclerViewItemsRegistroAsistencia: RecyclerView
+
+    private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(arguments!=null){
             informeSeleccionado = arguments?.getSerializable("informeSeleccionado") as Informe
             token=arguments?.getSerializable("token") as String
+            listaAdolescentesInfractores=arguments?.getSerializable("listaAsistencia") as ArrayList<AsistenciaAdolescente>
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView=inflater.inflate(R.layout.fragment_ver_registro_asistencia,container,false)
-        /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+        rootView=inflater.inflate(R.layout.fragment_ver_registro_asistencia,container,false)
 
-        if(informeSeleccionado.idTaller!=null ){
-            val call = servicio.listaAdolescentesInfractoresPorTaller(informeSeleccionado.idTaller,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AsistenciaAdolescente>> {
-                override fun onResponse(call: Call<List<AsistenciaAdolescente>>, response: Response<List<AsistenciaAdolescente>>) {
-                    if (response.isSuccessful) {
-                        listaAdolescentesInfractores = response.body()
-
-                        if(listaAdolescentesInfractores!=null){
-                            var recyclerViewRegistroAsistencia=rootView.findViewById(R.id.rv_registro_asistencia) as RecyclerView
-                            var adaptador = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
-                            recyclerViewRegistroAsistencia.adapter=adaptador
-                            recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context,LinearLayout.VERTICAL,false)
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<List<AsistenciaAdolescente>>, t: Throwable) {
-                    call.cancel()
-                }
-            })
-        }
+        adaptadorRegistroAsistencia = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
+        recyclerViewItemsRegistroAsistencia=rootView.findViewById(R.id.rv_registro_asistencia) as RecyclerView
+        recyclerViewItemsRegistroAsistencia.adapter=adaptadorRegistroAsistencia
+        recyclerViewItemsRegistroAsistencia.layoutManager = LinearLayoutManager(context,LinearLayout.VERTICAL,false)
         return rootView
     }
 

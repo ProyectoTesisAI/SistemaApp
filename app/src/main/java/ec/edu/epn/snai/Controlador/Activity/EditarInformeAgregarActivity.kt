@@ -8,16 +8,13 @@ import android.view.MenuItem
 import ec.edu.epn.snai.R
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.widget.*
-import ec.edu.epn.snai.Controlador.Adaptador.InformeAdaptador
 import ec.edu.epn.snai.Controlador.Adaptador.ItemInformeAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
-import kotlinx.android.synthetic.main.activity_agregar_taller.*
+import kotlinx.android.synthetic.main.activity_agregar_informe.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +23,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class InformeAgregarActivity : AppCompatActivity(){
+class EditarInformeAgregarActivity : AppCompatActivity(){
 
     private var txtTemaTaller: TextView?=null
     private var txtNumeroTaller: TextView?=null
@@ -43,11 +40,16 @@ class InformeAgregarActivity : AppCompatActivity(){
     private var txtRecomendaciones: TextView? = null
     private var txtObservaciones: TextView? = null
 
+    private var numeroParticipantes=0
+
     private var duracion:Int = 0
 
     private lateinit var fabAgregarFotograficas:FloatingActionButton
 
-    private lateinit var tallerActual: Taller
+    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
+    //private var listaFotos: List<RegistroFotografico>?=null
+    private var listaActividadesTaller: List<ItemTaller>?=null
+    private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
 
     private var adaptadorItemInforme: ItemInformeAdaptador?=null
@@ -66,16 +68,30 @@ class InformeAgregarActivity : AppCompatActivity(){
         setContentView(R.layout.activity_agregar_informe)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás}
 
-        token = intent.getSerializableExtra("token") as String
-        tallerActual = intent.getSerializableExtra("tallerActual") as Taller
+        val i=intent
+        this.informeSeleccionado = i.getSerializableExtra("informeSeleccionado") as Informe
+        this.token = i.getSerializableExtra("token") as String
+        //this.listaFotos=i.getSerializableExtra("listaFotos") as ArrayList<RegistroFotografico>
+        this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
+        this.listaAdolescentesInfractores = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
+        this.numeroParticipantes=obtenerCantidadParticipantes()
 
         itemsTaller = ArrayList<ItemTaller>()
-        obtenerItems()
+        itemsTaller=listaActividadesTaller
+        graficarValores()
+        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
+        recyclerViewItemsInforme= findViewById<RecyclerView>(R.id.rv_items_informe)
+        recyclerViewItemsInforme.adapter=adaptadorItemInforme
+        recyclerViewItemsInforme.layoutManager=LinearLayoutManager(applicationContext,LinearLayoutManager.VERTICAL,false)
+
         fabAgregarFotograficas=findViewById(R.id.fab_agregar_fotograficas_informe)
         fabAgregarFotograficas.setOnClickListener {
-            val intent = Intent(this@InformeAgregarActivity, VerRegistroAsistenciaActivity::class.java)
-            intent.putExtra("tallerActual", tallerActual)
-            intent.putExtra("token", token)
+            val intent = Intent(this@EditarInformeAgregarActivity, EditarRegistroFotograficoActivity::class.java)
+            intent.putExtra("token",token)
+            intent.putExtra("informeSeleccionado", obtenerVariablesInforme())
+            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
+            intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
+            //intent.putExtra("listaFotos", java.util.ArrayList(listaFotos))
             startActivity(intent)
         }
 
@@ -86,7 +102,7 @@ class InformeAgregarActivity : AppCompatActivity(){
 
         menu.findItem(R.id.menu_editar).isVisible = false
         menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=true
+        menu.findItem(R.id.menu_guardar).isVisible=false
         return true
     }
 
@@ -120,70 +136,40 @@ class InformeAgregarActivity : AppCompatActivity(){
         txtRecomendaciones= findViewById<EditText>(R.id.etRecomendacionesInforme)
         txtObservaciones= findViewById<EditText>(R.id.etObservacionesInforme)
 
-        txtTemaTaller?.text= tallerActual.tema
-        txtNumeroTaller?.text= tallerActual.numeroTaller.toString()
-        val fecha = simpleDateFormat.format(tallerActual.fecha)
+        txtTemaTaller?.text= informeSeleccionado.idTaller.tema
+        txtNumeroTaller?.text= informeSeleccionado.idTaller.numeroTaller.toString()
+        val fecha = simpleDateFormat.format(informeSeleccionado.fecha)
         txtFecha?.text=fecha
-        val horaInicio = simpleHourFormat.format(tallerActual.horaInicio)
+        val horaInicio = simpleHourFormat.format(informeSeleccionado.horaInicio)
         txtHoraInicioTaller?.text= horaInicio
         val horaFinObtener = obtenerHoraFin(itemsTaller as ArrayList<ItemTaller>)
         val horaFin=simpleHourFormat.format(horaFinObtener)
         txtHoraFinTaller?.text=horaFin
-        //txtNumeroAdolescentesParticipantesInforme?.text=informe?.numeroAdolescentes.toString()
-        txtObjetivoGeneralTaller?.text=tallerActual?.objetivo
-        /*txtDesarrolloInforme?.text=informe?.socializacionDesarrollo
-        txtObjetivosEspecificos?.text=informe?.socializacionObjetivos
-        txtCierreEvaluacion?.text=informe?.cierreEvaluacion
-        txtConclusiones?.text=informe?.conclusiones
-        txtRecomendaciones?.text=informe?.recomendaciones
-        txtObservaciones?.text=informe?.observaciones*/
-    }
-
-    fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
-        var adaptadorItemInforme = ItemInformeAdaptador(listaItemsTaller)
-        var recyclerViewItemTaller = findViewById<RecyclerView>(R.id.rv_items_informe)
-        recyclerViewItemTaller.adapter=adaptadorItemInforme
-        recyclerViewItemTaller.layoutManager=LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
-
+        //txtNumeroAdolescentesParticipantesInforme?.text=informeSeleccionado?.numeroAdolescentes.toString()
+        txtNumeroAdolescentesParticipantesInforme?.text=numeroParticipantes.toString()
+        txtObjetivoGeneralTaller?.text=informeSeleccionado?.idTaller.objetivo
+        txtAntecedentesInforme?.text=informeSeleccionado?.adolescentesJustificacion
+        txtDesarrolloInforme?.text=informeSeleccionado?.socializacionDesarrollo
+        txtObjetivosEspecificos?.text=informeSeleccionado?.socializacionObjetivos
+        txtCierreEvaluacion?.text=informeSeleccionado?.cierreEvaluacion
+        txtConclusiones?.text=informeSeleccionado?.conclusiones
+        txtRecomendaciones?.text=informeSeleccionado?.recomendaciones
+        txtObservaciones?.text=informeSeleccionado?.observaciones
     }
 
     fun obtenerHoraFin(items:List<ItemTaller>):Date? {
         var horaFin:Date?=null
         var duracionFinal:Int?=0
         duracionFinal=obtenerDuracionTaller(items) as Int
-        if(tallerActual.horaInicio!=null){
+        if(informeSeleccionado.horaInicio!=null){
             duracionFinal=obtenerDuracionTaller(items)
             val horaAux = Calendar.getInstance()
-            horaAux.time = tallerActual.horaInicio
+            horaAux.time = informeSeleccionado.horaInicio
             horaAux.add(Calendar.MINUTE, duracionFinal as Int)
             horaFin=horaAux.time
             println(horaFin)
         }
         return horaFin
-    }
-
-    fun obtenerItems(){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-
-        if(tallerActual!=null ){
-            val call = servicio.listarItemsPorTaller(tallerActual.idTaller.toString(),"Bearer "+ token)
-            call.enqueue(object : Callback<List<ItemTaller>> {
-                override fun onFailure(call: Call<List<ItemTaller>>, t: Throwable) {
-                    call.cancel()
-                }
-
-                override fun onResponse(call: Call<List<ItemTaller>>, response: Response<List<ItemTaller>>) {
-                    if (response.isSuccessful) {
-                        itemsTaller = response.body()
-                        graficarValores()
-                        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
-                        recyclerViewItemsInforme= findViewById<RecyclerView>(R.id.rv_items_informe)
-                        recyclerViewItemsInforme.adapter=adaptadorItemInforme
-                        recyclerViewItemsInforme.layoutManager=LinearLayoutManager(applicationContext,LinearLayoutManager.VERTICAL,false)
-                    }
-                }
-            })
-        }
     }
 
     fun obtenerDuracionTaller(items:List<ItemTaller>):Int{
@@ -194,6 +180,38 @@ class InformeAgregarActivity : AppCompatActivity(){
             }
         }
         return dura
+    }
+
+    fun obtenerCantidadParticipantes():Int{
+        var cantidad=0
+        if(!listaAdolescentesInfractores.isNullOrEmpty()){
+            listaAdolescentesInfractores!!.forEach{
+                if(it.asistio==true){
+                    cantidad++
+                }
+            }
+        }
+        return cantidad
+    }
+
+    fun obtenerVariablesInforme():Informe?{
+        if(informeSeleccionado!=null){
+            val informeAux = informeSeleccionado
+
+            informeAux.numeroAdolescentes=numeroParticipantes
+            informeAux.objetivoGeneral=tvObjetivoTaller?.text.toString()
+            informeAux.adolescentesJustificacion= etAntecendentesInforme?.text.toString()
+            informeAux.socializacionDesarrollo= etDesarrolloInforme?.text.toString()
+            informeAux.socializacionObjetivos= etObjetivosEspecificosInforme?.text.toString()
+            informeAux.cierreEvaluacion= etCierreInforme?.text.toString()
+            informeAux.conclusiones= etConclusionesInforme?.text.toString()
+            informeAux.recomendaciones= etRecomendacionesInforme?.text.toString()
+            informeAux.observaciones= etObservacionesInforme?.text.toString()
+
+            return informeAux
+        }else{
+            return null
+        }
     }
 }
 

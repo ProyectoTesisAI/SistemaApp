@@ -11,7 +11,7 @@ public class RegistroFotografico implements Serializable {
     private Integer idRegistroFotografico;
     private String imagenAux;
     private Informe idInforme;
-    private Bitmap foto;
+    private transient Bitmap foto;
 
     public RegistroFotografico() {
     }

@@ -7,18 +7,37 @@ import android.support.v4.app.FragmentPagerAdapter
 import ec.edu.epn.snai.Controlador.Fragment.VerEditarFotografiasFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerEditarInformeFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerEditarRegistroAsistenciaFragment
-import ec.edu.epn.snai.Controlador.Fragment.VerTallerFragment
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Informe
+import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.RegistroFotografico
 import java.util.ArrayList
 
-class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe, listaFotografias:  List<RegistroFotografico>) : FragmentPagerAdapter(fm) {
+class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe, listaFotografias:  List<RegistroFotografico>, listaItemsActividades: List<ItemTaller>, listaAsistencia: List<AsistenciaAdolescente>) : FragmentPagerAdapter(fm) {
 
     val token=tokenAux
     val informe= informeAux
     val listaFotografias=listaFotografias
+    val listaActividades=listaItemsActividades
+    val listaAsistencia=listaAsistencia
 
-    private fun obtenerBundle() : Bundle{
+    private fun obtenerInformeBundle() : Bundle{
+        var bundle = Bundle()
+        bundle.putSerializable("token", token)
+        bundle.putSerializable("informeSeleccionado", informe)
+        bundle.putSerializable("listaActividades", ArrayList(listaActividades))
+        return  bundle
+    }
+
+    private fun obtenerRegistroAsistenciaBundle() : Bundle{
+        var bundle = Bundle()
+        bundle.putSerializable("token", token)
+        bundle.putSerializable("informeSeleccionado", informe)
+        bundle.putSerializable("listaAsistencia", ArrayList(listaAsistencia))
+        return  bundle
+    }
+
+    private fun obtenerListaFotograficasBundle() : Bundle{
         var bundle = Bundle()
         bundle.putSerializable("token", token)
         bundle.putSerializable("informeSeleccionado", informe)
@@ -33,15 +52,15 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
 
             0->{
                 fragmentAux= VerEditarRegistroAsistenciaFragment()
-                fragmentAux.arguments=obtenerBundle()
+                fragmentAux.arguments=obtenerRegistroAsistenciaBundle()
             }
             1->{
                 fragmentAux= VerEditarInformeFragment()
-                fragmentAux.arguments=obtenerBundle()
+                fragmentAux.arguments=obtenerInformeBundle()
             }
             2->{
                 fragmentAux= VerEditarFotografiasFragment()
-                fragmentAux.arguments=obtenerBundle()
+                fragmentAux.arguments=obtenerListaFotograficasBundle()
             }
 
         }
