@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_ver_taller.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -30,7 +31,7 @@ class VerTallerFragment : Fragment(){
         if(arguments!=null){
             token=arguments?.getSerializable("token") as String
             taller=arguments?.getSerializable("taller_seleccionado") as Taller
-            itemsTaller=arguments?.getSerializable("items_taller_seleccionado") as ArrayList<ItemTaller>
+            itemsTaller=arguments?.getSerializable("items_taller_seleccionado") as ArrayList<ItemTaller>?
         }
 
     }
@@ -63,46 +64,27 @@ class VerTallerFragment : Fragment(){
 
     private fun asignarItemsTaller(rootView: View){
 
-        val adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
-        val recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_taller)
-        recyclerViewItemsInforme.adapter=adaptadorItemInforme
-        recyclerViewItemsInforme.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        if(itemsTaller != null){
+            val adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
+            val recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_taller)
+            recyclerViewItemsInforme.adapter=adaptadorItemInforme
+            recyclerViewItemsInforme.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        }
+
     }
 
     private fun formatearFecha(fecha: Date): String {
-        val dia = fecha.day
-        val mes = fecha.month
-        var anio = fecha.year
 
-        var diaString = dia.toString()
-        if (dia < 10) {
-            diaString = String.format("0$dia")
-        }
-
-        var mesString = dia.toString()
-        if (mes < 10) {
-            mesString = String.format("0$mes")
-        }
-        anio = anio + 1900
-        val anioString = anio.toString()
-
-        return "$diaString/$mesString/$anioString"
+        val pattern = "dd/MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        return simpleDateFormat.format(fecha)
     }
 
     private fun formatearHora(horaInicio: Date): String {
-        val hora = horaInicio.hours
-        val minuto = horaInicio.minutes
 
-        var hora_string = hora.toString()
-        if (hora < 10) {
-            hora_string = String.format("0$hora")
-        }
-
-        var minuto_string = minuto.toString()
-        if (minuto < 10) {
-            minuto_string = String.format("0$minuto")
-        }
-        return "$hora_string:$minuto_string"
+        val patternHour = "HH:mm"
+        val simpleHourFormat = SimpleDateFormat(patternHour)
+        return simpleHourFormat.format(horaInicio)
     }
 
     private fun obtenerTipoCentro():CharSequence {

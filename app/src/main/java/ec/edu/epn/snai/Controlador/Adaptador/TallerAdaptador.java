@@ -9,6 +9,7 @@ import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.Taller;
 import ec.edu.epn.snai.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,23 +81,9 @@ public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.Taller
     }
 
     private String fomatearFecha(Date fecha){
-        int dia=fecha.getDay();
-        int mes=fecha.getMonth();
-        int año=fecha.getYear();
 
-        String dia_string=String.valueOf(dia);
-        if(dia<10){
-            dia_string=String.format("0"+dia);
-        }
-
-        String mes_string=String.valueOf(dia);
-        if(mes<10){
-            mes_string=String.format("0"+mes);
-        }
-        año=año+1900;
-        String año_String=String.valueOf(año);
-
-        String fechaAux=dia_string+"/"+mes_string+"/"+año_String;
-        return  fechaAux;
+        String  pattern = "dd/MM/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(fecha);
     }
 }

@@ -30,5 +30,4 @@ public interface TallerServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PUT("Taller")
     Call<Taller> editarTaller(@Body Taller taller,@Header("Authorization") String token);
-
 }

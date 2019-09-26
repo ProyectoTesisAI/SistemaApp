@@ -1,11 +1,19 @@
 package ec.edu.epn.snai.Modelo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 
 public class UDI implements Serializable {
 
+    @SerializedName("idUdi")
+    @Expose
     private Integer idUdi;
+
+    @SerializedName("udi")
+    @Expose
     private String udi;
     
     public UDI() {

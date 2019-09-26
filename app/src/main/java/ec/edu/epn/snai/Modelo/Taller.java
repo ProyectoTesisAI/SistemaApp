@@ -1,20 +1,59 @@
 package ec.edu.epn.snai.Modelo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class Taller implements Serializable {
+
+    @SerializedName("idTaller")
+    @Expose
     private Integer idTaller;
+
+    @SerializedName("tema")
+    @Expose
     private String tema;
+
+    @SerializedName("numeroTaller")
+    @Expose
     private Integer numeroTaller;
+
+    @SerializedName("fecha")
+    @Expose
     private Date fecha;
+
+    @SerializedName("horaInicio")
+    @Expose
     private Date horaInicio;
+
+    @SerializedName("objetivo")
+    @Expose
     private String objetivo;
+
+    @SerializedName("numeroTotalParticipantes")
+    @Expose
     private Integer numeroTotalParticipantes;
+
+    @SerializedName("recomendaciones")
+    @Expose
     private String recomendaciones;
+
+    @SerializedName("tipo")
+    @Expose
     private String tipo;
+
+    @SerializedName("idCai")
+    @Expose
     private CAI idCai;
+
+    @SerializedName("idUdi")
+    @Expose
     private UDI idUdi;
+
+    @SerializedName("idUsuario")
+    @Expose
     private Usuario idUsuario;
 
     public Taller() {

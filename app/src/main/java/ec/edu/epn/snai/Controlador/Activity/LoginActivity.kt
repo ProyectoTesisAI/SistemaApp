@@ -45,8 +45,8 @@ class LoginActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            user?.usuario = "tatiana.mayorga02"//txtUsuario
-            user?.contraseña = cifrarPassword("SuJ[w[9Xac") //txtPassword
+            user?.usuario = "tatiana.mayorga02"//txtUsuario //tatiana.mayorga02
+            user?.contraseña = cifrarPassword("SuJ[w[9Xac") //txtPassword //SuJ[w[9Xac
 
             val servicio_login = ClienteApiRest.getRetrofitInstance().create(UsuarioServicio::class.java)
             val call = servicio_login.login(user)

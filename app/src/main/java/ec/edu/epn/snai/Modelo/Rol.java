@@ -5,11 +5,19 @@
  */
 package ec.edu.epn.snai.Modelo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Rol implements Serializable {
 
+    @SerializedName("idRol")
+    @Expose
     private Integer idRol;
+
+    @SerializedName("rol")
+    @Expose
     private String rol;
     
     public Rol() {
