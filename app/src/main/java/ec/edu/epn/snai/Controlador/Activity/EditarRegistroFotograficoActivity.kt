@@ -1,33 +1,45 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.app.Activity
+import android.content.ContentResolver
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.RegistroFotograficoServicio
+import java.io.ByteArrayOutputStream
 
 class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
-    private var listaFotografias: List<RegistroFotografico>? = null
+    private var listaFotografias: MutableList<RegistroFotografico>? = null
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
     private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
     private var listaActividadesTaller: List<ItemTaller>?=null
+
+    private lateinit var btnAgregarImagen: Button
 
     private lateinit var menuAux: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_fotografias)
+        //setContentView(R.layout.activity_item_editar_registro_fotografico)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i = intent
@@ -43,12 +55,16 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             mostrarListadoAsistencia()
         }
 
+        btnAgregarImagen=findViewById(R.id.btn_agregar_imagenes) as Button
+        btnAgregarImagen.setOnClickListener {
+            cargarImagen()
+        }
     }
 
     fun mostrarListadoAsistencia() {
 
         var recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-        var adaptador = RegistroFotograficoAdaptador(listaFotografias)
+        var adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
         recyclerViewRegistroFotografico.adapter = adaptador
         recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
     }
@@ -87,19 +103,19 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoFotografico(){
 
-        val task = object : AsyncTask<Unit, Unit, List<RegistroFotografico>>(){
+        val task = object : AsyncTask<Unit, Unit, MutableList<RegistroFotografico>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<RegistroFotografico> {
+            override fun doInBackground(vararg p0: Unit?): MutableList<RegistroFotografico>? {
                 val listadoFotografias=obtenerRegistroFotografico()
-                return listadoFotografias!!
+                return listadoFotografias
             }
 
         }
         listaFotografias= task.execute().get()
     }
 
-    private fun obtenerRegistroFotografico(): List<RegistroFotografico>?{
+    private fun obtenerRegistroFotografico(): MutableList<RegistroFotografico>?{
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
         val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(),"Bearer "+ token)
 
@@ -125,5 +141,35 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             return  null
         }
 
+    }
+
+    fun cargarImagen(){
+        var intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.setType("image/")
+        startActivityForResult(Intent.createChooser(intent,"Selecciona una imagen"),10)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode== Activity.RESULT_OK){
+            var output : Uri?= data?.data
+            var cr : ContentResolver
+            cr=this.contentResolver
+            var bitmap : Bitmap?=null
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr,output)
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG,0,stream)
+            val byteArray = stream.toByteArray()
+            var encode : String?=null
+            encode= Base64.encodeToString(byteArray, Base64.DEFAULT)
+            var fotoAux : RegistroFotografico
+            fotoAux= RegistroFotografico()
+            fotoAux?.imagenAux=encode
+            fotoAux?.foto=bitmap
+            if (fotoAux != null) {
+                listaFotografias?.add(fotoAux)
+            }
+            mostrarListadoAsistencia()
+        }
     }
 }

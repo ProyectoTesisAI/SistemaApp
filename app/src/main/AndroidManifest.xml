@@ -3,6 +3,7 @@
           package="ec.edu.epn.snai">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
             android:allowBackup="true"
@@ -25,6 +26,7 @@
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"/>
         <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"/>
+        <activity android:name=".Controlador.Activity.AgregarImagenActivity"/>
       <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
                 android:screenOrientation="landscape"/>
         <activity
