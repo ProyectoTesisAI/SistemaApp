@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Servicios;
 
+import com.google.gson.*;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,13 +14,20 @@ public class ClienteApiRest {
 
         OkHttpClient okHttpClient = HttpCliente.permitirCertificadoAutofirmado();
 
+
+        Gson gson = new  GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00")
+                .setLenient().create();
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls().create()))
                     .build();
         }
         return retrofit;
     }
+
 }
