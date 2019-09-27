@@ -45,8 +45,8 @@ class LoginActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            user?.usuario = "tatiana.mayorga02"//txtUsuario //tatiana.mayorga02
-            user?.contraseña = cifrarPassword("SuJ[w[9Xac") //txtPassword //SuJ[w[9Xac
+            user.usuario = "oscar_espana"//txtUsuario //tatiana.mayorga02
+            user.contraseña = cifrarPassword("oscar_snai_2019") //txtPassword //SuJ[w[9Xac
 
             val servicio_login = ClienteApiRest.getRetrofitInstance().create(UsuarioServicio::class.java)
             val call = servicio_login.login(user)
@@ -64,10 +64,12 @@ class LoginActivity : AppCompatActivity(){
                         var usuario: Usuario?=response.body()
 
                         if(usuario!= null){
+
+                            val nombre: String="Bienvenido ${usuario.nombres} ${usuario.apellidos}"
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.putExtra("usuario", usuario)
                             startActivity(intent)
-                            Toast.makeText(applicationContext,response?.body().toString(),Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext, nombre,Toast.LENGTH_LONG).show()
                         }
                         else{
                             Toast.makeText(applicationContext, "Ha ingresado un Usuario o Contraseña Incorrectas", Toast.LENGTH_LONG).show()

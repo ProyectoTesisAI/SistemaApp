@@ -11,7 +11,7 @@
                     android:icon="@drawable/ic_menu_gallery"
                     android:title="@string/crear_taller_psicologia"/>
             <item
-                    android:id="@+id/nav_talleres_fragment"
+                    android:id="@+id/nav_gestion_taller_psicologia"
                     android:icon="@drawable/ic_menu_gallery"
                     android:title="@string/gestion_talleres_psicologo"/>
             <item
