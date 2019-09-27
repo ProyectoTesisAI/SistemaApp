@@ -1,9 +1,6 @@
 package ec.edu.epn.snai.Modelo;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
 import java.io.Serializable;
 
 public class RegistroFotografico implements Serializable {
@@ -11,7 +8,7 @@ public class RegistroFotografico implements Serializable {
     private Integer idRegistroFotografico;
     private String imagenAux;
     private Informe idInforme;
-    private Bitmap foto;
+    private transient Bitmap foto;
 
     public RegistroFotografico() {
     }

@@ -148,5 +148,24 @@ public class Informe implements Serializable {
         this.idTaller = idTaller;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Informe{" +
+                "idInforme=" + idInforme +
+                ", fecha=" + fecha +
+                ", horaInicio=" + horaInicio +
+                ", horaFin=" + horaFin +
+                ", numeroAdolescentes=" + numeroAdolescentes +
+                ", adolescentesJustificacion='" + adolescentesJustificacion + '\'' +
+                ", objetivoGeneral='" + objetivoGeneral + '\'' +
+                ", socializacionDesarrollo='" + socializacionDesarrollo + '\'' +
+                ", socializacionObjetivos='" + socializacionObjetivos + '\'' +
+                ", cierreEvaluacion='" + cierreEvaluacion + '\'' +
+                ", conclusiones='" + conclusiones + '\'' +
+                ", recomendaciones='" + recomendaciones + '\'' +
+                ", observaciones='" + observaciones + '\'' +
+                ", lugarSeccion='" + lugarSeccion + '\'' +
+                ", idTaller=" + idTaller +
+                '}';
+    }
 }

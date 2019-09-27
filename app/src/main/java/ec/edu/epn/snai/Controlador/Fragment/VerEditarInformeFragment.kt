@@ -25,9 +25,9 @@ class VerEditarInformeFragment : Fragment(){
 
     private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
+    private var itemsTaller: List<ItemTaller>?=null
 
     private var adaptadorItemInforme: ItemInformeAdaptador?=null
-    var itemsTaller: List<ItemTaller>?=null
     private lateinit var recyclerViewItemsInforme: RecyclerView
 
     val pattern = "dd/MM/yyyy"
@@ -44,14 +44,18 @@ class VerEditarInformeFragment : Fragment(){
         if(arguments!=null){
             token =arguments?.getSerializable("token") as String
             informeSeleccionado = arguments?.getSerializable("informeSeleccionado") as Informe
+            itemsTaller=arguments?.getSerializable("listaActividades") as ArrayList<ItemTaller>
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView=inflater.inflate(R.layout.fragment_ver_informe,container,false)
-
-
-        obtenerItems()
+        asignarVariablesTaller()
+        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
+        recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_informe_fr)
+        recyclerViewItemsInforme.adapter=adaptadorItemInforme
+        recyclerViewItemsInforme.layoutManager=
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         return rootView
     }
 
@@ -100,31 +104,6 @@ class VerEditarInformeFragment : Fragment(){
             horaFin=horaAux.time
         }
         return horaFin
-    }
-
-    fun obtenerItems(){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-
-        if(informeSeleccionado.idTaller!=null ){
-            val call = servicio.listarItemsPorTaller(informeSeleccionado.idTaller.idTaller.toString(),"Bearer "+ token)
-            call.enqueue(object : Callback<List<ItemTaller>> {
-                override fun onFailure(call: Call<List<ItemTaller>>, t: Throwable) {
-                    call.cancel()
-                }
-
-                override fun onResponse(call: Call<List<ItemTaller>>, response: Response<List<ItemTaller>>) {
-                    if (response.isSuccessful) {
-                        itemsTaller = response.body()
-                        asignarVariablesTaller()
-                        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
-                        recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_informe_fr)
-                        recyclerViewItemsInforme.adapter=adaptadorItemInforme
-                        recyclerViewItemsInforme.layoutManager=
-                            LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
-                    }
-                }
-            })
-        }
     }
 
     fun obtenerDuracionTaller(items:List<ItemTaller>):Int{

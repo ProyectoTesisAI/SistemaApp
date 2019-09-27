@@ -1,6 +1,5 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -12,17 +11,13 @@ import ec.edu.epn.snai.Controlador.Adaptador.RegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.RegistroFotografico
 import ec.edu.epn.snai.R
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.RegistroFotograficoServicio
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class VerEditarFotografiasFragment : Fragment(){
 
     private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
     private var listaFotografias: ArrayList<RegistroFotografico>?=null
+
     private var adaptadorItemRegistroFotografico: RegistroFotograficoAdaptador?=null
     private lateinit var recyclerViewItemsFotografias: RecyclerView
 

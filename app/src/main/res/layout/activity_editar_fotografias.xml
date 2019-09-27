@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" xmlns:tools="http://schemas.android.com/tools"
+              android:background="#ffff"
+              android:id="@+id/fragment_editar_imagenes_infome"
+              tools:context=".Controlador.Activity.AgregarImagenActivity"
+              android:orientation="vertical">
+    <TextView
+            android:paddingTop="12sp"
+            android:paddingBottom="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="17sp"
+            android:text="REGISTRO FOTOGRÁFICO"
+            android:gravity="center"/>
+
+    <Button android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Agregar"
+            android:id="@+id/btn_agregar_imagenes"/>
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imagenPrevia"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rv_editar_imagenes">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

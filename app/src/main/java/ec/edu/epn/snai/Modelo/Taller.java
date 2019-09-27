@@ -123,23 +123,37 @@ public class Taller implements Serializable {
         this.recomendaciones = recomendaciones;
     }
 
-    public String getTipo() { return tipo; }
+    public String getTipo() {
+        return tipo;
+    }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    public CAI getIdCai() { return idCai; }
+    public CAI getIdCai() {
+        return idCai;
+    }
 
-    public void setIdCai(CAI idCai) { this.idCai = idCai; }
+    public void setIdCai(CAI idCai) {
+        this.idCai = idCai;
+    }
 
-    public UDI getIdUdi() { return idUdi; }
+    public UDI getIdUdi() {
+        return idUdi;
+    }
 
-    public void setIdUdi(UDI idUdi) { this.idUdi = idUdi;}
+    public void setIdUdi(UDI idUdi) {
+        this.idUdi = idUdi;
+    }
 
-    public Usuario getIdUsuario() { return idUsuario; }
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
 
-    public void setIdUsuario(Usuario idUsuario) { this.idUsuario = idUsuario; }
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 
     @Override
     public String toString() {

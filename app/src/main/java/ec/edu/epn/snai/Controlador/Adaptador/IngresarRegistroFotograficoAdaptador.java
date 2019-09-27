@@ -8,39 +8,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.RegistroFotografico;
 import ec.edu.epn.snai.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistroFotografico, hecho en Java
-public class RegistroFotograficoAdaptador extends RecyclerView.Adapter<RegistroFotograficoAdaptador.RegistroFotograficoViewHolder>{
+public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<IngresarRegistroFotograficoAdaptador.RegistroFotograficoViewHolder>{
 
     private List<RegistroFotografico> fotografias = new ArrayList<>();
 
-    public RegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
+    public IngresarRegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
         this.fotografias = fotografias;
     }
 
     @NonNull
     @Override
     public RegistroFotograficoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_registro_fotografico,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_editar_registro_fotografico,viewGroup, false);
         RegistroFotograficoViewHolder holder= new RegistroFotograficoViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RegistroFotograficoViewHolder viewHolder, int i) {
-        if(fotografias!=null){
-            byte[] byteDatos = Base64.decode(fotografias.get(i).getImagenAux(), Base64.DEFAULT);
-            fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length));
-            //Seteo los valores en los diferentes controles
-            viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
-        }
+
+        byte[] byteDatos = Base64.decode(fotografias.get(i).getImagenAux(), Base64.DEFAULT);
+        fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length));
+        //Seteo los valores en los diferentes controles
+        viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
     }
 
     @Override
@@ -54,7 +51,7 @@ public class RegistroFotograficoAdaptador extends RecyclerView.Adapter<RegistroF
 
         public RegistroFotograficoViewHolder(View itemView){
             super(itemView);
-            imgImagen=itemView.findViewById(R.id.imgRegistroFotografico);
+            imgImagen=itemView.findViewById(R.id.imgRegistroFotograficoEditar);
         }
     }
 
