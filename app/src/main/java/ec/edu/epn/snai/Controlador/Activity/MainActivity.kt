@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -14,6 +15,7 @@ import ec.edu.epn.snai.Controlador.Fragment.InformesFragment
 import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
+import ec.edu.epn.snai.Utilidades.Constantes
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,9 +48,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (savedInstanceState == null) {
 
+                getSupportActionBar()?.setTitle("TALLERES SIN INFORME");
+
                 //Agrego en el bundle la variable token
                 var bundle = Bundle()
-                bundle.putSerializable("token", usuario?.token)
+                bundle.putSerializable("token", usuario.token)
+                bundle.putSerializable("usuario", usuario)
+
 
                 //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
                 val talleresFragment=TalleresFragment()
@@ -56,7 +62,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 supportFragmentManager.beginTransaction().
                     replace(R.id.frameLayout, talleresFragment).commit()
-                navView.setCheckedItem(R.id.nav_talleres_fragment)
+                navView.setCheckedItem(R.id.nav_gestion_taller_psicologia)
             }
         }
         else{
@@ -91,34 +97,58 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_talleres_fragment -> {
 
-                //Agrego en el bundle la variable token
-                var bundle = Bundle()
-                bundle.putSerializable("token", usuario?.token)
-
-                //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
-                val talleresFragment=TalleresFragment()
-                talleresFragment.arguments=bundle
-
-                cargarTalleresFragment(talleresFragment)
-            }
-            R.id.nav_informes_layout -> {
-                //Agrego en el bundle la variable token
-                var bundle = Bundle()
-                bundle.putSerializable("token", usuario?.token)
-
-                //Seteo el bundle en el argumento de InformesFragment, el cual contiene el token del usuario
-                val informesFragment=InformesFragment()
-                informesFragment.arguments=bundle
-                cargarInformesFragment(informesFragment)
-            }
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
+
+        when(item.itemId) {
+
+            R.id.nav_gestion_taller_psicologia -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_PSICOLOGIA, "TALLERES DE PSICOLOGÍA SIN INFORME")
+            }
+            R.id.nav_gestion_taller_juridico -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_JURIDICO, "TALLERES JURÍDICOS SIN INFORME")
+            }
+            R.id.nav_gestion_taller_inspector_educador -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "TALLERES DE INSPECTOR EDUCADOR SIN INFORME")
+            }
+            R.id.nav_informes_layout -> {
+                abrirInformeFragment()
+            }
+        }
+
         return true
+
+
+    }
+
+    private fun abrirTalleresFragment(tipoTallerSeleccionado:String, tituloToolbar: String){
+
+        getSupportActionBar()?.setTitle(tituloToolbar)
+        //Agrego en el bundle la variable token
+        val bundle = Bundle()
+        bundle.putSerializable("token", usuario.token)
+        bundle.putSerializable("usuario",usuario)
+        bundle.putSerializable("tipoTaller", tipoTallerSeleccionado)
+
+        //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
+        val talleresFragment=TalleresFragment()
+        talleresFragment.arguments=bundle
+
+        cargarTalleresFragment(talleresFragment)
+    }
+
+
+    private fun abrirInformeFragment(){
+        getSupportActionBar()?.setTitle("INFORMES")
+        //Agrego en el bundle la variable token
+        val bundle = Bundle()
+        bundle.putSerializable("token", usuario.token)
+
+        //Seteo el bundle en el argumento de InformesFragment, el cual contiene el token del usuario
+        val informesFragment=InformesFragment()
+        informesFragment.arguments=bundle
+        cargarInformesFragment(informesFragment)
     }
 
     private fun cargarTalleresFragment(fragment: TalleresFragment){

@@ -11,18 +11,16 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
+import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
-import ec.edu.epn.snai.Servicios.CaiServicio
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.TallerServicio
-import ec.edu.epn.snai.Servicios.UzdiServicio
+import ec.edu.epn.snai.Servicios.*
 import kotlinx.android.synthetic.main.activity_agregar_taller.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,6 +36,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
     var spCentro:Spinner?=null
 
     private var itemsTaller: ArrayList<ItemTaller> =ArrayList<ItemTaller>()
+    private var itemsTallerEliminados: ArrayList<ItemTaller> =ArrayList<ItemTaller>()
     private var listaUZDI: List<UDI>?=null
     private var listaCAI: List<CAI>?= null
     private lateinit var token:String
@@ -130,9 +129,29 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         when(item?.itemId){
             R.id.menu_guardar->{
 
-                //finish()
-                //
-                guardarTaller()
+                val tallerAux=guardarTaller()
+
+                if(tallerAux != null){
+                    editarItemsTaller(tallerAux)
+                    val registroAsistencia= guardarRegistroAsistencia(tallerAux)
+
+                    if(registroAsistencia != null){
+                        val listaAsistenciaAdolescente= generarRegistroAsistencia(tallerAux)
+                        guardarListadoRegistroAsistencia(registroAsistencia,listaAsistenciaAdolescente)
+                        val toast=Toast.makeText(applicationContext,"Se ha editado correctamente el Taller",Toast.LENGTH_LONG)
+                        toast.setGravity(Gravity.CENTER, 0, 0)
+                        toast.show()
+
+                        /*val intent = Intent(this@EditarTallerActivity, MainActivity::class.java)
+                        intent.putExtra("usuario", taller)
+                        startActivity(intent)*/
+
+                    }
+
+
+                }
+
+
             }
             else->{
                 finish()
@@ -328,7 +347,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             }
             else{
 
-                var actividadTaller= ItemTaller()
+                val actividadTaller= ItemTaller()
                 actividadTaller.actividad=etActividad?.text.toString()
                 actividadTaller.objetivoEspecifico=etObjetivo?.text.toString()
                 actividadTaller.materiales=etMateriales?.text.toString()
@@ -347,7 +366,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         val btnCancelar=view.findViewById<Button>(R.id.btnCancelar)
         btnCancelar.setOnClickListener {
-            dialogo.dismiss();
+            dialogo.dismiss()
         }
 
     }
@@ -447,6 +466,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             }
             else if(resultCode== Activity.RESULT_FIRST_USER){
 
+                itemsTallerEliminados.add(itemsTaller.get(posicionActividadSeleccionada))
                 itemsTaller.removeAt(posicionActividadSeleccionada)
 
                 mostrarListaItemsTaller(itemsTaller)
@@ -481,39 +501,15 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
     }
 
     private fun formatearFecha(fecha: Date): String {
-        val dia = fecha.day
-        val mes = fecha.month
-        var anio = fecha.year
-
-        var diaString = dia.toString()
-        if (dia < 10) {
-            diaString = String.format("0$dia")
-        }
-
-        var mesString = dia.toString()
-        if (mes < 10) {
-            mesString = String.format("0$mes")
-        }
-        anio = anio + 1900
-        val anioString = anio.toString()
-
-        return "$diaString/$mesString/$anioString"
+        val pattern = "dd/MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        return simpleDateFormat.format(fecha)
     }
 
     private fun formatearHora(horaInicio: Date): String {
-        val hora = horaInicio.hours
-        val minuto = horaInicio.minutes
-
-        var hora_string = hora.toString()
-        if (hora < 10) {
-            hora_string = String.format("0$hora")
-        }
-
-        var minuto_string = minuto.toString()
-        if (minuto < 10) {
-            minuto_string = String.format("0$minuto")
-        }
-        return "$hora_string:$minuto_string"
+        val patternHour = "HH:mm"
+        val simpleHourFormat = SimpleDateFormat(patternHour)
+        return simpleHourFormat.format(horaInicio)
     }
 
     private fun obtenerItemTipoCentro():Int {
@@ -530,7 +526,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         }
         return posicionItem
     }
-
 
     private fun obtenerItemUzdiCai(): Int{
 
@@ -561,40 +556,37 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         return posicionItem
     }
 
-    private fun guardarTaller(){
-
-        val tallerEditar= obtenerVariablesTaller()
-        if(tallerEditar!= null){
-
-            if(tallerEditar.numeroTotalParticipantes>0){
-                asynTaskEditarTaller(tallerEditar)
-            }
-            else{
-                Toast.makeText(applicationContext, "Error al guardar, debe seleccionar una Unidad Zonal o CAI con adolescentes infractores", Toast.LENGTH_LONG).show()
-            }
-        }
-
-    }
-
     private fun obtenerVariablesTaller(): Taller?{
 
         if(taller!= null){
             val tallerAux= taller
 
             tallerAux.tema=etTemaTallerCrear?.text.toString()
-            tallerAux.numeroTaller=etNumeroTallerCrear.text.toString().toInt()
 
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
-            var convertedDate: Date? = null
-            convertedDate = sdf.parse(etFechaTallerCrear.text.toString())
-            tallerAux.fecha=convertedDate
+            if(!etNumeroTallerCrear.text.toString().isBlank()){
+                tallerAux.numeroTaller=etNumeroTallerCrear.text.toString().toInt()
+            }
+            else{
+                tallerAux.numeroTaller=null
+            }
 
-            val sdfH = SimpleDateFormat("HH:mm")
-            var horaConvertida: Date?= null
-            horaConvertida=sdfH.parse(etHoraTallerCrear.text.toString())
-            tallerAux.horaInicio=horaConvertida
+            if(etFechaTallerCrear.text.toString().isNotBlank()){
+
+                val sdf = SimpleDateFormat("dd/MM/yyyy")
+                var convertedDate: Date? = null
+                convertedDate = sdf.parse(etFechaTallerCrear.text.toString())
+                tallerAux.fecha=convertedDate
+            }
+
+            if(etHoraTallerCrear.text.toString().isNotBlank()){
+                val sdfH = SimpleDateFormat("HH:mm")
+                var horaConvertida: Date?= null
+                horaConvertida=sdfH.parse(etHoraTallerCrear.text.toString())
+                tallerAux.horaInicio=horaConvertida
+            }
 
             tallerAux.numeroTotalParticipantes=txtNumeroParticipantesTallerCrear.text.toString().toInt()
+
             tallerAux.objetivo=etObjetivoTallerCrear.text.toString()
             tallerAux.recomendaciones=etRecomendacionesTallerCrear.text.toString()
 
@@ -617,26 +609,331 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         }
     }
 
-    private fun guardarEdicionTaller(tallerAux: Taller): Taller{
 
-        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioTaller.editarTaller( tallerAux,"Bearer $token")
-        val tallerGuardado = call.execute().body()
-        return  tallerGuardado!!
+    /**************** Editar Taller¨***********************/
+    private fun guardarTaller(): Taller?{
 
-    }
+        val tallerEditar= obtenerVariablesTaller()
+        if(tallerEditar!= null){
 
-    private fun asynTaskEditarTaller(tallerAux: Taller){
+            if(tallerEditar.horaInicio != null && tallerEditar.fecha != null && tallerEditar.tema.isNotBlank() && tallerEditar.numeroTaller != null){
 
-        val miclase = object : AsyncTask<Unit, Unit, Taller>(){
+                if(tallerEditar.numeroTotalParticipantes > 0  ){
 
-            override fun doInBackground(vararg p0: Unit?): Taller {
-                val tallerEditado=guardarEdicionTaller(tallerAux)
-                return tallerEditado
+                    if(itemsTaller.size > 0){
+
+                        val tallerEditado = asynTaskEditarTaller(tallerEditar)
+                        return tallerEditado
+                    }
+                    else{
+                        Toast.makeText(applicationContext, "Debe de ingresar al menos una Actividad", Toast.LENGTH_LONG).show()
+                        return null
+                    }
+                }
+                else{
+                    Toast.makeText(applicationContext, "Debe seleccionar una Unidad Zonal o CAI con adolescentes infractores", Toast.LENGTH_LONG).show()
+                    return null
+                }
+            }
+            else{
+                Toast.makeText(applicationContext, "Debe ingresar un Tema, Número Taller, Fecha y Hora", Toast.LENGTH_LONG).show()
+                return null
             }
 
         }
-        val tallerRescatado=miclase.execute().get()
-        Log.i("taller",tallerRescatado.toString())
+        else{
+            return null
+        }
+
     }
+
+    private fun servicioEditarTaller(tallerAux: Taller): Taller?{
+
+        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+        val call =servicioTaller.editarTaller( tallerAux,"Bearer $token")
+        val response = call.execute()
+
+        if(response != null){
+
+            if(response.code() == 200){
+                val tallerGuardado=response.body()
+                return tallerGuardado!!
+            }
+            else{
+                return null
+            }
+        }
+        else{
+            return null
+        }
+    }
+
+    private fun asynTaskEditarTaller(tallerAux: Taller): Taller {
+
+        val miclase = object : AsyncTask<Unit, Unit, Taller>() {
+
+            override fun doInBackground(vararg p0: Unit?): Taller {
+                val tallerEditado = servicioEditarTaller(tallerAux)
+                return tallerEditado!!
+            }
+
+        }
+        val tallerRescatado = miclase.execute().get()
+        return tallerRescatado
+    }
+
+
+    /**************** Editar Items Taller¨***********************/
+    private fun editarItemsTaller(taller: Taller) {
+
+        if(itemsTaller.size > 0){
+            for(i in itemsTallerEliminados){
+                asynTaskEliminarItemsTaller(i.idItemTaller)
+            }
+        }
+
+        for (i in 0 until itemsTaller.size) {
+
+            itemsTaller.get(i).idTaller = taller
+            asynTaskEditarItemTaller(itemsTaller.get(i))
+
+        }
+    }
+
+    private fun servicioEditarItemTaller(itemTallerAux: ItemTaller){
+
+        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
+        val call =servicioTaller.editarItemTaller( itemTallerAux,"Bearer $token")
+        val response = call.execute()
+    }
+
+    private fun asynTaskEditarItemTaller(itemTallerAux: ItemTaller) {
+
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+
+            override fun doInBackground(vararg p0: Unit?) {
+                val tallerEditado = servicioEditarItemTaller(itemTallerAux)
+            }
+
+        }
+        val tallerRescatado = miclase.execute().get()
+        return tallerRescatado
+    }
+
+
+    /**************** Eliminar Items Taller¨***********************/
+    private fun eliminarItemsTaller(idItemTaller: Int) {
+
+        asynTaskEliminarItemsTaller(idItemTaller)
+    }
+
+    private fun servicioEliminarItemsTaller(idItemTaller: Int){
+
+        val servicioItemTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
+        val call =servicioItemTaller.eliminarItemTaller( idItemTaller,"Bearer $token")
+        val response = call.execute()
+    }
+
+    private fun asynTaskEliminarItemsTaller(idItemTaller: Int){
+
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+
+            override fun doInBackground(vararg p0: Unit?) {
+
+                servicioEliminarItemsTaller(idItemTaller)
+            }
+
+        }
+        miclase.execute().get()
+    }
+
+
+
+    /**************** Generar Listado de Registro de Asistencia¨***********************/
+    private fun generarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor> {
+
+        val listadoAsistenciaAdolescenteInfractor= asynTaskGenerarRegistroAsistencia(taller)
+        return listadoAsistenciaAdolescenteInfractor
+    }
+
+    private fun servicioGenerarRegistroAsistenciaUzdi(uzdi: UDI): List<AdolescenteInfractor>?{
+
+        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+        val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorUzdi( uzdi,"Bearer $token")
+        val response = call.execute()
+
+        if(response != null){
+
+            if(response.code() == 200){
+                val listaAsistencia= response.body()
+                return listaAsistencia!!
+            }
+            else{
+                return null
+            }
+        }
+        else{
+            return null
+        }
+    }
+
+    private fun servicioGenerarRegistroAsistenciaCai(cai: CAI): List<AdolescenteInfractor>?{
+
+        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+        val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorCai( cai,"Bearer $token")
+        val response = call.execute()
+
+        if(response != null){
+
+            if(response.code() == 200){
+                val listaAsistencia= response.body()
+                return listaAsistencia!!
+            }
+            else{
+                return null
+            }
+        }
+        else{
+            return null
+        }
+    }
+
+    private fun asynTaskGenerarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor> {
+
+        val miclase = object : AsyncTask<Unit, Unit, List<AdolescenteInfractor>>() {
+
+            override fun doInBackground(vararg p0: Unit?): List<AdolescenteInfractor>? {
+
+                if(taller.idUdi != null &&  taller.idCai == null){
+                    val listaAsistenciaUzdi = servicioGenerarRegistroAsistenciaUzdi(taller.idUdi)
+                    return listaAsistenciaUzdi!!
+                }
+                else if (taller.idUdi == null && taller.idCai != null){
+                    val listaAsistenciaCai = servicioGenerarRegistroAsistenciaCai(taller.idCai)
+                    return listaAsistenciaCai!!
+                }
+                else{
+                    return null
+                }
+
+            }
+
+        }
+        val listaAsistencia = miclase.execute().get()
+        return listaAsistencia!!
+    }
+
+
+    /**************** Eliminar Registro de Asistencia¨***********************/
+    private fun eliminarRegistroAsistencia(idTaller: Int) {
+
+        asynTaskEliminarRegistroAsistencia(idTaller)
+    }
+
+    private fun servicioEliminarRegistroAsistencia(idTaller: Int){
+
+        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+        val call =servicioRegistroAsistencia.eliminarRegistroAsistencia( idTaller,"Bearer $token")
+        val response = call.execute()
+    }
+
+    private fun asynTaskEliminarRegistroAsistencia(idTaller: Int){
+
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+
+            override fun doInBackground(vararg p0: Unit?) {
+
+                servicioEliminarRegistroAsistencia(idTaller)
+            }
+
+        }
+        miclase.execute().get()
+    }
+
+
+
+    /**************** Guardar Registro Asistencia¨***********************/
+    private fun guardarRegistroAsistencia(taller: Taller): RegistroAsistencia{
+
+        eliminarRegistroAsistencia(taller.idTaller)
+
+        val registroAsistencia= RegistroAsistencia()
+        registroAsistencia.idTaller=taller
+
+        return asynTaskGuardarRegistroAsistencia(registroAsistencia)
+
+    }
+
+    private fun servicioGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia?{
+
+        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+        val call =servicioRegistroAsistencia.guardarRegistroAsistencia( registroAsistencia,"Bearer $token")
+        val response = call.execute()
+
+        if(response != null){
+
+            if(response.code() == 200){
+                val registroAsistenciaAux=response.body()
+                return registroAsistenciaAux!!
+            }
+            else{
+                return null
+            }
+        }
+        else{
+            return null
+        }
+    }
+
+    private fun asynTaskGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia{
+
+        val miclase = object : AsyncTask<Unit, Unit, RegistroAsistencia>() {
+
+            override fun doInBackground(vararg p0: Unit?): RegistroAsistencia {
+                val registroAsistenciaAux = servicioGuardarRegistroAsistencia(registroAsistencia)
+                return registroAsistenciaAux!!
+            }
+
+        }
+        val registroAsistenciaGuardado = miclase.execute().get()
+        return registroAsistenciaGuardado
+    }
+
+
+    /**************** Guardar Listado de Registro de Asistencia¨***********************/
+    private fun guardarListadoRegistroAsistencia(registroAsistencia: RegistroAsistencia, listaAsistenciaAdolescentes: List<AdolescenteInfractor>) {
+
+        for(adolescente in listaAsistenciaAdolescentes){
+            val asistenciaAdolescente= AsistenciaAdolescente()
+            asistenciaAdolescente.asistio=false
+            asistenciaAdolescente.idAdolescenteInfractor=adolescente
+            asistenciaAdolescente.idRegistroAsistencia=registroAsistencia
+
+            asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente)
+
+        }
+
+    }
+
+    private fun servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente: AsistenciaAdolescente){
+
+        val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
+        val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
+        call.execute()
+    }
+
+    private fun asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente){
+
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+
+            override fun doInBackground(vararg p0: Unit?) {
+                servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
+            }
+
+        }
+        miclase.execute().get()
+    }
+
+
+
 }

@@ -27,4 +27,13 @@ public interface RegistroAsistenciaServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @PUT("Registro_Asistencia_Adolescente")
     Call<AsistenciaAdolescente> guardarAsistenciaAdolescente(@Body AsistenciaAdolescente adolescente, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @PUT("Registro_Asistencia")
+    Call<RegistroAsistencia> guardarRegistroAsistencia(@Body RegistroAsistencia registroAsistencia, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @DELETE("Registro_Asistencia/{id}")
+    Call<Void> eliminarRegistroAsistencia(@Path("id") Integer idRegistroAsistencia, @Header("Authorization") String token);
+
 }

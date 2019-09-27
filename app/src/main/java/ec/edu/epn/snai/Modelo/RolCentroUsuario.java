@@ -1,12 +1,26 @@
 package ec.edu.epn.snai.Modelo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class RolCentroUsuario implements Serializable {
 
+    @SerializedName("idRolUsuarioCentro")
+    @Expose
     private Integer idRolUsuarioCentro;
+
+    @SerializedName("idCai")
+    @Expose
     private CAI idCai;
+
+    @SerializedName("idUdi")
+    @Expose
     private UDI idUdi;
+
+    @SerializedName("idRol")
+    @Expose
     private Rol idRol;
 
     public RolCentroUsuario() {

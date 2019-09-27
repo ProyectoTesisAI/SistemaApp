@@ -102,7 +102,6 @@ class VerEditarInformeFragment : Fragment(){
             horaAux.time = informeSeleccionado.idTaller.horaInicio
             horaAux.add(Calendar.MINUTE, duracionFinal)
             horaFin=horaAux.time
-            println(horaFin)
         }
         return horaFin
     }

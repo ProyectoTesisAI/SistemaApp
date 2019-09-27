@@ -1,18 +1,50 @@
 package ec.edu.epn.snai.Modelo;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Usuario implements Serializable {
 
+    @SerializedName("idUsuario")
+    @Expose
     private Integer idUsuario;
+
+    @SerializedName("nombres")
+    @Expose
     private String nombres;
+
+    @SerializedName("apellidos")
+    @Expose
     private String apellidos;
+
+    @SerializedName("cedula")
+    @Expose
     private String cedula;
+
+    @SerializedName("telefono")
+    @Expose
     private String telefono;
+
+    @SerializedName("usuario")
+    @Expose
     private String usuario;
+
+    @SerializedName("contraseña")
+    @Expose
     private String contraseña;
+
+    @SerializedName("activo")
+    @Expose
     private Boolean activo;
+
+    @SerializedName("token")
+    @Expose
     private String token;
+
+    @SerializedName("idRolUsuarioCentro")
+    @Expose
     private RolCentroUsuario idRolUsuarioCentro;
 
     public Usuario() {

@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.ItemInformeAdaptador
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.TallerAdaptadorTabs
 import ec.edu.epn.snai.Modelo.CAI
@@ -44,10 +46,16 @@ class VerInfoTallerActivity : AppCompatActivity() {
         this.token = i.getSerializableExtra("token") as String
         asynTaskObtenerListadoItemsTaller()
 
-        val adaptador=TallerAdaptadorTabs(supportFragmentManager,token,taller,ArrayList(itemsTaller))
-        view_pager_taller.adapter=adaptador
+        if(itemsTaller != null){
+            val adaptador=TallerAdaptadorTabs(supportFragmentManager,token,taller,ArrayList(itemsTaller))
+            view_pager_taller.adapter=adaptador
+            tabs_taller.setupWithViewPager(view_pager_taller)
+        }
+        else{
+            Toast.makeText(applicationContext,"El Taller no posee actividades, Por favor edite el taller desde la aplicación web",Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
-        tabs_taller.setupWithViewPager(view_pager_taller)
 
     }
 
@@ -72,7 +80,10 @@ class VerInfoTallerActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, EditarTallerActivity::class.java)
                 intent.putExtra("token",token)
                 intent.putExtra("taller_seleccionado", taller)
-                intent.putExtra("items_taller_seleccionado", ArrayList(itemsTaller))
+                if(itemsTaller != null){
+                    intent.putExtra("items_taller_seleccionado", ArrayList(itemsTaller))
+                }
+
                 startActivity(intent)
 
             }
@@ -89,9 +100,14 @@ class VerInfoTallerActivity : AppCompatActivity() {
         val task = object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<ItemTaller> {
+            override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
                 val listadoItemsTaller=obtenerItemsTaller()
-                return listadoItemsTaller
+                if(listadoItemsTaller != null){
+                    return listadoItemsTaller
+                }
+                else{
+                    return null
+                }
             }
 
         }
@@ -99,11 +115,26 @@ class VerInfoTallerActivity : AppCompatActivity() {
 
     }
 
-    private fun obtenerItemsTaller(): List<ItemTaller>{
+    private fun obtenerItemsTaller(): List<ItemTaller>?{
         val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
         val call = servicio.listarItemsPorTaller(taller.idTaller.toString(),"Bearer "+ token)
-        val itemsTallerAux =call.execute().body()
-        return itemsTallerAux!!
+        val response= call.execute()
+
+        if(response != null){
+
+            if(response.code() == 200){
+                val itemsTallerAux =response.body()
+                Log.i("item", itemsTallerAux?.size.toString())
+                return itemsTallerAux
+            }
+            else{
+                return null
+            }
+        }
+        else{
+            return null
+        }
+
 
     }
 
