@@ -35,11 +35,12 @@ public class RegistroFotograficoAdaptador extends RecyclerView.Adapter<RegistroF
 
     @Override
     public void onBindViewHolder(@NonNull RegistroFotograficoViewHolder viewHolder, int i) {
-
-        byte[] byteDatos = Base64.decode(fotografias.get(i).getImagenAux(), Base64.DEFAULT);
-        fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length));
-        //Seteo los valores en los diferentes controles
-        viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
+        if(fotografias!=null){
+            byte[] byteDatos = Base64.decode(fotografias.get(i).getImagenAux(), Base64.DEFAULT);
+            fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos,0,byteDatos.length));
+            //Seteo los valores en los diferentes controles
+            viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
+        }
     }
 
     @Override

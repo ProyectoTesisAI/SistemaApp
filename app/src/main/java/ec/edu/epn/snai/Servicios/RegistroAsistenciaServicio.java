@@ -23,4 +23,8 @@ public interface RegistroAsistenciaServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("Registro_Asistencia/Taller/NumeroAsistentes/{id}")
     Call<Integer> obtenerNumeroAdolescentesPorTaller(@Path("id") Integer idTaller, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @PUT("Registro_Asistencia_Adolescente")
+    Call<AsistenciaAdolescente> guardarAsistenciaAdolescente(@Body AsistenciaAdolescente adolescente, @Header("Authorization") String token);
 }
