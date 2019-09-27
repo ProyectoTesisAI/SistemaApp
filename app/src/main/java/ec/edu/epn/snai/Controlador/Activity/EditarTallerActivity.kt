@@ -11,11 +11,13 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
+import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.*
@@ -130,13 +132,20 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 val tallerAux=guardarTaller()
 
                 if(tallerAux != null){
-                    editarItemsTaller(tallerAux!!)
+                    editarItemsTaller(tallerAux)
                     val registroAsistencia= guardarRegistroAsistencia(tallerAux)
 
                     if(registroAsistencia != null){
                         val listaAsistenciaAdolescente= generarRegistroAsistencia(tallerAux)
                         guardarListadoRegistroAsistencia(registroAsistencia,listaAsistenciaAdolescente)
-                        Toast.makeText(applicationContext,"SE HA EDITADO CORRECTAMENTE EL TALLER",Toast.LENGTH_SHORT).show()
+                        val toast=Toast.makeText(applicationContext,"Se ha editado correctamente el Taller",Toast.LENGTH_LONG)
+                        toast.setGravity(Gravity.CENTER, 0, 0)
+                        toast.show()
+
+                        /*val intent = Intent(this@EditarTallerActivity, MainActivity::class.java)
+                        intent.putExtra("usuario", taller)
+                        startActivity(intent)*/
+
                     }
 
 
@@ -910,7 +919,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
         val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
-        val response = call.execute()
+        call.execute()
     }
 
     private fun asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente){
