@@ -20,6 +20,7 @@ import android.view.View
 import android.widget.*
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.Servicios.*
+import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.activity_agregar_taller.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -80,6 +81,18 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTipoCentro.adapter=adapterTipoCentro
 
+        val rol=this.usuario.idRolUsuarioCentro.idRol.rol
+        val itemTipoCentro=obtenerItemTipoCentro(rol)
+
+        if(itemTipoCentro != null){
+
+            if(itemTipoCentro==0 || itemTipoCentro==1){
+                spTipoCentro.setSelection(itemTipoCentro)
+                spTipoCentro.isEnabled=false
+            }
+        }
+
+
         spCentro=findViewById(R.id.spUdiCai)
 
         //Evento itemSelected del Spinner Tipo de Centro
@@ -92,11 +105,26 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
                 if(posicion==0){
                     asynTaskObtenerListadoUzdi()
+                    asignarListaUzdiSpinner()
+
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai(usuario)
+                    if(itemCentroUzdiCAI != null){
+                        spCentro?.setSelection(itemCentroUzdiCAI)
+                        spCentro?.isEnabled=false
+                    }
+
                     itemSelectedPorCentroUzdiCai(0)
 
                 }
                 if(posicion==1){
                     asynTaskObtenerListadoCai()
+                    asignarListaCaiSpinner()
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai(usuario)
+                    if(itemCentroUzdiCAI != null){
+                        spCentro?.setSelection(itemCentroUzdiCAI)
+                        spCentro?.isEnabled=false
+                    }
+
                     itemSelectedPorCentroUzdiCai(1)
                 }
             }
@@ -131,16 +159,21 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
                     if(registroAsistencia != null){
                         val listaAsistenciaAdolescente= generarRegistroAsistencia(tallerAux)
-                        guardarListadoRegistroAsistencia(registroAsistencia,listaAsistenciaAdolescente)
-                        val toast=Toast.makeText(applicationContext,"Se ha guardado correctamente el Taller",Toast.LENGTH_LONG)
-                        toast.setGravity(Gravity.CENTER, 0, 0)
-                        toast.show()
 
-                        val intent = Intent(this@CrearTallerActivity, MainActivity::class.java)
-                        //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        intent.putExtra("usuario", usuario)
-                        startActivity(intent)
+                        if(listaAsistenciaAdolescente != null){
+
+                            guardarListadoRegistroAsistencia(registroAsistencia,listaAsistenciaAdolescente)
+                            val toast=Toast.makeText(applicationContext,"Se ha guardado correctamente el Taller",Toast.LENGTH_LONG)
+                            toast.setGravity(Gravity.CENTER, 0, 0)
+                            toast.show()
+
+                            val intent = Intent(this@CrearTallerActivity, MainActivity::class.java)
+                            //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            intent.putExtra("usuario", usuario)
+                            startActivity(intent)
+                        }
+
 
                     }
                 }
@@ -153,15 +186,13 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
     }
 
 
-    private fun asignarListaUzdiSpinner(listaUzdiRescatada: List<UDI>){
+    private fun asignarListaUzdiSpinner(){
 
+        if(listaUZDI != null){
 
-        if(listaUzdiRescatada != null){
-
-            listaUZDI = listaUzdiRescatada
             val listaUZDIAux : MutableList<String> = ArrayList<String>()
 
-            for (u in listaUzdiRescatada){
+            for (u in listaUZDI!!){
                 listaUZDIAux.add(u.udi)
             }
 
@@ -172,14 +203,13 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
     }
 
-    private fun  asignarListaCaiSpinner(listaCaiRescatada: List<CAI>){
+    private fun asignarListaCaiSpinner(){
 
-        if(listaCaiRescatada != null){
+        if(listaCAI!= null){
 
-            listaCAI=listaCaiRescatada
             val listaCAIAux:MutableList<String> = ArrayList<String>()
 
-            for (c in listaCaiRescatada){
+            for (c in listaCAI!!){
                 listaCAIAux.add(c.cai)
             }
 
@@ -217,12 +247,8 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
                 return listadoUzdi
             }
 
-            override fun onPostExecute(result: List<UDI>?) {
-                super.onPostExecute(result)
-                asignarListaUzdiSpinner(result!!)
-            }
         }
-        miclase.execute()
+        listaUZDI= miclase.execute().get()
     }
 
     private fun asynTaskObtenerListadoCai(){
@@ -234,13 +260,68 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
                 val listadoCai=obtenerListadoCAI()
                 return listadoCai
             }
+        }
+        listaCAI= task.execute().get()
+    }
 
-            override fun onPostExecute(result: List<CAI>?) {
-                super.onPostExecute(result)
-                asignarListaCaiSpinner(result!!)
+    private fun obtenerItemTipoCentro( rol:String):Int? {
+
+        var posicionItem:Int?= null
+        if (rol != null) {
+            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
+                posicionItem=null
+            }
+            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
+                posicionItem=0
+            }
+            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
+                posicionItem=1
             }
         }
-        task.execute()
+        return posicionItem
+    }
+
+    private fun obtenerItemUzdiCai(usuario: Usuario): Int?{
+
+        val rol=usuario.idRolUsuarioCentro.idRol.rol
+        var posicionItem: Int?=null
+
+        if (rol != null) {
+            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
+                posicionItem=null
+            }
+            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
+                val uzdiAsignada=usuario.idRolUsuarioCentro.idUdi
+
+                if(uzdiAsignada !=null){
+
+                    val tamanio:String= listaUZDI?.size.toString()
+
+                    for(i in 0 until tamanio.toInt()){
+                        if(listaUZDI?.get(i)?.udi ==  uzdiAsignada.udi){
+                            posicionItem=i
+                        }
+                    }
+
+                }
+            }
+            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
+                val caiAsignada=usuario.idRolUsuarioCentro.idCai
+
+                if(caiAsignada!= null){
+
+                    val tamanio:String= listaCAI?.size.toString()
+
+                    for(i in 0 until tamanio.toInt()){
+                        if(listaCAI?.get(i)?.cai ==caiAsignada.cai){
+                            posicionItem=i
+                        }
+                    }
+                }
+            }
+        }
+
+        return posicionItem
     }
 
     private fun itemSelectedPorCentroUzdiCai(posicionTipoCentro: Int){
@@ -646,7 +727,7 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
 
     /**************** Generar Listado de Registro de Asistencia¨***********************/
-    private fun generarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor> {
+    private fun generarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor>? {
 
         val listadoAsistenciaAdolescenteInfractor= asynTaskGenerarRegistroAsistencia(taller)
         return listadoAsistenciaAdolescenteInfractor
