@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.InformePagerAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
@@ -41,10 +42,17 @@ class VerEditarInformeActivity : AppCompatActivity() {
         asynTaskObtenerListadoRegistroAsistencia()
         asynTaskObtenerListadoActividadesTaller()
 
-        var adaptadorInforme=InformePagerAdaptador(supportFragmentManager,token,informeSeleccionado, listaFotos!!, listaActividadesTaller!!, listaRegistroAsistencia!!)
-        viewpager.adapter=adaptadorInforme
+        if(listaFotos != null && listaActividadesTaller != null && listaRegistroAsistencia != null){
+            var adaptadorInforme=InformePagerAdaptador(supportFragmentManager,token,informeSeleccionado, listaFotos!!, listaActividadesTaller!!, listaRegistroAsistencia!!)
+            viewpager.adapter=adaptadorInforme
+            tabs.setupWithViewPager(viewpager)
+        }
+        else{
+            Toast.makeText(applicationContext,"El Informe no posee actividades o fotos, Por favor edite el taller desde la aplicación web",Toast.LENGTH_SHORT).show()
+            finish()
+        }
 
-        tabs.setupWithViewPager(viewpager)
+
 
     }
 
@@ -86,10 +94,13 @@ class VerEditarInformeActivity : AppCompatActivity() {
 
         val task = object : AsyncTask<Unit, Unit, List<RegistroFotografico>>(){
 
-
-            override fun doInBackground(vararg p0: Unit?): List<RegistroFotografico> {
+            override fun doInBackground(vararg p0: Unit?): List<RegistroFotografico>? {
                 val listadoFotografias=obtenerRegistroFotografico()
-                return listadoFotografias!!
+                if(listadoFotografias!=null){
+                    return listadoFotografias
+                }else{
+                    return null
+                }
             }
 
         }
@@ -101,9 +112,13 @@ class VerEditarInformeActivity : AppCompatActivity() {
         val task = object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<ItemTaller> {
+            override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
                 val listadoItemsTaller=obtenerActividadesTaller()
-                return listadoItemsTaller!!
+                if(listadoItemsTaller!=null){
+                    return listadoItemsTaller
+                }else{
+                    return null
+                }
             }
 
         }
@@ -115,9 +130,13 @@ class VerEditarInformeActivity : AppCompatActivity() {
         val task = object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente> {
+            override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {
                 val listadoAsistencia=obtenerRegistroAsistencia()
-                return listadoAsistencia!!
+                if(listadoAsistencia!=null){
+                    return listadoAsistencia
+                }else{
+                    return null
+                }
             }
 
         }

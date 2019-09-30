@@ -24,11 +24,12 @@ import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.*
 
 
-class EditarRegistroFotograficoActivity : AppCompatActivity() {
+class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
-    private var listaFotografias: MutableList<RegistroFotografico>? = null
+    private var listaFotografias: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
     private var listaFotografiasRescatado: MutableList<RegistroFotografico>? = null
-    private lateinit var informeSeleccionado: Informe
+    private lateinit var tallerSeleccionado: Taller
+    private lateinit var informeNuevo: Informe
     private lateinit var token: String
     private var listaAdolescentesInfractores: List<AsistenciaAdolescente>? = null
     private var listaActividadesTaller: List<ItemTaller>? = null
@@ -44,18 +45,18 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i = intent
-        this.informeSeleccionado = i.getSerializableExtra("informeSeleccionado") as Informe
+        this.tallerSeleccionado = i.getSerializableExtra("tallerSeleccionado") as Taller
+        this.informeNuevo = i.getSerializableExtra("informeNuevo") as Informe
         this.token = i.getSerializableExtra("token") as String
-        //this.listaFotografias = i.getSerializableExtra("listaFotos") as ArrayList<RegistroFotografico>
         this.listaAdolescentesInfractores =
             i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
         this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
 
-        asynTaskObtenerListadoFotografico()
+        /*asynTaskObtenerListadoFotografico()
 
         if (listaFotografias != null) {
-            mostrarListadoAsistencia()
-        }
+            mostrarFotografias()
+        }*/
 
         btnAgregarImagen = findViewById(R.id.btn_agregar_imagenes) as Button
         btnAgregarImagen.setOnClickListener {
@@ -63,12 +64,12 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         }
     }
 
-    fun mostrarListadoAsistencia() {
+    fun mostrarFotografias() {
 
         var recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
         var adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
         recyclerViewRegistroFotografico.adapter = adaptador
-        recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
+        recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@AgregarRegistroFotograficoActivity)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -87,11 +88,11 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         when (item?.itemId) {
 
             R.id.menu_guardar -> {
-                guardarRegistroFotografico(informeSeleccionado)
-                //asynTaskEditarInforme()
+                //guardarRegistroFotografico(informeNuevo)
+                asynTaskCrearInforme()
                 val intent = Intent(applicationContext, VerEditarInformeActivity::class.java)
                 intent.putExtra("token", token)
-                intent.putExtra("informeSeleccionado", informeSeleccionado)
+                intent.putExtra("tallerSeleccionado", tallerSeleccionado)
                 intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
                 intent.putExtra("listaAsistencia", ArrayList(listaAdolescentesInfractores))
                 startActivity(intent)
@@ -101,48 +102,6 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             }
         }
         return true
-    }
-
-    private fun asynTaskObtenerListadoFotografico() {
-
-        val task = object : AsyncTask<Unit, Unit, MutableList<RegistroFotografico>>() {
-
-
-            override fun doInBackground(vararg p0: Unit?): MutableList<RegistroFotografico>? {
-                val listadoFotografias = obtenerRegistroFotografico()
-                return listadoFotografias
-            }
-
-        }
-        listaFotografias = task.execute().get()
-        listaFotografiasRescatado = listaFotografias
-    }
-
-    private fun obtenerRegistroFotografico(): MutableList<RegistroFotografico>? {
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call =
-            servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
-
-        try {
-            val response = call.execute()
-
-            if (response != null) {
-
-                val codigoRespuesta: Int = response.code()
-
-                if (codigoRespuesta == 200) {
-                    return response.body()!!
-                } else {
-                    return null
-                }
-            } else {
-                return null
-            }
-        } catch (e: Exception) {
-            Log.i("ERROR", e.message)
-            return null
-        }
-
     }
 
     fun cargarImagen() {
@@ -169,9 +128,9 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             fotoAux?.imagenAux = encode
             fotoAux?.foto = bitmap
             if (fotoAux != null) {
-                listaFotografias?.add(fotoAux)
+                listaFotografias!!.add(fotoAux)
             }
-            mostrarListadoAsistencia()
+            mostrarFotografias()
         }
     }
 
@@ -223,8 +182,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     private fun guardarInforme(): Informe? {
         var respuestaServicio: Informe
         respuestaServicio = Informe()
-        if (informeSeleccionado != null) {
-            var infoAux = servicioGuardarInforme(informeSeleccionado)
+        if (informeNuevo != null) {
+            var infoAux = servicioGuardarInforme(informeNuevo)
             respuestaServicio = infoAux!!
         } else {
             return null
@@ -233,59 +192,18 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     }
 
     private fun guardarRegistroFotografico(informe: Informe){
-        var listadoFotosAGuardar: MutableList<RegistroFotografico>
-        var listadoFotosABorrar: MutableList<RegistroFotografico>
-        var respuestaServicioFoto: RegistroFotografico
-        respuestaServicioFoto = RegistroFotografico()
-        listadoFotosAGuardar = ArrayList<RegistroFotografico>()
-        listadoFotosABorrar = ArrayList<RegistroFotografico>()
-        for (rf1: RegistroFotografico in listaFotografias!!) {
-            if (rf1.idRegistroFotografico == null) {
-                listadoFotosAGuardar.add(rf1)
-            } else {
-                for (rf2: RegistroFotografico in listaFotografiasRescatado!!) {
-                    // si las fotos no se han cambiado
-                    if (rf1 == rf2) {
-                        listadoFotosAGuardar.add(rf2)
-                        //break
-                    }
-                    //si he borrado una foto
-                    else if (rf2.idRegistroFotografico != null) {
-                        //si agrego una nuevo imagen
-                        listadoFotosABorrar.add(rf2)
-                        //break
-                    }
-                }
-            }
-        }
-        if(listadoFotosABorrar.size>0){
-            listadoFotosABorrar.forEach {
-                if(it.imagenAux!=null){
-                    asynTaskEliminarFoto(it)
-                }
-            }
-        }
-        if(listadoFotosAGuardar.size>0){
-            listadoFotosAGuardar.forEach {
-                if(it.imagenAux!=null){
-                    it.idInforme=informe
-                    //servicioGuardarRegistroFotografico(it)
-                    asynTaskEditarFoto(it)
-                }
-            }
-        }
-        /*if(listaFotografias?.size!! >0){
+
+        if(listaFotografias?.size!! >0){
             listaFotografias?.forEach {
                 if(it.imagenAux!=null){
                     it.idInforme=informe
-                    //servicioGuardarRegistroFotografico(it)
-                    asynTaskEditarFoto(it)
+                    asynTaskGuardarFoto(it)
                 }
             }
-        }*/
+        }
     }
 
-    private fun asynTaskEditarInforme(){
+    private fun asynTaskCrearInforme(){
 
         val miclase = object : AsyncTask<Unit, Unit, Informe>(){
 
@@ -299,7 +217,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         Log.i("taller",informeRescatado.toString())
     }
 
-    private fun asynTaskEditarFoto(rf: RegistroFotografico){
+    private fun asynTaskGuardarFoto(rf: RegistroFotografico){
 
         val miclase = object : AsyncTask<Unit, Unit, Unit>(){
 
@@ -311,17 +229,6 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         miclase.execute().get()
     }
 
-    private fun asynTaskEliminarFoto(rf: RegistroFotografico){
-
-        val miclase = object : AsyncTask<Unit, Unit, Unit>(){
-
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioEliminarRegistroFotografico(rf)
-            }
-
-        }
-        miclase.execute().get()
-    }
 
     private fun servicioGuardarRegistroAsistencia(asistencia: AsistenciaAdolescente): AsistenciaAdolescente? {
         val servicioAsistencia = ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
@@ -342,13 +249,5 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         val call = servicioFotografias.guardarRegistroFotograficoMovil(registroFoto, "Bearer $token")
         val fotografiasGuardado = call.execute().body()
         return fotografiasGuardado!!
-    }
-
-    private fun servicioEliminarRegistroFotografico(registroFoto: RegistroFotografico): Int? {
-        val servicioEliminarFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(), "Bearer $token")
-        val fotografiasEliminar = call.execute().body()
-        println(fotografiasEliminar)
-        return fotografiasEliminar!!
     }
 }

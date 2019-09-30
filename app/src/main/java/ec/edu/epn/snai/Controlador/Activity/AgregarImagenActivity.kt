@@ -25,7 +25,7 @@ class AgregarImagenActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar_fotografias)
-        imgImagenPrevia=findViewById(R.id.imagenPrevia) as ImageView
+        //imgImagenPrevia=findViewById(R.id.imagenPrevia) as ImageView
         btnAgregarImagen=findViewById(R.id.btn_agregar_imagenes) as Button
         btnAgregarImagen.setOnClickListener {
             cargarImagen()

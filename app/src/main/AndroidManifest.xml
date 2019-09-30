@@ -28,8 +28,11 @@
         <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"/>
         <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"/>
         <activity android:name=".Controlador.Activity.AgregarImagenActivity"/>
-      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
-                android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarInformeActivity"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"/>
+        <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
+                  android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.CrearTallerActivity"
                 android:screenOrientation="landscape"/>
