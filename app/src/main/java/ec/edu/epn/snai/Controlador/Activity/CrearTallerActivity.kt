@@ -1,24 +1,24 @@
 package ec.edu.epn.snai.Controlador.Activity
 
 import android.app.Activity
+import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
+import ec.edu.epn.snai.R
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.AsyncTask
-import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import ec.edu.epn.snai.Controlador.Adaptador.ItemTallerAdaptador
 import ec.edu.epn.snai.Modelo.*
-import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.*
 import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.activity_agregar_taller.*
@@ -27,40 +27,37 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener{
 
+class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOnItemClickListener {
 
     private lateinit var fabItemsTallers: FloatingActionButton
     var spCentro:Spinner?=null
 
     private var itemsTaller: ArrayList<ItemTaller> =ArrayList<ItemTaller>()
-    private var itemsTallerEliminados: ArrayList<ItemTaller> =ArrayList<ItemTaller>()
     private var listaUZDI: List<UDI>?=null
     private var listaCAI: List<CAI>?= null
     private lateinit var token:String
-    private lateinit var taller:Taller
     private var posicionActividadSeleccionada: Int = 0
+    private lateinit var menuAux:Menu
     private lateinit var usuario: Usuario
+    private lateinit var tipoTaller:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_agregar_taller)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás}
 
         val i = intent
-        this.taller = i.getSerializableExtra("taller_seleccionado") as Taller
         this.token = i.getSerializableExtra("token") as String
         this.usuario=i.getSerializableExtra("usuario") as Usuario
-        this.itemsTaller=i.getSerializableExtra("items_taller_seleccionado") as ArrayList<ItemTaller>
+        this.tipoTaller=i.getSerializableExtra("tipoTaller") as String
+        val tituloToolbar: String= i.getSerializableExtra("tituloToolbar") as String
+        getSupportActionBar()?.setTitle(tituloToolbar)
 
-        asynTaskObtenerListadoCai()
-        asynTaskObtenerListadoUzdi()
-
-        fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
+        fabItemsTallers=findViewById<FloatingActionButton>(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
             dialogoAgregarActividadTaller()
         }
@@ -79,7 +76,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         val spTipoCentro: Spinner =findViewById<Spinner>(R.id.spTipoCentro)
 
         //Adaptador del Tipo de Centro para el Spinner
-        val adapterTipoCentro= ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
+        val adapterTipoCentro=
+            ArrayAdapter<String>(this@CrearTallerActivity,android.R.layout.simple_expandable_list_item_1,resources.getStringArray(R.array.tipoCentro))
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTipoCentro.adapter=adapterTipoCentro
 
@@ -94,6 +92,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             }
         }
 
+
         spCentro=findViewById(R.id.spUdiCai)
 
         //Evento itemSelected del Spinner Tipo de Centro
@@ -105,9 +104,10 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, posicion: Int, p3: Long) {
 
                 if(posicion==0){
+                    asynTaskObtenerListadoUzdi()
                     asignarListaUzdiSpinner()
 
-                    val itemCentroUzdiCAI=obtenerItemUzdiCai(taller.idUsuario)
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai(usuario)
                     if(itemCentroUzdiCAI != null){
                         spCentro?.setSelection(itemCentroUzdiCAI)
                         spCentro?.isEnabled=false
@@ -117,9 +117,9 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
                 }
                 if(posicion==1){
+                    asynTaskObtenerListadoCai()
                     asignarListaCaiSpinner()
-
-                    val itemCentroUzdiCAI=obtenerItemUzdiCai(taller.idUsuario)
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai(usuario)
                     if(itemCentroUzdiCAI != null){
                         spCentro?.setSelection(itemCentroUzdiCAI)
                         spCentro?.isEnabled=false
@@ -131,11 +131,11 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         }
 
-        asignarVariablesTaller()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
+        menuAux=menu
         menuInflater.inflate(R.menu.menu_gestion, menu)
 
         menu.findItem(R.id.menu_editar).isVisible = false
@@ -152,7 +152,9 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 val tallerAux=guardarTaller()
 
                 if(tallerAux != null){
-                    editarItemsTaller(tallerAux)
+
+                    guardarItemsTaller(tallerAux)
+
                     val registroAsistencia= guardarRegistroAsistencia(tallerAux)
 
                     if(registroAsistencia != null){
@@ -161,12 +163,11 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                         if(listaAsistenciaAdolescente != null){
 
                             guardarListadoRegistroAsistencia(registroAsistencia,listaAsistenciaAdolescente)
-
-                            val toast=Toast.makeText(applicationContext,"Se ha editado correctamente el Taller",Toast.LENGTH_LONG)
+                            val toast=Toast.makeText(applicationContext,"Se ha guardado correctamente el Taller",Toast.LENGTH_LONG)
                             toast.setGravity(Gravity.CENTER, 0, 0)
                             toast.show()
 
-                            val intent = Intent(this@EditarTallerActivity, MainActivity::class.java)
+                            val intent = Intent(this@CrearTallerActivity, MainActivity::class.java)
                             //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.putExtra("usuario", usuario)
@@ -187,27 +188,36 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asignarListaUzdiSpinner(){
 
-        val listaUZDIAux : MutableList<String> = ArrayList<String>()
-        for (u in listaUZDI!!){
-            listaUZDIAux.add(u.udi)
+        if(listaUZDI != null){
+
+            val listaUZDIAux : MutableList<String> = ArrayList<String>()
+
+            for (u in listaUZDI!!){
+                listaUZDIAux.add(u.udi)
+            }
+
+            val adapterTipoCentro=ArrayAdapter<String>(this@CrearTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
+            adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spCentro?.adapter=adapterTipoCentro
         }
-
-
-        val adapterTipoCentro=ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
-        adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spCentro?.adapter=adapterTipoCentro
 
     }
 
-    private fun  asignarListaCaiSpinner(){
-        val listaCAIAux:MutableList<String> = ArrayList<String>()
-        for (c in listaCAI!!){
-            listaCAIAux.add(c.cai)
+    private fun asignarListaCaiSpinner(){
+
+        if(listaCAI!= null){
+
+            val listaCAIAux:MutableList<String> = ArrayList<String>()
+
+            for (c in listaCAI!!){
+                listaCAIAux.add(c.cai)
+            }
+
+            val adapterTipoCentro=ArrayAdapter<String>(this@CrearTallerActivity,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
+            adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spCentro?.adapter=adapterTipoCentro
         }
 
-        val adapterTipoCentro=ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,listaCAIAux)
-        adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spCentro?.adapter=adapterTipoCentro
 
     }
 
@@ -250,9 +260,68 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 val listadoCai=obtenerListadoCAI()
                 return listadoCai
             }
-
         }
         listaCAI= task.execute().get()
+    }
+
+    private fun obtenerItemTipoCentro( rol:String):Int? {
+
+        var posicionItem:Int?= null
+        if (rol != null) {
+            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
+                posicionItem=null
+            }
+            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
+                posicionItem=0
+            }
+            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
+                posicionItem=1
+            }
+        }
+        return posicionItem
+    }
+
+    private fun obtenerItemUzdiCai(usuario: Usuario): Int?{
+
+        val rol=usuario.idRolUsuarioCentro.idRol.rol
+        var posicionItem: Int?=null
+
+        if (rol != null) {
+            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
+                posicionItem=null
+            }
+            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
+                val uzdiAsignada=usuario.idRolUsuarioCentro.idUdi
+
+                if(uzdiAsignada !=null){
+
+                    val tamanio:String= listaUZDI?.size.toString()
+
+                    for(i in 0 until tamanio.toInt()){
+                        if(listaUZDI?.get(i)?.udi ==  uzdiAsignada.udi){
+                            posicionItem=i
+                        }
+                    }
+
+                }
+            }
+            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
+                val caiAsignada=usuario.idRolUsuarioCentro.idCai
+
+                if(caiAsignada!= null){
+
+                    val tamanio:String= listaCAI?.size.toString()
+
+                    for(i in 0 until tamanio.toInt()){
+                        if(listaCAI?.get(i)?.cai ==caiAsignada.cai){
+                            posicionItem=i
+                        }
+                    }
+                }
+            }
+        }
+
+        return posicionItem
     }
 
     private fun itemSelectedPorCentroUzdiCai(posicionTipoCentro: Int){
@@ -279,7 +348,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         }
     }
 
-    fun obtenerNumeroParticipanteUZDI(uzdi: UDI?){
+    private fun obtenerNumeroParticipanteUZDI(uzdi: UDI?){
 
         val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
         val call =servicioTaller.obtenerNumeroParticipantesUZDI(uzdi, "Bearer $token")
@@ -346,7 +415,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         //obtengo la vista o layout del dialogo
         val view = layoutInflater.inflate(R.layout.dialog_activity_taller, null)
-
         //añado la vista al builder
         builder.setView(view)
 
@@ -431,13 +499,13 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         obtenerHora.show()
     }
 
-    fun dialogoFechaTaller(etFechaTaller: EditText){
+    private fun dialogoFechaTaller(etFechaTaller: EditText){
         val cldr = Calendar.getInstance()
         val diaSeleccionado = cldr.get(Calendar.DAY_OF_MONTH)
         val mesSeleccionado = cldr.get(Calendar.MONTH)
         val anioSeleccionado = cldr.get(Calendar.YEAR)
         // date picker dialog
-        val picker = DatePickerDialog(this@EditarTallerActivity,
+        val picker = DatePickerDialog(this@CrearTallerActivity,
 
             DatePickerDialog.OnDateSetListener { datePicker, anio, mes, dia ->
 
@@ -470,7 +538,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         val intent = Intent(applicationContext, EditarActividadTallerActivity::class.java)
         intent.putExtra("actividad_seleccionada", itemsTaller.get(posicion))
         startActivityForResult(intent,1) //lanzo o ejecuto un nuevo activity, pero además espero una respuesta
-
     }
 
     //Método que se ejecuta una vez que obtengo una respuesta del activity EditarActividadTallerActivity, es decir, se ejecuta cuando
@@ -490,7 +557,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
             }
             else if(resultCode== Activity.RESULT_FIRST_USER){
 
-                itemsTallerEliminados.add(itemsTaller.get(posicionActividadSeleccionada))
                 itemsTaller.removeAt(posicionActividadSeleccionada)
 
                 mostrarListaItemsTaller(itemsTaller)
@@ -498,156 +564,60 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         }
     }
 
-    fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
-        val adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@EditarTallerActivity)
+    private fun mostrarListaItemsTaller(listaItemsTaller: List<ItemTaller>){
+        val adaptadorItemTaller = ItemTallerAdaptador(listaItemsTaller,this@CrearTallerActivity)
         val recyclerViewItemTaller =findViewById (R.id.rv_items_taller) as RecyclerView
         recyclerViewItemTaller.adapter=adaptadorItemTaller
         recyclerViewItemTaller.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
 
     }
 
-    private fun asignarVariablesTaller(){
+    private fun obtenerVariablesTaller(): Taller? {
 
-        etTemaTallerCrear?.setText(this.taller.tema)
-        etNumeroTallerCrear?.setText(this.taller.numeroTaller.toString())
+        val tallerAux = Taller()
 
-        if (this.taller.fecha != null) {
-            etFechaTallerCrear?.setText( formatearFecha(this.taller.fecha))
-        }
-        if (this.taller.horaInicio != null) {
-            etHoraTallerCrear?.setText( formatearHora(this.taller.horaInicio))
-        }
+        tallerAux.tema = etTemaTallerCrear?.text.toString()
 
-        etObjetivoTallerCrear?.setText(this.taller.objetivo.toString())
-        etRecomendacionesTallerCrear?.setText(this.taller.recomendaciones.toString())
-
-        mostrarListaItemsTaller(itemsTaller)
-    }
-
-    private fun formatearFecha(fecha: Date): String {
-        val pattern = "dd/MM/yyyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        return simpleDateFormat.format(fecha)
-    }
-
-    private fun formatearHora(horaInicio: Date): String {
-        val patternHour = "HH:mm"
-        val simpleHourFormat = SimpleDateFormat(patternHour)
-        return simpleHourFormat.format(horaInicio)
-    }
-
-    private fun obtenerItemTipoCentro( rol:String):Int? {
-
-        var posicionItem:Int?= null
-        if (rol != null) {
-            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
-                posicionItem=null
-            }
-            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
-                posicionItem=0
-            }
-            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(
-                    Constantes.ROL_INSPECTOR_EDUCADOR)) {
-                posicionItem=1
-            }
-        }
-        return posicionItem
-    }
-
-    private fun obtenerItemUzdiCai(usuario: Usuario): Int?{
-
-        val rol=usuario.idRolUsuarioCentro.idRol.rol
-        var posicionItem: Int?=null
-
-        if (rol != null) {
-            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
-                posicionItem=null
-            }
-            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
-                val uzdiAsignada=usuario.idRolUsuarioCentro.idUdi
-
-                if(uzdiAsignada !=null){
-
-                    val tamanio:String= listaUZDI?.size.toString()
-
-                    for(i in 0 until tamanio.toInt()){
-                        if(listaUZDI?.get(i)?.udi ==  uzdiAsignada.udi){
-                            posicionItem=i
-                        }
-                    }
-
-                }
-            }
-            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
-                val caiAsignada=usuario.idRolUsuarioCentro.idCai
-
-                if(caiAsignada!= null){
-
-                    val tamanio:String= listaCAI?.size.toString()
-
-                    for(i in 0 until tamanio.toInt()){
-                        if(listaCAI?.get(i)?.cai ==caiAsignada.cai){
-                            posicionItem=i
-                        }
-                    }
-                }
-            }
+        if (!etNumeroTallerCrear.text.toString().isBlank()) {
+            tallerAux.numeroTaller = etNumeroTallerCrear.text.toString().toInt()
+        } else {
+            tallerAux.numeroTaller = null
         }
 
-        return posicionItem
-    }
+        if (etFechaTallerCrear.text.toString().isNotBlank()) {
 
-    private fun obtenerVariablesTaller(): Taller?{
-
-        if(taller!= null){
-            val tallerAux= taller
-
-            tallerAux.tema=etTemaTallerCrear?.text.toString()
-
-            if(!etNumeroTallerCrear.text.toString().isBlank()){
-                tallerAux.numeroTaller=etNumeroTallerCrear.text.toString().toInt()
-            }
-            else{
-                tallerAux.numeroTaller=null
-            }
-
-            if(etFechaTallerCrear.text.toString().isNotBlank()){
-
-                val sdf = SimpleDateFormat("dd/MM/yyyy")
-                var convertedDate: Date? = null
-                convertedDate = sdf.parse(etFechaTallerCrear.text.toString())
-                tallerAux.fecha=convertedDate
-            }
-
-            if(etHoraTallerCrear.text.toString().isNotBlank()){
-                val sdfH = SimpleDateFormat("HH:mm")
-                var horaConvertida: Date?= null
-                horaConvertida=sdfH.parse(etHoraTallerCrear.text.toString())
-                tallerAux.horaInicio=horaConvertida
-            }
-
-            tallerAux.numeroTotalParticipantes=txtNumeroParticipantesTallerCrear.text.toString().toInt()
-
-            tallerAux.objetivo=etObjetivoTallerCrear.text.toString()
-            tallerAux.recomendaciones=etRecomendacionesTallerCrear.text.toString()
-
-            val indiceCentro: Int?=spCentro?.selectedItemPosition
-
-            if(spTipoCentro.selectedItem.toString()=="UZDI"){
-
-                tallerAux.idUdi= listaUZDI?.get(indiceCentro!!)
-                tallerAux.idCai=null
-            }
-            else if(spTipoCentro.selectedItem.toString()=="CAI"){
-                tallerAux.idCai= listaCAI?.get(indiceCentro!!)
-                tallerAux.idUdi=null
-
-            }
-            return tallerAux
+            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            var convertedDate: Date? = null
+            convertedDate = sdf.parse(etFechaTallerCrear.text.toString())
+            tallerAux.fecha = convertedDate
         }
-        else{
-            return null
+
+        if (etHoraTallerCrear.text.toString().isNotBlank()) {
+            val sdfH = SimpleDateFormat("HH:mm")
+            var horaConvertida: Date? = null
+            horaConvertida = sdfH.parse(etHoraTallerCrear.text.toString())
+            tallerAux.horaInicio = horaConvertida
         }
+
+        tallerAux.numeroTotalParticipantes = txtNumeroParticipantesTallerCrear.text.toString().toInt()
+
+        tallerAux.objetivo = etObjetivoTallerCrear.text.toString()
+        tallerAux.recomendaciones = etRecomendacionesTallerCrear.text.toString()
+        tallerAux.tipo=this.tipoTaller
+        tallerAux.idUsuario=this.usuario
+
+        val indiceCentro: Int? = spCentro?.selectedItemPosition
+
+        if (spTipoCentro.selectedItem.toString() == "UZDI") {
+
+            tallerAux.idUdi = listaUZDI?.get(indiceCentro!!)
+            tallerAux.idCai = null
+        } else if (spTipoCentro.selectedItem.toString() == "CAI") {
+            tallerAux.idCai = listaCAI?.get(indiceCentro!!)
+            tallerAux.idUdi = null
+
+        }
+        return tallerAux
     }
 
 
@@ -725,68 +695,35 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
 
     /**************** Editar Items Taller¨***********************/
-    private fun editarItemsTaller(taller: Taller) {
-
-        if(itemsTaller.size > 0){
-            for(i in itemsTallerEliminados){
-
-                if(i.idItemTaller != null){
-                    asynTaskEliminarItemsTaller(i.idItemTaller)
-                }
-            }
-        }
+    private fun guardarItemsTaller(taller: Taller) {
 
         for (i in 0 until itemsTaller.size) {
 
             itemsTaller.get(i).idTaller = taller
-            asynTaskEditarItemTaller(itemsTaller.get(i))
+            asynGuardarEditarItemTaller(itemsTaller.get(i))
 
         }
     }
 
-    private fun servicioEditarItemTaller(itemTallerAux: ItemTaller){
+    private fun servicioGuardarItemTaller(itemTallerAux: ItemTaller){
 
         val servicioTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
         val call =servicioTaller.editarItemTaller( itemTallerAux,"Bearer $token")
         val response = call.execute()
     }
 
-    private fun asynTaskEditarItemTaller(itemTallerAux: ItemTaller) {
+    private fun asynGuardarEditarItemTaller(itemTallerAux: ItemTaller) {
 
         val miclase = object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
-                val tallerEditado = servicioEditarItemTaller(itemTallerAux)
+                val tallerEditado = servicioGuardarItemTaller(itemTallerAux)
             }
 
         }
         val tallerRescatado = miclase.execute().get()
         return tallerRescatado
     }
-
-
-    /**************** Eliminar Items Taller¨***********************/
-
-    private fun servicioEliminarItemsTaller(idItemTaller: Int){
-
-        val servicioItemTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
-        val call =servicioItemTaller.eliminarItemTaller( idItemTaller,"Bearer $token")
-        val response = call.execute()
-    }
-
-    private fun asynTaskEliminarItemsTaller(idItemTaller: Int){
-
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
-
-            override fun doInBackground(vararg p0: Unit?) {
-
-                servicioEliminarItemsTaller(idItemTaller)
-            }
-
-        }
-        miclase.execute().get()
-    }
-
 
 
     /**************** Generar Listado de Registro de Asistencia¨***********************/
@@ -864,38 +801,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
     }
 
 
-    /**************** Eliminar Registro de Asistencia¨***********************/
-    private fun eliminarRegistroAsistencia(idTaller: Int) {
-
-        asynTaskEliminarRegistroAsistencia(idTaller)
-    }
-
-    private fun servicioEliminarRegistroAsistencia(idTaller: Int){
-
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        val call =servicioRegistroAsistencia.eliminarRegistroAsistencia( idTaller,"Bearer $token")
-        val response = call.execute()
-    }
-
-    private fun asynTaskEliminarRegistroAsistencia(idTaller: Int){
-
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
-
-            override fun doInBackground(vararg p0: Unit?) {
-
-                servicioEliminarRegistroAsistencia(idTaller)
-            }
-
-        }
-        miclase.execute().get()
-    }
-
-
-
     /**************** Guardar Registro Asistencia¨***********************/
     private fun guardarRegistroAsistencia(taller: Taller): RegistroAsistencia{
-
-        eliminarRegistroAsistencia(taller.idTaller)
 
         val registroAsistencia= RegistroAsistencia()
         registroAsistencia.idTaller=taller
@@ -974,6 +881,5 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         miclase.execute().get()
     }
 
-
-
 }
+

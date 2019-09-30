@@ -1,78 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:padding="16dp"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
 
-    <android.support.design.widget.TextInputLayout
+<android.support.v4.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_height="match_parent">
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="textMultiLine"
-                  android:hint="Actividad"
-                  android:id="@+id/etActividadEditar"
-                  android:imeOptions="actionNext"
-                  android:textSize="15sp"/>
-    </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="textMultiLine"
-                  android:id="@+id/etObjetivoEditar"
-                  android:hint="Objetivo"
-                  android:imeOptions="actionNext"
-                  android:textSize="15sp"/>
-    </android.support.design.widget.TextInputLayout>
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textMultiLine"
+                      android:hint="Actividad"
+                      android:id="@+id/etActividadEditar"
+                      android:imeOptions="actionNext"
+                      android:textSize="15sp"/>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="textMultiLine"
-                  android:id="@+id/etMaterialesEditar"
-                  android:hint="Materiales"
-                  android:imeOptions="actionNext"
-                  android:textSize="15sp"/>
-    </android.support.design.widget.TextInputLayout>
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textMultiLine"
+                      android:id="@+id/etObjetivoEditar"
+                      android:hint="Objetivo"
+                      android:imeOptions="actionNext"
+                      android:textSize="15sp"/>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:inputType="text"
-                  android:id="@+id/etResponsableEditar"
-                  android:hint="Responsable"
-                  android:imeOptions="actionNext"
-                  android:textSize="15sp"/>
-    </android.support.design.widget.TextInputLayout>
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="textMultiLine"
+                      android:id="@+id/etMaterialesEditar"
+                      android:hint="Materiales"
+                      android:imeOptions="actionNext"
+                      android:textSize="15sp"/>
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
 
-        <EditText android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/etDuracionEditar"
-                  android:inputType="number"
-                  android:hint="Duración"
-                  android:imeOptions="actionDone"
-                  android:textSize="15sp"/>
-    </android.support.design.widget.TextInputLayout>
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:inputType="text"
+                      android:id="@+id/etResponsableEditar"
+                      android:hint="Responsable"
+                      android:imeOptions="actionNext"
+                      android:textSize="15sp"/>
+        </android.support.design.widget.TextInputLayout>
 
-</LinearLayout>
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/etDuracionEditar"
+                      android:inputType="number"
+                      android:hint="Duración"
+                      android:imeOptions="actionDone"
+                      android:textSize="15sp"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

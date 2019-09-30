@@ -35,7 +35,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
             usuario=arguments?.getSerializable("usuario") as Usuario
             tipoTaller=arguments?.getSerializable("tipoTaller") as String?
 
-            if(tipoTaller == null){
+            if(tipoTaller == null && usuario!= null){
 
                 val rol=usuario.idRolUsuarioCentro.idRol.rol
 

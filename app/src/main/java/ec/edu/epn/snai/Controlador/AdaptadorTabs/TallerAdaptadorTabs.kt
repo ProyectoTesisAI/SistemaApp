@@ -8,6 +8,7 @@ import ec.edu.epn.snai.Controlador.Fragment.VerRegistroAsistenciaFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerTallerFragment
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
+import ec.edu.epn.snai.Modelo.Usuario
 
 class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Taller, itemsTallerAux: List<ItemTaller>?) : FragmentPagerAdapter(fm) {
 
