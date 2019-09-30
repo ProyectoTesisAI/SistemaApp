@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ClienteApiRest {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://programacion.epn.edu.ec/SistemaSNAI_Servidor/webresources/"; //"programacion.epn.edu.echttps://172.29.177.245:8181/SistemaSNAI_Servidor/webresources/"; /
+    private static final String BASE_URL = "https://programacion.epn.edu.ec/SistemaSNAI_Servidor/webresources/"; //"172.29.132.129:8181https://172.29.177.245:8181/SistemaSNAI_Servidor/webresources/"; /
 
     public static Retrofit getRetrofitInstance() {
 

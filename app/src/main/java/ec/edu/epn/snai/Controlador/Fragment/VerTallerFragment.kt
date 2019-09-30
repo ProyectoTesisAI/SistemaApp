@@ -1,6 +1,8 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -33,12 +35,10 @@ class VerTallerFragment : Fragment(){
             taller=arguments?.getSerializable("taller_seleccionado") as Taller
             itemsTaller=arguments?.getSerializable("items_taller_seleccionado") as ArrayList<ItemTaller>?
         }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_ver_taller, container, false)
-
         asignarVariablesTaller(rootView)
         return rootView
     }

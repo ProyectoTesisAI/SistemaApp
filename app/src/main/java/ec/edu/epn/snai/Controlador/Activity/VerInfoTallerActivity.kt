@@ -3,6 +3,7 @@ package ec.edu.epn.snai.Controlador.Activity
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -33,6 +34,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
     private lateinit var menuAux:Menu
     private var itemsTaller: List<ItemTaller>?=null
 
+    private lateinit var btftCrearInforme: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +58,17 @@ class VerInfoTallerActivity : AppCompatActivity() {
             finish()
         }
 
+        btftCrearInforme=findViewById(R.id.fab_crear_informe)
+        btftCrearInforme.setOnClickListener {
+            val intent = Intent(applicationContext, AgregarRegistroAsistenciaActivity::class.java)
+            intent.putExtra("token",token)
+            intent.putExtra("taller_seleccionado", taller)
+            if(itemsTaller != null){
+                intent.putExtra("items_taller_seleccionado", ArrayList(itemsTaller))
+            }
+
+            startActivity(intent)
+        }
 
     }
 

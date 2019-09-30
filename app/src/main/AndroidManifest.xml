@@ -21,14 +21,17 @@
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
         </activity>
         <activity android:name=".Controlador.Activity.EditarTallerActivity"
-            android:label="Editar Taller"
+                  android:label="Editar Taller"
         />
         <activity android:name=".Controlador.Activity.VerInformeActivity"/>
         <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"/>
         <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"/>
         <activity android:name=".Controlador.Activity.AgregarImagenActivity"/>
-      <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
-                android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarInformeActivity"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"/>
+        <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
+                  android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.TallerAgregarActivity"
                 android:label="Agregar Taller"/>
