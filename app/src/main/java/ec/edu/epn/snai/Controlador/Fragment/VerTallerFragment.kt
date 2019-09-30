@@ -22,8 +22,8 @@ class VerTallerFragment : Fragment(){
 
     private lateinit var token:String
     private lateinit var taller:Taller
-    private lateinit var menuAux: Menu
     private var itemsTaller: ArrayList<ItemTaller>?=null
+    private lateinit var usuario: Usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

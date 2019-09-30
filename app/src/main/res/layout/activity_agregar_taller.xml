@@ -221,7 +221,7 @@
                 <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Objetivo"
+                        android:hint="Objetivo"
                         android:textSize="15sp"
                         android:paddingTop="4sp"
                         android:fontFamily="sans-serif-light"
