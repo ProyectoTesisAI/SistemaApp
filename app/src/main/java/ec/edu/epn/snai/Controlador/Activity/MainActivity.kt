@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -103,6 +104,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when(item.itemId) {
 
+            /********** CREAR TALLERES ***********/
+            R.id.nav_crear_taller_psicologia->{
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_PSICOLOGIA, "CREAR TALLER PSICOLOGÍA")
+            }
+            R.id.nav_crear_taller_juridico->{
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_JURIDICO, "CREAR TALLER JURÍDICO")
+            }
+            R.id.nav_crear_taller_inspector_educador->{
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "CREAR TALLER INSPECTOR EDUCADOR")
+            }
+
+            /********** GESTIONAR  TALLERES ***********/
             R.id.nav_gestion_taller_psicologia -> {
                 abrirTalleresFragment(Constantes.TIPO_TALLER_PSICOLOGIA, "TALLERES DE PSICOLOGÍA SIN INFORME")
             }
@@ -120,6 +133,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
 
 
+    }
+
+    private fun abrirCrearTallerActivity(tipoTallerSeleccionado:String, tituloToolbar: String){
+
+        //Agrego en el bundle la variable token
+        val intent= Intent(this@MainActivity, CrearTallerActivity::class.java)
+        intent.putExtra("token", usuario.token)
+        intent.putExtra("usuario",usuario)
+        intent.putExtra("tipoTaller", tipoTallerSeleccionado)
+        intent.putExtra("tituloToolbar", tituloToolbar)
+
+        startActivity(intent)
     }
 
     private fun abrirTalleresFragment(tipoTallerSeleccionado:String, tituloToolbar: String){

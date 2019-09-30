@@ -17,6 +17,7 @@ import ec.edu.epn.snai.Controlador.AdaptadorTabs.TallerAdaptadorTabs
 import ec.edu.epn.snai.Modelo.CAI
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
+import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
@@ -32,6 +33,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
     private lateinit var taller:Taller
     private lateinit var menuAux:Menu
     private var itemsTaller: List<ItemTaller>?=null
+    private lateinit var usuario: Usuario
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +46,12 @@ class VerInfoTallerActivity : AppCompatActivity() {
         val i = intent
         this.taller = i.getSerializableExtra("taller_seleccionado") as Taller
         this.token = i.getSerializableExtra("token") as String
+        this.usuario=i.getSerializableExtra("usuario") as Usuario
+
         asynTaskObtenerListadoItemsTaller()
 
         if(itemsTaller != null){
+
             val adaptador=TallerAdaptadorTabs(supportFragmentManager,token,taller,ArrayList(itemsTaller))
             view_pager_taller.adapter=adaptador
             tabs_taller.setupWithViewPager(view_pager_taller)
@@ -80,6 +85,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
                 val intent = Intent(applicationContext, EditarTallerActivity::class.java)
                 intent.putExtra("token",token)
                 intent.putExtra("taller_seleccionado", taller)
+                intent.putExtra("usuario", usuario)
                 if(itemsTaller != null){
                     intent.putExtra("items_taller_seleccionado", ArrayList(itemsTaller))
                 }
