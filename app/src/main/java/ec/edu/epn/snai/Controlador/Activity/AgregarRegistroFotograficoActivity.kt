@@ -28,11 +28,6 @@ import kotlinx.android.synthetic.main.activity_editar_fotografias.*
 
 class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
-    //Me permite tratar a todos los atributos y métodos dentro del object como estáticos
-    companion object {
-        var listaFotografiasEliminar: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
-    }
-
     private var listaFotografias: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
     private lateinit var informeNuevo: Informe
     private lateinit var token: String
@@ -83,6 +78,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
                                 guardarRegistroFotografico(informeAux)
 
                                 Toast.makeText(applicationContext, "Se ha guardado correctamente el Informe", Toast.LENGTH_SHORT).show()
+
                                 val intent = Intent(this@AgregarRegistroFotograficoActivity, MainActivity::class.java)
                                 //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -136,15 +132,17 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
             val cr: ContentResolver= this.contentResolver
 
             val bitmap: Bitmap?  = MediaStore.Images.Media.getBitmap(cr, output)
+            val imagenaUX = Bitmap.createScaledBitmap( bitmap, 800, 600, false);
+
             val stream = ByteArrayOutputStream()
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+            imagenaUX?.compress(Bitmap.CompressFormat.JPEG, 25, stream)
 
             val byteArray = stream.toByteArray()
             val encode: String? = Base64.encodeToString(byteArray, Base64.DEFAULT)
 
             val fotoAux = RegistroFotografico()
             fotoAux.imagenAux = encode
-            fotoAux.foto = bitmap
+            fotoAux.foto = imagenaUX
 
             if (fotoAux != null) {
                 listaFotografias!!.add(fotoAux)
@@ -156,9 +154,9 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
     private fun mostrarFotografias() {
 
         if(listaFotografias != null){
+
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
             val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
-            Log.i("fotos", listaFotografiasEliminar!!.size.toString())
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@AgregarRegistroFotograficoActivity)
         }
@@ -273,6 +271,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
                     if(f.imagenAux!=null){
 
                         f.idInforme=informe
+
                         asynTaskGuardarFoto(f)
                     }
                 }

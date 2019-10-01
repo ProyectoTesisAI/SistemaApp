@@ -4,14 +4,12 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import ec.edu.epn.snai.Controlador.Activity.AgregarRegistroFotograficoActivity;
+import ec.edu.epn.snai.Controlador.Activity.EditarRegistroFotograficoActivity;
 import ec.edu.epn.snai.Modelo.RegistroFotografico;
 import ec.edu.epn.snai.R;
 
@@ -68,7 +66,7 @@ public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<I
         public void onClick(View view) {
 
             RegistroFotografico registroFotograficoAux=fotografias.get(getAdapterPosition());
-            AgregarRegistroFotograficoActivity.Companion.getListaFotografiasEliminar().add(registroFotograficoAux);
+            EditarRegistroFotograficoActivity.Companion.getListaFotografiasEliminar().add(registroFotograficoAux);
             fotografias.remove(getAdapterPosition());
 
             notifyDataSetChanged();
