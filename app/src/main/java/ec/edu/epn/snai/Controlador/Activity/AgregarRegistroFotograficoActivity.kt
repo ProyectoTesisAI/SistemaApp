@@ -88,17 +88,17 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
                             }
                         }
                         else{
-                            Toast.makeText(applicationContext, "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "Debe de ingresar al menos una foto", Toast.LENGTH_SHORT).show()
 
                         }
                     }
                     else{
-                        Toast.makeText(applicationContext, "Debe de seleccionar la asistencia de los Adolescentes Infractores al Taller", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "Debe de seleccionar la asistencia de los Adolescentes Infractores", Toast.LENGTH_SHORT).show()
                     }
 
                 }
                 else{
-                    Toast.makeText(applicationContext, "Debe de ingresar una Justificación y Conclusiones", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor", Toast.LENGTH_SHORT).show()
                 }
             }
             else -> {
@@ -110,9 +110,16 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun cargarImagen() {
 
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.setType("image/")
-        startActivityForResult(Intent.createChooser(intent, "Seleccione una imagen"), 10)
+        if(listaFotografias?.size!! < 5 ){
+
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.setType("image/")
+            startActivityForResult(Intent.createChooser(intent, "Seleccione una imagen"), 10)
+        }
+        else{
+            Toast.makeText(applicationContext, "Ha alcanzado el número máximo de fotos", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
