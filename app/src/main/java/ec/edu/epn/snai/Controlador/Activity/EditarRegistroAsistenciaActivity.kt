@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.*
@@ -37,12 +38,7 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
 
         btnAgregarInforme = findViewById(R.id.fab_agregar_informe_nuevo)
         btnAgregarInforme.setOnClickListener {
-            val intent = Intent(this@EditarRegistroAsistenciaActivity, EditarInformeAgregarActivity::class.java)
-            intent.putExtra("token",token)
-            intent.putExtra("informeSeleccionado", informeSeleccionado)
-            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
-            intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
-            startActivity(intent)
+            abrirInforme()
         }
 
     }
@@ -53,5 +49,36 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
         var adaptador = IngresarRegistroAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@EditarRegistroAsistenciaActivity)
+    }
+
+    private fun abrirInforme(){
+
+        val cantidadAsistentes=obtenerCantidadParticipantes()
+
+        if(cantidadAsistentes > 0 ){
+            val intent = Intent(this@EditarRegistroAsistenciaActivity, EditarInformeAgregarActivity::class.java)
+            intent.putExtra("token",token)
+            intent.putExtra("informeSeleccionado", informeSeleccionado)
+            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
+            intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(applicationContext, "Debe de seleccionar la asistencia de los Adolescentes Infractores", Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun obtenerCantidadParticipantes():Int{
+        var cantidad=0
+        if(!listaAdolescentesInfractores.isNullOrEmpty()){
+            listaAdolescentesInfractores!!.forEach{
+                if(it.asistio==true){
+                    cantidad++
+                }
+            }
+        }
+        return cantidad
     }
 }

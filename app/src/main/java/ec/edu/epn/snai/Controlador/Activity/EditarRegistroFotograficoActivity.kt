@@ -16,6 +16,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.*
 import java.io.ByteArrayOutputStream
@@ -88,14 +89,52 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         when (item?.itemId) {
 
             R.id.menu_guardar -> {
-                guardarRegistroFotografico(informeSeleccionado)
-                //asynTaskEditarInforme()
-                val intent = Intent(applicationContext, VerEditarInformeActivity::class.java)
-                intent.putExtra("token", token)
-                intent.putExtra("informeSeleccionado", informeSeleccionado)
-                intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
-                intent.putExtra("listaAsistencia", ArrayList(listaAdolescentesInfractores))
-                startActivity(intent)
+                if (!informeSeleccionado.adolescentesJustificacion.isNullOrBlank() && !informeSeleccionado.socializacionDesarrollo.isNullOrBlank() && !informeSeleccionado.socializacionObjetivos.isNullOrBlank() && !informeSeleccionado.cierreEvaluacion.isNullOrBlank() && !informeSeleccionado.conclusiones.isNullOrBlank()) {
+
+                    if (informeSeleccionado.numeroAdolescentes > 0) {
+
+                        if (listaFotografias?.size!! > 0) {
+
+                            val asis = guardarRegistroAsistencia()
+                            if (asis > 0) {
+                                val informeAux = guardarInforme()
+                                if (informeAux != null) {
+                                    guardarRegistroFotografico(informeAux)
+                                    Toast.makeText(applicationContext,"Se ha guardado correctamente el Informe",Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(applicationContext, MainActivity::class.java)
+                                    //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    val usuarioAux = informeAux.idTaller.idUsuario
+                                    usuarioAux.token = this.token
+                                    intent.putExtra("usuario", usuarioAux)
+                                    intent.putExtra("token", token)
+                                    intent.putExtra("informeSeleccionado", informeSeleccionado)
+                                    intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
+                                    intent.putExtra("listaAsistencia", ArrayList(listaAdolescentesInfractores))
+                                    startActivity(intent)
+                                }
+                            }
+                        } else {
+                            Toast.makeText(applicationContext, "Debe de ingresar al menos una foto", Toast.LENGTH_SHORT)
+                                .show()
+
+                        }
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Debe de seleccionar la asistencia de los Adolescentes Infractores",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
             else -> {
                 finish()
@@ -159,10 +198,18 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     }
 
-    fun cargarImagen() {
-        var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.setType("image/")
-        startActivityForResult(Intent.createChooser(intent, "Selecciona una imagen"), 10)
+    private fun cargarImagen() {
+
+        if (listaFotografias?.size!! < 5) {
+            btnAgregarImagen.isEnabled=true
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.setType("image/")
+            startActivityForResult(Intent.createChooser(intent, "Seleccione una imagen"), 10)
+        } else {
+            Toast.makeText(applicationContext, "Ha alcanzado el número máximo de fotos", Toast.LENGTH_SHORT).show()
+            btnAgregarImagen.isEnabled=false
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -186,6 +233,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                 listaFotografias?.add(fotoAux)
             }
             mostrarListadoAsistencia()
+            cargarImagen()
         }
     }
 
@@ -213,12 +261,14 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             var cantidadRegistro = 0
             listaAdolescentesInfractores?.forEach {
                 if (it.asistio == true) {
-                    val asistenciaAux = servicioGuardarRegistroAsistencia(it)
+                    //val asistenciaAux = servicioGuardarRegistroAsistencia(it)
+                    val asistenciaAux = asynTaskGuardarRegistroAsistencia(it)
                     if (asistenciaAux != null) {
                         cantidadRegistro++
                     }
                 } else {
-                    val asistenciaAux = servicioGuardarRegistroAsistencia(it)
+                    //val asistenciaAux = servicioGuardarRegistroAsistencia(it)
+                    val asistenciaAux = asynTaskGuardarRegistroAsistencia(it)
                     if (asistenciaAux != null) {
                         cantidadRegistro--
                     }
@@ -235,15 +285,17 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     }
 
     private fun guardarInforme(): Informe? {
-        var respuestaServicio: Informe
-        respuestaServicio = Informe()
-        if (informeSeleccionado != null) {
-            var infoAux = servicioGuardarInforme(informeSeleccionado)
-            respuestaServicio = infoAux!!
+        if (this.informeSeleccionado != null) {
+
+            val informeAux = asynTaskEditarInforme(informeSeleccionado)
+            if (informeAux != null) {
+                return informeAux
+            } else {
+                return null
+            }
         } else {
             return null
         }
-        return respuestaServicio
     }
 
     private fun guardarRegistroFotografico(informe: Informe) {
@@ -288,29 +340,42 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                 }
             }
         }
-        /*if(listaFotografias?.size!! >0){
-            listaFotografias?.forEach {
-                if(it.imagenAux!=null){
-                    it.idInforme=informe
-                    //servicioGuardarRegistroFotografico(it)
-                    asynTaskEditarFoto(it)
-                }
-            }
-        }*/
     }
 
-    private fun asynTaskEditarInforme() {
+    private fun asynTaskGuardarRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente): AsistenciaAdolescente?{
+
+        val miclase = object : AsyncTask<Unit, Unit, AsistenciaAdolescente>() {
+
+            override fun doInBackground(vararg p0: Unit?):AsistenciaAdolescente? {
+                val servicioRespuesta = servicioGuardarRegistroAsistencia(asistenciaAdolescente)
+                return servicioRespuesta
+            }
+
+        }
+        val asistenciaRescatada=miclase.execute().get()
+        if (asistenciaRescatada != null) {
+            return asistenciaRescatada
+        } else {
+            return null
+        }
+    }
+
+    private fun asynTaskEditarInforme(informe: Informe): Informe? {
 
         val miclase = object : AsyncTask<Unit, Unit, Informe>() {
 
-            override fun doInBackground(vararg p0: Unit?): Informe {
-                val informeEditado = guardarEdicionInforme()
+            override fun doInBackground(vararg p0: Unit?): Informe? {
+                val informeEditado = servicioGuardarInforme(informe)
                 return informeEditado
             }
 
         }
         val informeRescatado = miclase.execute().get()
-        Log.i("taller", informeRescatado.toString())
+        if (informeRescatado != null) {
+            return informeRescatado
+        } else {
+            return null
+        }
     }
 
     private fun asynTaskEditarFoto(rf: RegistroFotografico) {
@@ -347,8 +412,19 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     private fun servicioGuardarInforme(informe: Informe): Informe? {
         val servicioInforme = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
         val call = servicioInforme.editarInforme(informe, "Bearer $token")
-        val informeGuardado = call.execute().body()
-        return informeGuardado!!
+        val response = call.execute()
+
+        if (response != null) {
+
+            if (response.code() == 200) {
+                val informeGuardado = response.body()
+                return informeGuardado
+            } else {
+                return null
+            }
+        } else {
+            return null
+        }
     }
 
     private fun servicioGuardarRegistroFotografico(registroFoto: RegistroFotografico): RegistroFotografico? {
@@ -361,10 +437,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     private fun servicioEliminarRegistroFotografico(registroFoto: RegistroFotografico): Int? {
         val servicioEliminarFotografias =
             ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioEliminarFotografias.eliminarRegistroFotografico(
-            registroFoto.idRegistroFotografico.toString(),
-            "Bearer $token"
-        )
+        val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(),"Bearer $token")
         val fotografiasEliminar = call.execute().body()
         println(fotografiasEliminar)
         return fotografiasEliminar!!

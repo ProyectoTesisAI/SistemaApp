@@ -15,22 +15,26 @@
         <activity
                 android:name=".Controlador.Activity.VerInfoTallerActivity"
                 android:label="@string/title_activity_ver_info_taller"
-                android:screenOrientation="landscape"
-        >
-        </activity>
-        <activity android:name=".Controlador.Activity.EditarActividadTallerActivity">
-        </activity>
+                android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.EditarActividadTallerActivity"
+                  android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarTallerActivity"
-            android:label="Editar Taller"
-                  android:screenOrientation="landscape"
-        />
-        <activity android:name=".Controlador.Activity.VerInformeActivity"/>
-        <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"/>
-        <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"/>
-        <activity android:name=".Controlador.Activity.AgregarImagenActivity"/>
-        <activity android:name=".Controlador.Activity.AgregarInformeActivity"/>
-        <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"/>
-        <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"/>
+                  android:label="Editar Taller"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.VerInformeActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarImagenActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarInformeActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"
+                  android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"
+                  android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
                   android:screenOrientation="landscape"/>
         <activity
