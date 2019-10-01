@@ -7,12 +7,14 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
+import android.view.MenuItem
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.RegistroAsistenciaServicio
+import kotlinx.android.synthetic.main.activity_ver_registro_asistencia.*
 
 class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
 
@@ -21,7 +23,6 @@ class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
     private lateinit var tallerSeleccionado: Taller
     private lateinit var token:String
 
-    private lateinit var btnAgregarInforme : FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,30 +33,32 @@ class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
         this.tallerSeleccionado = i.getSerializableExtra("taller_seleccionado") as Taller
         this.token = i.getSerializableExtra("token") as String
         this.listaActividadesTaller = i.getSerializableExtra("items_taller_seleccionado") as ArrayList<ItemTaller>
-        //this.listaRegistroAsistencia = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
-        asynTaskObtenerListadoRegistroAsistencia()
-        if(listaRegistroAsistencia!=null){
-            mostrarListadoAsistencia()
-        }
 
-        btnAgregarInforme = findViewById(R.id.fab_agregar_informe_nuevo)
-        btnAgregarInforme.setOnClickListener {
-            val intent = Intent(this@AgregarRegistroAsistenciaActivity, AgregarInformeActivity::class.java)
-            intent.putExtra("token",token)
-            intent.putExtra("tallerSeleccionado", tallerSeleccionado)
-            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
-            intent.putExtra("listaAsistencia", java.util.ArrayList(listaRegistroAsistencia))
-            startActivity(intent)
+
+        asynTaskObtenerListadoRegistroAsistencia()
+        mostrarListadoAsistencia()
+
+        fab_agregar_informe_nuevo.setOnClickListener {
+            abrirInforme()
         }
 
     }
 
-    fun mostrarListadoAsistencia(){
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        finish()
+        return true
+    }
 
-        var recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
-        var adaptador = IngresarRegistroAsistenciaAdaptador(listaRegistroAsistencia)
-        recyclerViewRegistroAsistencia.adapter=adaptador
-        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@AgregarRegistroAsistenciaActivity)
+    private fun mostrarListadoAsistencia(){
+
+        if(listaRegistroAsistencia!=null){
+
+            val recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
+            val adaptador = IngresarRegistroAsistenciaAdaptador(listaRegistroAsistencia)
+            recyclerViewRegistroAsistencia.adapter=adaptador
+            recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@AgregarRegistroAsistenciaActivity)
+        }
+
     }
 
     private fun asynTaskObtenerListadoRegistroAsistencia(){
@@ -64,7 +67,7 @@ class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {
-                val listadoAsistencia=obtenerRegistroAsistencia()
+                val listadoAsistencia=servicioOtenerRegistroAsistencia()
                 if(listadoAsistencia!=null){
                     return listadoAsistencia
                 }else{
@@ -76,18 +79,18 @@ class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
         listaRegistroAsistencia= task.execute().get()
     }
 
-    private fun obtenerRegistroAsistencia(): List<AsistenciaAdolescente>?{
+    private fun servicioOtenerRegistroAsistencia(): List<AsistenciaAdolescente>?{
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+
         if(tallerSeleccionado!=null){
+
             val call = servicio.listaAdolescentesInfractoresPorTaller(tallerSeleccionado,"Bearer "+ token)
             try{
                 val response=call.execute()
 
                 if(response != null){
 
-                    val codigoRespuesta: Int= response.code()
-
-                    if(codigoRespuesta==200){
+                    if(response.code()==200){
                         return response.body()!!
                     }
                     else{
@@ -98,11 +101,42 @@ class AgregarRegistroAsistenciaActivity : AppCompatActivity(){
                     return null
                 }
             }catch (e: Exception){
-                Log.i("ERROR",e.message)
                 return  null
             }
         }else{
             return null
         }
+    }
+
+    private fun abrirInforme(){
+
+        val cantidadAsistentes=obtenerCantidadParticipantes()
+
+        if(cantidadAsistentes > 0 ){
+
+            val intent = Intent(this@AgregarRegistroAsistenciaActivity, AgregarInformeActivity::class.java)
+            intent.putExtra("token",token)
+            intent.putExtra("tallerSeleccionado", tallerSeleccionado)
+            intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
+            intent.putExtra("listaAsistencia", ArrayList(listaRegistroAsistencia))
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(applicationContext, "Debe de seleccionar la asistencia de los Adolescentes Infractores", Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun obtenerCantidadParticipantes():Int{
+        var cantidad=0
+        if(!listaRegistroAsistencia.isNullOrEmpty()){
+            listaRegistroAsistencia!!.forEach{
+                if(it.asistio==true){
+                    cantidad++
+                }
+            }
+        }
+        return cantidad
     }
 }

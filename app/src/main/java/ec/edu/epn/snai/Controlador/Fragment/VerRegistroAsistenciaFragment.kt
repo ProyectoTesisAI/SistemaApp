@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import ec.edu.epn.snai.Controlador.Adaptador.ListadoAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -19,7 +20,7 @@ import retrofit2.Response
 
 class VerRegistroAsistenciaFragment: Fragment() {
 
-    private var listaAdolescentesInfractores: List<AdolescenteInfractor>?=null
+    private var listaAsistenciaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
 
     private lateinit var tallerActual: Taller
     private lateinit var token:String
@@ -40,38 +41,21 @@ class VerRegistroAsistenciaFragment: Fragment() {
         /*CONSUMO DEL SERVICIO WEB Y ASIGNARLO EN EL RECYCLERVIEW*/
         val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-        if(tallerActual.idCai!=null ){
-            val call = servicio.listaAdolescentesInfractoresPorCai(tallerActual.idCai,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
-                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
+        if(tallerActual != null ){
+            val call = servicio.listaAdolescentesInfractoresPorTaller(tallerActual,"Bearer "+ token)
+            call.enqueue(object : Callback<List<AsistenciaAdolescente>> {
+                override fun onResponse(call: Call<List<AsistenciaAdolescente>>, response: Response<List<AsistenciaAdolescente>>) {
                     if (response.isSuccessful) {
-                        listaAdolescentesInfractores = response.body()
 
-                        if(listaAdolescentesInfractores!=null){
+                        listaAsistenciaAdolescentesInfractores = response.body()
+
+                        if(listaAsistenciaAdolescentesInfractores!=null){
                             mostrarListadoAsistencia(rootView!!)
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
-                    call.cancel()
-                }
-            })
-        }else if(tallerActual.idUdi!=null){
-            val call = servicio.listaAdolescentesInfractoresPorUzdi(tallerActual.idUdi,"Bearer "+ token)
-            call.enqueue(object : Callback<List<AdolescenteInfractor>> {
-                override fun onResponse(call: Call<List<AdolescenteInfractor>>, response: Response<List<AdolescenteInfractor>>) {
-                    if (response.isSuccessful) {
-                        listaAdolescentesInfractores = response.body()
-
-                        if(listaAdolescentesInfractores!=null){
-                            mostrarListadoAsistencia(rootView!!)
-                        }
-
-                    }
-                }
-
-                override fun onFailure(call: Call<List<AdolescenteInfractor>>, t: Throwable) {
+                override fun onFailure(call: Call<List<AsistenciaAdolescente>>, t: Throwable) {
                     call.cancel()
                 }
             })
@@ -82,7 +66,7 @@ class VerRegistroAsistenciaFragment: Fragment() {
     fun mostrarListadoAsistencia(view: View){
 
         var recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
-        var adaptador = ListadoAsistenciaAdaptador(listaAdolescentesInfractores)
+        var adaptador = ListadoAsistenciaAdaptador(listaAsistenciaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 

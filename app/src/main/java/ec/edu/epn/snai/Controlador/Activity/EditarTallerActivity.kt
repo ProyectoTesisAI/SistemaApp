@@ -83,16 +83,21 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTipoCentro.adapter=adapterTipoCentro
 
-        val rol=this.usuario.idRolUsuarioCentro.idRol.rol
-        val itemTipoCentro=obtenerItemTipoCentro(rol)
+        if(this.taller.tipo.equals(Constantes.ROL_INSPECTOR_EDUCADOR)){
 
-        if(itemTipoCentro != null){
+            spTipoCentro.setSelection(1)
+            spTipoCentro.isEnabled=false
+        }
+        else{
+
+            val itemTipoCentro=obtenerItemTipoCentro()
 
             if(itemTipoCentro==0 || itemTipoCentro==1){
                 spTipoCentro.setSelection(itemTipoCentro)
-                spTipoCentro.isEnabled=false
             }
+
         }
+
 
         spCentro=findViewById(R.id.spUdiCai)
 
@@ -107,10 +112,9 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 if(posicion==0){
                     asignarListaUzdiSpinner()
 
-                    val itemCentroUzdiCAI=obtenerItemUzdiCai(taller.idUsuario)
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai()
                     if(itemCentroUzdiCAI != null){
                         spCentro?.setSelection(itemCentroUzdiCAI)
-                        spCentro?.isEnabled=false
                     }
 
                     itemSelectedPorCentroUzdiCai(0)
@@ -119,10 +123,9 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                 if(posicion==1){
                     asignarListaCaiSpinner()
 
-                    val itemCentroUzdiCAI=obtenerItemUzdiCai(taller.idUsuario)
+                    val itemCentroUzdiCAI=obtenerItemUzdiCai()
                     if(itemCentroUzdiCAI != null){
                         spCentro?.setSelection(itemCentroUzdiCAI)
-                        spCentro?.isEnabled=false
                     }
 
                     itemSelectedPorCentroUzdiCai(1)
@@ -191,7 +194,6 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         for (u in listaUZDI!!){
             listaUZDIAux.add(u.udi)
         }
-
 
         val adapterTipoCentro=ArrayAdapter<String>(this@EditarTallerActivity,android.R.layout.simple_expandable_list_item_1,listaUZDIAux)
         adapterTipoCentro.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -536,64 +538,51 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         return simpleHourFormat.format(horaInicio)
     }
 
-    private fun obtenerItemTipoCentro( rol:String):Int? {
+    private fun obtenerItemTipoCentro():Int {
 
-        var posicionItem:Int?= null
-        if (rol != null) {
-            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
-                posicionItem=null
-            }
-            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
-                posicionItem=0
-            }
-            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(
-                    Constantes.ROL_INSPECTOR_EDUCADOR)) {
-                posicionItem=1
-            }
+        var posicionItem =0
+
+        if(taller.idUdi!=null){
+            posicionItem=0
         }
+        else if(taller.idCai!= null){
+            posicionItem=1
+        }
+
         return posicionItem
     }
 
-    private fun obtenerItemUzdiCai(usuario: Usuario): Int?{
+    private fun obtenerItemUzdiCai(): Int?{
 
-        val rol=usuario.idRolUsuarioCentro.idRol.rol
-        var posicionItem: Int?=null
+        var posicionItem =0
 
-        if (rol != null) {
-            if (Constantes.ROL_ADMINISTRADOR.equals(rol) || Constantes.ROL_SUBDIRECTOR.equals(rol) || Constantes.ROL_LIDER_UZDI.equals(rol) || Constantes.ROL_COORDINADOR_CAI.equals(rol) || Constantes.ROL_DIRECTOR_UZDI.equals(rol) || Constantes.ROL_DIRECTOR_CAI.equals(rol)) {
-                posicionItem=null
-            }
-            else if ( rol.equals(Constantes.ROL_PSICOLOGO_UZDI) || rol.equals(Constantes.ROL_JURIDICO_UZDI)) {
-                val uzdiAsignada=usuario.idRolUsuarioCentro.idUdi
+        if(taller.idUdi != null){
 
-                if(uzdiAsignada !=null){
+            if(listaUZDI != null){
 
-                    val tamanio:String= listaUZDI?.size.toString()
+                val longitud: String = listaUZDI?.size.toString()
 
-                    for(i in 0 until tamanio.toInt()){
-                        if(listaUZDI?.get(i)?.udi ==  uzdiAsignada.udi){
-                            posicionItem=i
-                        }
-                    }
+                for(i in 0 until longitud.toInt()){
 
-                }
-            }
-            else if(rol.equals(Constantes.ROL_PSICOLOGO_CAI) || rol.equals(Constantes.ROL_JURIDICO_CAI) || rol.equals(Constantes.ROL_INSPECTOR_EDUCADOR)) {
-                val caiAsignada=usuario.idRolUsuarioCentro.idCai
-
-                if(caiAsignada!= null){
-
-                    val tamanio:String= listaCAI?.size.toString()
-
-                    for(i in 0 until tamanio.toInt()){
-                        if(listaCAI?.get(i)?.cai ==caiAsignada.cai){
-                            posicionItem=i
-                        }
+                    if( listaUZDI?.get(i)?.udi ==  this.taller.idUdi.udi){
+                        posicionItem=i
                     }
                 }
             }
         }
+        else if(taller.idCai != null){
 
+            if(listaCAI != null ){
+
+                val longitud: String = listaCAI?.size.toString()
+
+                for(i in 0 until longitud.toInt()){
+                    if(listaCAI?.get(i)?.cai ==this.taller.idCai.cai){
+                        posicionItem=i
+                    }
+                }
+            }
+        }
         return posicionItem
     }
 
