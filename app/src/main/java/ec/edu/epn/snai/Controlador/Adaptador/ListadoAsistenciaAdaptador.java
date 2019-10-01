@@ -1,6 +1,5 @@
 package ec.edu.epn.snai.Controlador.Adaptador;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.AdolescenteInfractor;
+import ec.edu.epn.snai.Modelo.AsistenciaAdolescente;
 import ec.edu.epn.snai.R;
 
 import java.util.ArrayList;
@@ -16,11 +16,11 @@ import java.util.List;
 //Clase Adaptador correspondiente al RecyclerView del RegistoAsistencia, hecho en Java
 public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
-    private List<AdolescenteInfractor> adolescenteInfractoresLista= new ArrayList<>();
+    private List<AsistenciaAdolescente> listaAsistenciaAdolescentesInfractores = new ArrayList<>();
 
 
-    public ListadoAsistenciaAdaptador(List<AdolescenteInfractor> adolescenteInfractoresLista) {
-        this.adolescenteInfractoresLista = adolescenteInfractoresLista;
+    public ListadoAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
+        this.listaAsistenciaAdolescentesInfractores = adolescenteInfractoresLista;
     }
 
     @NonNull
@@ -35,15 +35,15 @@ public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsis
     public void onBindViewHolder(@NonNull RegistroAsistenciaViewHolder viewHolder, int i) {
 
         //Seteo los valores en los diferentes controles
-        viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getNombres().toUpperCase());
-        viewHolder.txtApellidos.setText(adolescenteInfractoresLista.get(i).getApellidos().toUpperCase());
-        viewHolder.txtCedula.setText(adolescenteInfractoresLista.get(i).getCedula());
-        viewHolder.txtDocumento.setText( adolescenteInfractoresLista.get(i).getDocumento());
+        viewHolder.txtNombres.setText(listaAsistenciaAdolescentesInfractores.get(i).getIdAdolescenteInfractor().getNombres().toUpperCase());
+        viewHolder.txtApellidos.setText(listaAsistenciaAdolescentesInfractores.get(i).getIdAdolescenteInfractor().getApellidos().toUpperCase());
+        viewHolder.txtCedula.setText(listaAsistenciaAdolescentesInfractores.get(i).getIdAdolescenteInfractor().getCedula());
+        viewHolder.txtDocumento.setText( listaAsistenciaAdolescentesInfractores.get(i).getIdAdolescenteInfractor().getDocumento());
     }
 
     @Override
     public int getItemCount() {
-        return adolescenteInfractoresLista.size();
+        return listaAsistenciaAdolescentesInfractores.size();
     }
 
     public class RegistroAsistenciaViewHolder extends RecyclerView.ViewHolder{

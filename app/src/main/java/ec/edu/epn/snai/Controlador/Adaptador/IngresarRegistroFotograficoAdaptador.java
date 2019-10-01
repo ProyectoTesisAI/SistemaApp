@@ -66,7 +66,7 @@ public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<I
                 public void onClick(View v) {
                     if (listener != null){
                         int position = getAdapterPosition();
-                        System.out.println(position);
+
                         if(position != RecyclerView.NO_POSITION){
                             listener.onDeleteClick(position);
                             notifyDataSetChanged();

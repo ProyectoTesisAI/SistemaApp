@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <ImageView
-            android:paddingLeft="20sp"
-            android:paddingRight="20sp"
-            android:id="@+id/imgRegistroFotograficoEditar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-    <Space android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_centerHorizontal="true"
-    />
     <Button
+            android:elevation="2dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:id="@+id/btn_quitar"
             android:layout_centerHorizontal="true"
             android:text="Eliminar"
-            android:fallbackLineSpacing="true"
+
     />
-    <Space android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_centerHorizontal="true"
-    />
-</RelativeLayout>
+    <ImageView
+            android:layout_marginTop="-25sp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/imgRegistroFotograficoEditar"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>
