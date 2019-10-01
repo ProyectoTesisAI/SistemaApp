@@ -86,13 +86,7 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
 
         fabAgregarFotograficas=findViewById(R.id.fab_agregar_fotograficas_informe)
         fabAgregarFotograficas.setOnClickListener {
-            val intent = Intent(this@EditarInformeAgregarActivity, EditarRegistroFotograficoActivity::class.java)
-            intent.putExtra("token",token)
-            intent.putExtra("informeSeleccionado", obtenerVariablesInforme())
-            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
-            intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
-            //intent.putExtra("listaFotos", java.util.ArrayList(listaFotos))
-            startActivity(intent)
+            abrirRegistroFotografico()
         }
 
     }
@@ -211,6 +205,26 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
             return informeAux
         }else{
             return null
+        }
+    }
+
+    private fun abrirRegistroFotografico(){
+
+        val informeNuevo=obtenerVariablesInforme()
+
+        if(informeNuevo != null){
+
+            if(!informeNuevo.adolescentesJustificacion.isNullOrBlank() && !informeNuevo.socializacionDesarrollo.isNullOrBlank() && !informeNuevo.socializacionObjetivos.isNullOrBlank() && !informeNuevo.cierreEvaluacion.isNullOrBlank() && !informeNuevo.conclusiones.isNullOrBlank() ){
+                val intent = Intent(this@EditarInformeAgregarActivity, EditarRegistroFotograficoActivity::class.java)
+                intent.putExtra("token",token)
+                intent.putExtra("informeSeleccionado", obtenerVariablesInforme())
+                intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
+                intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(applicationContext, "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
