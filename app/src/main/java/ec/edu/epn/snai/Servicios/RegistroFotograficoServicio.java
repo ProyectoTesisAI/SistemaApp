@@ -22,5 +22,5 @@ public interface RegistroFotograficoServicio {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @DELETE("Registro_Fotografico/{id}")
-    Call<Integer> eliminarRegistroFotografico(@Path("id") String id, @Header("Authorization") String token);
+    Call<Void> eliminarRegistroFotografico(@Path("id") String id, @Header("Authorization") String token);
 }
