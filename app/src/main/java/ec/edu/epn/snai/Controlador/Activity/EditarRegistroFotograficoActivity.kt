@@ -157,10 +157,20 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             val cr: ContentResolver= this.contentResolver
 
             val bitmap: Bitmap?  = MediaStore.Images.Media.getBitmap(cr, output)
-            val imagenaUX = Bitmap.createScaledBitmap( bitmap, 800, 600, false);
+
+            var ancho=bitmap?.width!!
+            var alto=bitmap.height
+
+            while (alto > 1200 || ancho > 1200){
+
+                ancho= (ancho/1.25F).toInt()
+                alto=(alto/1.25F).toInt()
+            }
+
+            val imagenaUX = Bitmap.createScaledBitmap( bitmap, ancho, alto, false);
 
             val stream = ByteArrayOutputStream()
-            imagenaUX?.compress(Bitmap.CompressFormat.JPEG, 25, stream)
+            imagenaUX?.compress(Bitmap.CompressFormat.JPEG, 95, stream)
 
             val byteArray = stream.toByteArray()
             val encode: String? = Base64.encodeToString(byteArray, Base64.DEFAULT)
