@@ -42,7 +42,8 @@
                 android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.EditarInformeAgregarActivity"
-                android:label="Agregar Informe"/>
+                android:label="Agregar Informe"
+                android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar"
