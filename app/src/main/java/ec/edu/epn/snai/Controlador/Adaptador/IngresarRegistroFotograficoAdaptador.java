@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import ec.edu.epn.snai.Controlador.Activity.AgregarRegistroFotograficoActivity;
 import ec.edu.epn.snai.Modelo.RegistroFotografico;
 import ec.edu.epn.snai.R;
 
@@ -43,20 +44,7 @@ public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<I
         fotografias.get(i).setFoto(BitmapFactory.decodeByteArray(byteDatos, 0, byteDatos.length));
         //Seteo los valores en los diferentes controles
         viewHolder.imgImagen.setImageBitmap(fotografias.get(i).getFoto());
-        //viewHolder.setOnClickListeners();
-        viewHolder.btnQuitar.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View v) {
-                final int posicion=viewHolder.getLayoutPosition();
-                try{
-                    fotografias.remove(posicion);
-                    notifyDataSetChanged();
-                }catch (Exception e){
-                    Log.e(e.getMessage(),"Ocurrio un error en onClick, en OnBindViewHolder");
-                }
-            }
-        });
     }
 
     @Override
@@ -64,7 +52,7 @@ public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<I
         return fotografias.size();
     }
 
-    public class RegistroFotograficoViewHolder extends RecyclerView.ViewHolder {
+    public class RegistroFotograficoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imgImagen;
         Button btnQuitar;
@@ -73,6 +61,19 @@ public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<I
             super(itemView);
             imgImagen = itemView.findViewById(R.id.imgRegistroFotograficoEditar);
             btnQuitar = itemView.findViewById(btn_quitar);
+            btnQuitar.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+
+            RegistroFotografico registroFotograficoAux=fotografias.get(getAdapterPosition());
+            AgregarRegistroFotograficoActivity.Companion.getListaFotografiasEliminar().add(registroFotograficoAux);
+            fotografias.remove(getAdapterPosition());
+
+            notifyDataSetChanged();
+
+        }
+
     }
 }

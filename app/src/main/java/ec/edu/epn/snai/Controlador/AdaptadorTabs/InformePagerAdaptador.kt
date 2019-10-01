@@ -13,34 +13,18 @@ import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.RegistroFotografico
 import java.util.ArrayList
 
-class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe, listaFotografias:  List<RegistroFotografico>, listaItemsActividades: List<ItemTaller>, listaAsistencia: List<AsistenciaAdolescente>) : FragmentPagerAdapter(fm) {
+class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe, listaFotografiasAux:  List<RegistroFotografico>, listaItemsActividadesAux: List<ItemTaller>, listaAsistenciaAux: List<AsistenciaAdolescente>) : FragmentPagerAdapter(fm) {
 
-    val token=tokenAux
     val informe= informeAux
-    val listaFotografias=listaFotografias
-    val listaActividades=listaItemsActividades
-    val listaAsistencia=listaAsistencia
+    val listaFotografias=listaFotografiasAux
+    val listaActividades=listaItemsActividadesAux
+    val listaAsistencia=listaAsistenciaAux
 
-    private fun obtenerInformeBundle() : Bundle{
-        var bundle = Bundle()
-        bundle.putSerializable("token", token)
+    private fun obtenerBundle() : Bundle{
+        val bundle = Bundle()
         bundle.putSerializable("informeSeleccionado", informe)
         bundle.putSerializable("listaActividades", ArrayList(listaActividades))
-        return  bundle
-    }
-
-    private fun obtenerRegistroAsistenciaBundle() : Bundle{
-        var bundle = Bundle()
-        bundle.putSerializable("token", token)
-        bundle.putSerializable("informeSeleccionado", informe)
         bundle.putSerializable("listaAsistencia", ArrayList(listaAsistencia))
-        return  bundle
-    }
-
-    private fun obtenerListaFotograficasBundle() : Bundle{
-        var bundle = Bundle()
-        bundle.putSerializable("token", token)
-        bundle.putSerializable("informeSeleccionado", informe)
         bundle.putSerializable("listaFotos", ArrayList(listaFotografias))
         return  bundle
     }
@@ -52,15 +36,15 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
 
             0->{
                 fragmentAux= VerEditarRegistroAsistenciaFragment()
-                fragmentAux.arguments=obtenerRegistroAsistenciaBundle()
+                fragmentAux.arguments=obtenerBundle()
             }
             1->{
                 fragmentAux= VerEditarInformeFragment()
-                fragmentAux.arguments=obtenerInformeBundle()
+                fragmentAux.arguments=obtenerBundle()
             }
             2->{
                 fragmentAux= VerEditarFotografiasFragment()
-                fragmentAux.arguments=obtenerListaFotograficasBundle()
+                fragmentAux.arguments=obtenerBundle()
             }
 
         }

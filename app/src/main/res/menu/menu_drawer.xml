@@ -15,7 +15,7 @@
                     android:icon="@drawable/ic_menu_gallery"
                     android:title="@string/gestion_talleres_psicologo"/>
             <item
-                    android:id="@+id/nav_informes_layout"
+                    android:id="@+id/nav_gestion_informe_psicologia"
                     android:icon="@drawable/ic_menu_manage"
                     android:title="@string/gestion_informes_psicologo"/>
         </menu>
