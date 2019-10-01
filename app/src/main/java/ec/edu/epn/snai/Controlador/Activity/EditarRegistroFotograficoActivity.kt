@@ -26,7 +26,7 @@ import ec.edu.epn.snai.Servicios.*
 
 class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
-    private var listaFotografias: MutableList<RegistroFotografico>? = null
+    private var listaFotografias: MutableList<RegistroFotografico>? = ArrayList<RegistroFotografico>()
     private var listaFotografiasRescatado: MutableList<RegistroFotografico>? = null
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
@@ -52,6 +52,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
 
         asynTaskObtenerListadoFotografico()
+        asynTaskObtenerListadoFotograficoBase()
 
         if (listaFotografias != null) {
             mostrarListadoAsistencia()
@@ -115,7 +116,20 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
         }
         listaFotografias = task.execute().get()
-        listaFotografiasRescatado = listaFotografias
+    }
+
+    private fun asynTaskObtenerListadoFotograficoBase() {
+
+        val task = object : AsyncTask<Unit, Unit, MutableList<RegistroFotografico>>() {
+
+
+            override fun doInBackground(vararg p0: Unit?): MutableList<RegistroFotografico>? {
+                val listadoFotografias = obtenerRegistroFotografico()
+                return listadoFotografias
+            }
+
+        }
+        listaFotografiasRescatado = task.execute().get()
     }
 
     private fun obtenerRegistroFotografico(): MutableList<RegistroFotografico>? {
@@ -175,8 +189,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         }
     }
 
-    private fun guardarEdicionInforme() : Informe {
-        var informeRespuesta : Informe
+    private fun guardarEdicionInforme(): Informe {
+        var informeRespuesta: Informe
         informeRespuesta = Informe()
         try {
             var asis = guardarRegistroAsistencia()
@@ -184,7 +198,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                 var info = guardarInforme()
                 if (info != null) {
                     guardarRegistroFotografico(info)
-                    informeRespuesta=info
+                    informeRespuesta = info
                 }
             }
 
@@ -203,7 +217,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                     if (asistenciaAux != null) {
                         cantidadRegistro++
                     }
-                }else{
+                } else {
                     val asistenciaAux = servicioGuardarRegistroAsistencia(it)
                     if (asistenciaAux != null) {
                         cantidadRegistro--
@@ -232,7 +246,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         return respuestaServicio
     }
 
-    private fun guardarRegistroFotografico(informe: Informe){
+    private fun guardarRegistroFotografico(informe: Informe) {
         var listadoFotosAGuardar: MutableList<RegistroFotografico>
         var listadoFotosABorrar: MutableList<RegistroFotografico>
         var respuestaServicioFoto: RegistroFotografico
@@ -258,17 +272,17 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                 }
             }
         }
-        if(listadoFotosABorrar.size>0){
+        if (listadoFotosABorrar.size > 0) {
             listadoFotosABorrar.forEach {
-                if(it.imagenAux!=null){
+                if (it.imagenAux != null) {
                     asynTaskEliminarFoto(it)
                 }
             }
         }
-        if(listadoFotosAGuardar.size>0){
+        if (listadoFotosAGuardar.size > 0) {
             listadoFotosAGuardar.forEach {
-                if(it.imagenAux!=null){
-                    it.idInforme=informe
+                if (it.imagenAux != null) {
+                    it.idInforme = informe
                     //servicioGuardarRegistroFotografico(it)
                     asynTaskEditarFoto(it)
                 }
@@ -285,23 +299,23 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         }*/
     }
 
-    private fun asynTaskEditarInforme(){
+    private fun asynTaskEditarInforme() {
 
-        val miclase = object : AsyncTask<Unit, Unit, Informe>(){
+        val miclase = object : AsyncTask<Unit, Unit, Informe>() {
 
             override fun doInBackground(vararg p0: Unit?): Informe {
-                val informeEditado=guardarEdicionInforme()
+                val informeEditado = guardarEdicionInforme()
                 return informeEditado
             }
 
         }
-        val informeRescatado=miclase.execute().get()
-        Log.i("taller",informeRescatado.toString())
+        val informeRescatado = miclase.execute().get()
+        Log.i("taller", informeRescatado.toString())
     }
 
-    private fun asynTaskEditarFoto(rf: RegistroFotografico){
+    private fun asynTaskEditarFoto(rf: RegistroFotografico) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>(){
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioGuardarRegistroFotografico(rf)
@@ -311,9 +325,9 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         miclase.execute().get()
     }
 
-    private fun asynTaskEliminarFoto(rf: RegistroFotografico){
+    private fun asynTaskEliminarFoto(rf: RegistroFotografico) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>(){
+        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioEliminarRegistroFotografico(rf)
@@ -345,8 +359,12 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
     }
 
     private fun servicioEliminarRegistroFotografico(registroFoto: RegistroFotografico): Int? {
-        val servicioEliminarFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(), "Bearer $token")
+        val servicioEliminarFotografias =
+            ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+        val call = servicioEliminarFotografias.eliminarRegistroFotografico(
+            registroFoto.idRegistroFotografico.toString(),
+            "Bearer $token"
+        )
         val fotografiasEliminar = call.execute().body()
         println(fotografiasEliminar)
         return fotografiasEliminar!!
