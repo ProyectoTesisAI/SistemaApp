@@ -14,8 +14,6 @@ import ec.edu.epn.snai.R
 
 class VerEditarFotografiasFragment : Fragment(){
 
-    private lateinit var informeSeleccionado: Informe
-    private lateinit var token:String
     private var listaFotografias: ArrayList<RegistroFotografico>?=null
 
     private var adaptadorItemRegistroFotografico: RegistroFotograficoAdaptador?=null
@@ -27,8 +25,6 @@ class VerEditarFotografiasFragment : Fragment(){
         super.onCreate(savedInstanceState)
 
         if(arguments!=null){
-            token =arguments?.getSerializable("token") as String
-            informeSeleccionado = arguments?.getSerializable("informeSeleccionado") as Informe
             listaFotografias = arguments?.getSerializable("listaFotos") as ArrayList<RegistroFotografico>
         }
 
@@ -37,12 +33,13 @@ class VerEditarFotografiasFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView=inflater.inflate(R.layout.fragment_ver_editar_fotografias,container,false)
 
+        if(listaFotografias?.size!! >0){
+            adaptadorItemRegistroFotografico= RegistroFotograficoAdaptador(listaFotografias)
+            recyclerViewItemsFotografias= rootView.findViewById<RecyclerView>(R.id.rv_ver_imagenes)
+            recyclerViewItemsFotografias.adapter=adaptadorItemRegistroFotografico
+            recyclerViewItemsFotografias.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
-        adaptadorItemRegistroFotografico= RegistroFotograficoAdaptador(listaFotografias)
-        recyclerViewItemsFotografias= rootView.findViewById<RecyclerView>(R.id.rv_ver_imagenes)
-        recyclerViewItemsFotografias.adapter=adaptadorItemRegistroFotografico
-        recyclerViewItemsFotografias.layoutManager=
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        }
         return rootView
     }
 

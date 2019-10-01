@@ -59,7 +59,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             mostrarListadoAsistencia()
         }
 
-        btnAgregarImagen = findViewById(R.id.btn_agregar_imagenes) as Button
+        btnAgregarImagen = findViewById<Button>(R.id.btn_agregar_imagenes) as Button
         btnAgregarImagen.setOnClickListener {
             cargarImagen()
         }

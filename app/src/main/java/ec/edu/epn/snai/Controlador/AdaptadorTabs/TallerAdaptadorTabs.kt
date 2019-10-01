@@ -17,7 +17,7 @@ class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Tal
     val itemsTaller=itemsTallerAux
 
     private fun obtenerBundle() : Bundle{
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable("token", token)
         bundle.putSerializable("taller_seleccionado", taller)
 

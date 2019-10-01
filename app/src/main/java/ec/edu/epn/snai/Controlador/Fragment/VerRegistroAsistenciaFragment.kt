@@ -65,8 +65,8 @@ class VerRegistroAsistenciaFragment: Fragment() {
 
     fun mostrarListadoAsistencia(view: View){
 
-        var recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
-        var adaptador = ListadoAsistenciaAdaptador(listaAsistenciaAdolescentesInfractores)
+        val recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
+        val adaptador = ListadoAsistenciaAdaptador(listaAsistenciaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 

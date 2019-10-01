@@ -20,20 +20,13 @@ import retrofit2.Response
 
 class VerEditarRegistroAsistenciaFragment: Fragment(){
 
-    private lateinit var informeSeleccionado: Informe
-    private lateinit var token:String
     private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
-
-    private var adaptadorRegistroAsistencia:RegistroAsistenciaAdaptador?=null
-    private lateinit var recyclerViewItemsRegistroAsistencia: RecyclerView
-
     private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(arguments!=null){
-            informeSeleccionado = arguments?.getSerializable("informeSeleccionado") as Informe
-            token=arguments?.getSerializable("token") as String
+
             listaAdolescentesInfractores=arguments?.getSerializable("listaAsistencia") as ArrayList<AsistenciaAdolescente>
         }
     }
@@ -41,10 +34,15 @@ class VerEditarRegistroAsistenciaFragment: Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView=inflater.inflate(R.layout.fragment_ver_registro_asistencia,container,false)
 
-        adaptadorRegistroAsistencia = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
-        recyclerViewItemsRegistroAsistencia=rootView.findViewById(R.id.rv_registro_asistencia) as RecyclerView
-        recyclerViewItemsRegistroAsistencia.adapter=adaptadorRegistroAsistencia
-        recyclerViewItemsRegistroAsistencia.layoutManager = LinearLayoutManager(context,LinearLayout.VERTICAL,false)
+        if(listaAdolescentesInfractores != null){
+
+            val adaptadorRegistroAsistencia = RegistroAsistenciaAdaptador(listaAdolescentesInfractores)
+            val recyclerViewItemsRegistroAsistencia=rootView.findViewById(R.id.rv_registro_asistencia) as RecyclerView
+            recyclerViewItemsRegistroAsistencia.adapter=adaptadorRegistroAsistencia
+            recyclerViewItemsRegistroAsistencia.layoutManager = LinearLayoutManager(context,LinearLayout.VERTICAL,false)
+
+        }
+
         return rootView
     }
 
