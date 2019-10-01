@@ -28,6 +28,11 @@ import kotlinx.android.synthetic.main.activity_editar_fotografias.*
 
 class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
+    //Me permite tratar a todos los atributos y métodos dentro del object como estáticos
+    companion object {
+        var listaFotografiasEliminar: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
+    }
+
     private var listaFotografias: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
     private lateinit var informeNuevo: Informe
     private lateinit var token: String
@@ -153,6 +158,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
         if(listaFotografias != null){
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
             val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
+            Log.i("fotos", listaFotografiasEliminar!!.size.toString())
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@AgregarRegistroFotograficoActivity)
         }

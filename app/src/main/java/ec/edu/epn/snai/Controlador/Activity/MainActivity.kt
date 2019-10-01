@@ -1,7 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -49,13 +48,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (savedInstanceState == null) {
 
-                getSupportActionBar()?.setTitle("TALLERES SIN INFORME");
-
                 //Agrego en el bundle la variable token
                 var bundle = Bundle()
                 bundle.putSerializable("token", usuario.token)
                 bundle.putSerializable("usuario", usuario)
-
 
                 //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
                 val talleresFragment=TalleresFragment()
@@ -125,9 +121,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_gestion_taller_inspector_educador -> {
                 abrirTalleresFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "TALLERES DE INSPECTOR EDUCADOR SIN INFORME")
             }
-            R.id.nav_informes_layout -> {
-                abrirInformeFragment()
+
+
+            /********** GESTIONAR  INFORMES ***********/
+            R.id.nav_gestion_informe_psicologia -> {
+                abrirInformeFragment(Constantes.TIPO_TALLER_PSICOLOGIA, "INFORMES DE PSICOLOGÍA")
             }
+            R.id.nav_gestion_informe_juridico->{
+                abrirInformeFragment(Constantes.TIPO_TALLER_JURIDICO, "INFORMES JURÍDICOS")
+            }
+            R.id.nav_gestion_informe_inspector_educador->{
+                abrirInformeFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "INFORMES DE INSPECTOR EDUCADOR")
+            }
+
         }
 
         return true
@@ -164,11 +170,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    private fun abrirInformeFragment(){
-        getSupportActionBar()?.setTitle("INFORMES")
+    private fun abrirInformeFragment(tipoTallerSeleccionado:String, tituloToolbar: String){
+        getSupportActionBar()?.setTitle(tituloToolbar)
         //Agrego en el bundle la variable token
         val bundle = Bundle()
         bundle.putSerializable("token", usuario.token)
+        bundle.putSerializable("usuario",usuario)
+        bundle.putSerializable("tipoTaller", tipoTallerSeleccionado)
 
         //Seteo el bundle en el argumento de InformesFragment, el cual contiene el token del usuario
         val informesFragment=InformesFragment()

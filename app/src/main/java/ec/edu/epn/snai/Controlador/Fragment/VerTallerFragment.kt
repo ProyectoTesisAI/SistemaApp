@@ -22,7 +22,6 @@ import kotlin.collections.ArrayList
 
 class VerTallerFragment : Fragment(){
 
-    private lateinit var token:String
     private lateinit var taller:Taller
     private var itemsTaller: ArrayList<ItemTaller>?=null
     private lateinit var usuario: Usuario
@@ -31,7 +30,7 @@ class VerTallerFragment : Fragment(){
         super.onCreate(savedInstanceState)
 
         if(arguments!=null){
-            token=arguments?.getSerializable("token") as String
+
             taller=arguments?.getSerializable("taller_seleccionado") as Taller
             itemsTaller=arguments?.getSerializable("items_taller_seleccionado") as ArrayList<ItemTaller>?
         }

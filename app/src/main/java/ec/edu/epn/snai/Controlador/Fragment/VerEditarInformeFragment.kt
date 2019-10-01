@@ -11,12 +11,7 @@ import ec.edu.epn.snai.Controlador.Adaptador.ItemInformeAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.R
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.TallerServicio
 import kotlinx.android.synthetic.main.fragment_ver_informe.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,47 +19,40 @@ import kotlin.collections.ArrayList
 class VerEditarInformeFragment : Fragment(){
 
     private lateinit var informeSeleccionado: Informe
-    private lateinit var token:String
     private var itemsTaller: List<ItemTaller>?=null
-
-    private var adaptadorItemInforme: ItemInformeAdaptador?=null
-    private lateinit var recyclerViewItemsInforme: RecyclerView
-
-    val pattern = "dd/MM/yyyy"
-    val simpleDateFormat = SimpleDateFormat(pattern)
 
     val patternHour = "HH:mm"
     val simpleHourFormat = SimpleDateFormat(patternHour)
-
-    private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if(arguments!=null){
-            token =arguments?.getSerializable("token") as String
             informeSeleccionado = arguments?.getSerializable("informeSeleccionado") as Informe
             itemsTaller=arguments?.getSerializable("listaActividades") as ArrayList<ItemTaller>
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView=inflater.inflate(R.layout.fragment_ver_informe,container,false)
-        asignarVariablesTaller()
-        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
-        recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_informe_fr)
+        val rootView=inflater.inflate(R.layout.fragment_ver_informe,container,false)
+        asignarVariablesTaller(rootView)
+        val adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
+        val recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_informe_fr)
         recyclerViewItemsInforme.adapter=adaptadorItemInforme
         recyclerViewItemsInforme.layoutManager=
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         return rootView
     }
 
-    fun asignarVariablesTaller(){
+    fun asignarVariablesTaller(rootView: View){
 
         rootView.tvTemaTallerFr?.text = informeSeleccionado.idTaller.tema
         rootView.tvNumeroInformeFr?.text= informeSeleccionado.idTaller.numeroTaller.toString()
 
         if( informeSeleccionado.idTaller.fecha != null){
+
+            val pattern = "dd/MM/yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern)
             val fecha = simpleDateFormat.format(informeSeleccionado.idTaller.fecha)
             rootView.tvFechaTallerFr?.text=fecha
         }

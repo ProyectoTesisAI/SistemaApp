@@ -20,9 +20,7 @@ import kotlinx.android.synthetic.main.fragment_talleres.view.*
 
 class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
 
-    private var adaptador: TallerAdaptador? = null
     private var listaTalleres: List<Taller>?=null
-    private lateinit var recyclerViewTaller: RecyclerView
     private lateinit var token:String
     private var tipoTaller:String?=null
     private lateinit var usuario: Usuario
@@ -35,11 +33,12 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
             usuario=arguments?.getSerializable("usuario") as Usuario
             tipoTaller=arguments?.getSerializable("tipoTaller") as String?
 
-            if(tipoTaller == null && usuario!= null){
+            if(tipoTaller == null){
 
                 val rol=usuario.idRolUsuarioCentro.idRol.rol
 
-                if( rol.equals("ADMINISTRADOR") || rol.equals("SUBDIRECTOR") || rol.equals("LIDER UZDI") || rol.equals("COORDINADOR CAI")  || rol.contains("DIRECTOR") || rol.contains("PSICOLOGO") ){
+                if( rol.equals(Constantes.ROL_ADMINISTRADOR) || rol.equals(Constantes.ROL_SUBDIRECTOR) || rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(
+                        Constantes.ROL_COORDINADOR_CAI)  || rol.contains("DIRECTOR") || rol.contains("PSICOLOGO") ){
                     tipoTaller=Constantes.TIPO_TALLER_PSICOLOGIA
                 }
                 else if(rol.contains("JURIDICO")){
@@ -58,7 +57,11 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView= inflater.inflate(R.layout.fragment_talleres,container,false)
 
-        asignarObtenerListaTalleres(usuario, rootView, tipoTaller!!)
+
+        if(tipoTaller != null){
+            asignarObtenerListaTalleres(usuario, rootView, tipoTaller!!)
+        }
+
         return rootView
     }
 
@@ -75,10 +78,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
     /**************** Obtener Lista de Talleres¨***********************/
     private fun asignarObtenerListaTalleres(usuario: Usuario, view: View, tipoTaller: String){
 
-        if(usuario != null && tipoTaller != null){
-            asynTaskObtenerListadoTalleres(usuario, view,tipoTaller)
-        }
-
+        asynTaskObtenerListadoTalleres(usuario, view,tipoTaller)
     }
 
     private fun asynTaskObtenerListadoTalleres(usuario: Usuario,rootView: View, tipoTaller: String){
@@ -236,8 +236,8 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
     private fun asignarListaTalleresRecyclerView(listaTaller: List<Taller>, rootView: View){
 
         listaTalleres=listaTaller
-        adaptador = TallerAdaptador(listaTaller, this@TalleresFragment)
-        recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
+        val adaptador = TallerAdaptador(listaTaller, this@TalleresFragment)
+        val recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
         recyclerViewTaller.adapter=adaptador
         recyclerViewTaller.layoutManager=LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
 
