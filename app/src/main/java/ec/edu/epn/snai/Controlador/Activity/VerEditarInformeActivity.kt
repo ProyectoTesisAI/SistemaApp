@@ -38,12 +38,12 @@ class VerEditarInformeActivity : AppCompatActivity() {
         this.informeSeleccionado= i.getSerializableExtra("informeSeleccionado") as Informe
         this.token = i.getSerializableExtra("token") as String
 
-        asynTaskObtenerListadoFotografico()
+
         asynTaskObtenerListadoRegistroAsistencia()
         asynTaskObtenerListadoActividadesTaller()
 
-        if(listaFotos != null && listaActividadesTaller != null && listaRegistroAsistencia != null){
-            var adaptadorInforme=InformePagerAdaptador(supportFragmentManager,token,informeSeleccionado, listaFotos!!, listaActividadesTaller!!, listaRegistroAsistencia!!)
+        if(listaActividadesTaller != null && listaRegistroAsistencia != null){
+            val adaptadorInforme=InformePagerAdaptador(supportFragmentManager,token,informeSeleccionado, listaActividadesTaller!!, listaRegistroAsistencia!!)
             viewpager.adapter=adaptadorInforme
             tabs.setupWithViewPager(viewpager)
         }
@@ -79,7 +79,6 @@ class VerEditarInformeActivity : AppCompatActivity() {
                 intent.putExtra("informeSeleccionado", informeSeleccionado)
                 intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
                 intent.putExtra("listaAsistencia", ArrayList(listaRegistroAsistencia))
-                intent.putExtra("listaFotos",ArrayList(listaFotos))
                 startActivity(intent)
 
             }
@@ -90,22 +89,7 @@ class VerEditarInformeActivity : AppCompatActivity() {
         return true
     }
 
-    private fun asynTaskObtenerListadoFotografico(){
 
-        val task = object : AsyncTask<Unit, Unit, List<RegistroFotografico>>(){
-
-            override fun doInBackground(vararg p0: Unit?): List<RegistroFotografico>? {
-                val listadoFotografias=obtenerRegistroFotografico()
-                if(listadoFotografias!=null){
-                    return listadoFotografias
-                }else{
-                    return null
-                }
-            }
-
-        }
-        listaFotos= task.execute().get()
-    }
 
     private fun asynTaskObtenerListadoActividadesTaller(){
 
@@ -143,33 +127,6 @@ class VerEditarInformeActivity : AppCompatActivity() {
         listaRegistroAsistencia= task.execute().get()
     }
 
-    private fun obtenerRegistroFotografico(): List<RegistroFotografico>?{
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(),"Bearer "+ token)
-
-        try{
-            val response=call.execute()
-
-            if(response != null){
-
-                val codigoRespuesta: Int= response.code()
-
-                if(codigoRespuesta==200){
-                    return response.body()!!
-                }
-                else{
-                    return null
-                }
-            }
-            else{
-                return null
-            }
-        }catch (e: Exception){
-            Log.i("ERROR",e.message)
-            return  null
-        }
-
-    }
 
     private fun obtenerActividadesTaller(): List<ItemTaller>?{
 

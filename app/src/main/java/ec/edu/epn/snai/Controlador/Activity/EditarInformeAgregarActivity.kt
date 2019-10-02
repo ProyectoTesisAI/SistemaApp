@@ -12,12 +12,7 @@ import android.content.Intent
 import android.widget.*
 import ec.edu.epn.snai.Controlador.Adaptador.ItemInformeAdaptador
 import ec.edu.epn.snai.Modelo.*
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.TallerServicio
 import kotlinx.android.synthetic.main.activity_agregar_informe.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,39 +20,13 @@ import kotlin.collections.ArrayList
 
 class EditarInformeAgregarActivity : AppCompatActivity(){
 
-    private var txtTemaTaller: TextView?=null
-    private var txtNumeroTaller: TextView?=null
-    private var txtFecha: TextView?=null
-    private var txtHoraInicioTaller: TextView?=null
-    private var txtHoraFinTaller: TextView?=null
-    private var txtNumeroAdolescentesParticipantesInforme: TextView?=null
-    private var txtObjetivoGeneralTaller: TextView?=null
-    private var txtAntecedentesInforme: TextView?=null
-    private var txtDesarrolloInforme: TextView?=null
-    private var txtObjetivosEspecificos: TextView? = null
-    private var txtCierreEvaluacion: TextView? = null
-    private var txtConclusiones: TextView? = null
-    private var txtRecomendaciones: TextView? = null
-    private var txtObservaciones: TextView? = null
-
     private var numeroParticipantes=0
 
-    private var duracion:Int = 0
-
-    private lateinit var fabAgregarFotograficas:FloatingActionButton
-
-    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
-    //private var listaFotos: List<RegistroFotografico>?=null
-    private var listaActividadesTaller: List<ItemTaller>?=null
+    private var listaAsistenciaAdolescentes: List<AsistenciaAdolescente>?=null
+    private var itemsTaller: List<ItemTaller>?=null
     private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
 
-    private var adaptadorItemInforme: ItemInformeAdaptador?=null
-    var itemsTaller: List<ItemTaller>?=null
-    private lateinit var recyclerViewItemsInforme: RecyclerView
-
-    val pattern = "dd/MM/yyyy"
-    val simpleDateFormat = SimpleDateFormat(pattern)
 
     val patternHour = "HH:mm"
     val simpleHourFormat = SimpleDateFormat(patternHour)
@@ -71,92 +40,76 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
         val i=intent
         this.informeSeleccionado = i.getSerializableExtra("informeSeleccionado") as Informe
         this.token = i.getSerializableExtra("token") as String
-        //this.listaFotos=i.getSerializableExtra("listaFotos") as ArrayList<RegistroFotografico>
-        this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
-        this.listaAdolescentesInfractores = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
+        this.itemsTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
+        this.listaAsistenciaAdolescentes = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
         this.numeroParticipantes=obtenerCantidadParticipantes()
 
-        itemsTaller = ArrayList<ItemTaller>()
-        itemsTaller=listaActividadesTaller
-        graficarValores()
-        adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
-        recyclerViewItemsInforme= findViewById<RecyclerView>(R.id.rv_items_informe)
-        recyclerViewItemsInforme.adapter=adaptadorItemInforme
-        recyclerViewItemsInforme.layoutManager=LinearLayoutManager(applicationContext,LinearLayoutManager.VERTICAL,false)
+        asignarValoresInforme()
 
-        fabAgregarFotograficas=findViewById(R.id.fab_agregar_fotograficas_informe)
-        fabAgregarFotograficas.setOnClickListener {
+        fab_agregar_fotograficas_informe.setOnClickListener {
             abrirRegistroFotografico()
         }
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_gestion, menu)
-
-        menu.findItem(R.id.menu_editar).isVisible = false
-        menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=false
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when(item?.itemId){
-            R.id.menu_guardar->{
-
-                finish()
-            }
-            else->{
-                finish()
-            }
-        }
+        finish()
         return true
     }
 
-    fun graficarValores(){
-        txtTemaTaller= findViewById<TextView>(R.id.tvTemaTaller)
-        txtNumeroTaller= findViewById<TextView>(R.id.tvNumeroInforme)
-        txtFecha= findViewById<TextView>(R.id.tvFechaTaller)
-        txtHoraInicioTaller= findViewById<TextView>(R.id.tvHoraInicioTaller)
-        txtHoraFinTaller= findViewById<TextView>(R.id.tvHoraFinTaller)
-        txtNumeroAdolescentesParticipantesInforme= findViewById<TextView>(R.id.tvNumeroParticipantesTaller)
-        txtObjetivoGeneralTaller= findViewById<TextView>(R.id.tvObjetivoTaller)
-        txtAntecedentesInforme= findViewById<EditText>(R.id.etAntecendentesInforme)
-        txtDesarrolloInforme= findViewById<EditText>(R.id.etDesarrolloInforme)
-        txtObjetivosEspecificos= findViewById<EditText>(R.id.etObjetivosEspecificosInforme)
-        txtCierreEvaluacion= findViewById<EditText>(R.id.etCierreInforme)
-        txtConclusiones= findViewById<EditText>(R.id.etConclusionesInforme)
-        txtRecomendaciones= findViewById<EditText>(R.id.etRecomendacionesInforme)
-        txtObservaciones= findViewById<EditText>(R.id.etObservacionesInforme)
+    fun asignarValoresInforme(){
 
-        txtTemaTaller?.text= informeSeleccionado.idTaller.tema
-        txtNumeroTaller?.text= informeSeleccionado.idTaller.numeroTaller.toString()
+        tvTemaTaller?.text= informeSeleccionado.idTaller.tema
+        tvNumeroInforme?.text= informeSeleccionado.idTaller.numeroTaller.toString()
+
+        val pattern = "dd/MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
         val fecha = simpleDateFormat.format(informeSeleccionado.fecha)
-        txtFecha?.text=fecha
+        tvFechaTaller?.text=fecha
+
         val horaInicio = simpleHourFormat.format(informeSeleccionado.horaInicio)
-        txtHoraInicioTaller?.text= horaInicio
+        tvHoraInicioTaller?.text= horaInicio
+
         val horaFinObtener = obtenerHoraFin(itemsTaller as ArrayList<ItemTaller>)
         val horaFin=simpleHourFormat.format(horaFinObtener)
-        txtHoraFinTaller?.text=horaFin
-        //txtNumeroAdolescentesParticipantesInforme?.text=informeSeleccionado?.numeroAdolescentes.toString()
-        txtNumeroAdolescentesParticipantesInforme?.text=numeroParticipantes.toString()
-        txtObjetivoGeneralTaller?.text=informeSeleccionado?.idTaller.objetivo
-        txtAntecedentesInforme?.text=informeSeleccionado?.adolescentesJustificacion
-        txtDesarrolloInforme?.text=informeSeleccionado?.socializacionDesarrollo
-        txtObjetivosEspecificos?.text=informeSeleccionado?.socializacionObjetivos
-        txtCierreEvaluacion?.text=informeSeleccionado?.cierreEvaluacion
-        txtConclusiones?.text=informeSeleccionado?.conclusiones
-        txtRecomendaciones?.text=informeSeleccionado?.recomendaciones
-        txtObservaciones?.text=informeSeleccionado?.observaciones
+        tvHoraFinTaller?.text=horaFin
+
+        tvNumeroParticipantesTaller?.text=numeroParticipantes.toString()
+        tvObjetivoTaller?.text=informeSeleccionado.idTaller.objetivo
+
+        etAntecendentesInforme.setText(informeSeleccionado.adolescentesJustificacion)
+        etDesarrolloInforme?.setText(informeSeleccionado.socializacionDesarrollo)
+        etObjetivosEspecificosInforme?.setText(informeSeleccionado.socializacionObjetivos)
+        etCierreInforme?.setText(informeSeleccionado.cierreEvaluacion)
+        etConclusionesInforme?.setText(informeSeleccionado.conclusiones)
+        etRecomendacionesInforme?.setText(informeSeleccionado.recomendaciones)
+        etObservacionesInforme?.setText(informeSeleccionado.observaciones)
+
+        asignarItemsTallerRecyclerView()
     }
 
-    fun obtenerHoraFin(items:List<ItemTaller>):Date? {
+    private fun asignarItemsTallerRecyclerView(){
+
+        if(itemsTaller != null){
+
+            if(itemsTaller?.size!! >0){
+                val adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
+                val recyclerViewItemsInforme= findViewById<RecyclerView>(R.id.rv_items_informe)
+                recyclerViewItemsInforme.adapter=adaptadorItemInforme
+                recyclerViewItemsInforme.layoutManager= LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
+            }
+
+        }
+    }
+
+
+    private fun obtenerHoraFin(items:List<ItemTaller>):Date? {
         var horaFin:Date?=null
-        var duracionFinal:Int?=0
-        duracionFinal=obtenerDuracionTaller(items) as Int
+
         if(informeSeleccionado.horaInicio!=null){
-            duracionFinal=obtenerDuracionTaller(items)
+
+            val duracionFinal=obtenerDuracionTaller(items)
             val horaAux = Calendar.getInstance()
             horaAux.time = informeSeleccionado.horaInicio
             horaAux.add(Calendar.MINUTE, duracionFinal as Int)
@@ -166,20 +119,21 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
         return horaFin
     }
 
-    fun obtenerDuracionTaller(items:List<ItemTaller>):Int{
-        var dura=0
+
+    private fun obtenerDuracionTaller(items:List<ItemTaller>):Int{
+        var duracion=0
         if(!items.isNullOrEmpty()){
             items.forEach {
-                dura=dura+it.duracion
+                duracion=duracion+it.duracion
             }
         }
-        return dura
+        return duracion
     }
 
-    fun obtenerCantidadParticipantes():Int{
+    private fun obtenerCantidadParticipantes():Int{
         var cantidad=0
-        if(!listaAdolescentesInfractores.isNullOrEmpty()){
-            listaAdolescentesInfractores!!.forEach{
+        if(!listaAsistenciaAdolescentes.isNullOrEmpty()){
+            listaAsistenciaAdolescentes!!.forEach{
                 if(it.asistio==true){
                     cantidad++
                 }
@@ -188,7 +142,8 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
         return cantidad
     }
 
-    fun obtenerVariablesInforme():Informe?{
+    private fun obtenerVariablesInforme():Informe?{
+
         if(informeSeleccionado!=null){
             val informeAux = informeSeleccionado
 
@@ -218,8 +173,7 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
                 val intent = Intent(this@EditarInformeAgregarActivity, EditarRegistroFotograficoActivity::class.java)
                 intent.putExtra("token",token)
                 intent.putExtra("informeSeleccionado", obtenerVariablesInforme())
-                intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
-                intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
+                intent.putExtra("listaAsistencia", java.util.ArrayList(listaAsistenciaAdolescentes))
                 startActivity(intent)
             }
             else{

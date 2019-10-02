@@ -12,10 +12,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Base64
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.*
@@ -24,21 +22,22 @@ import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.*
 import kotlinx.android.synthetic.main.activity_editar_fotografias.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     //Me permite tratar a todos los atributos y métodos dentro del object como estáticos
     companion object {
-        var listaFotografiasEliminar: MutableList<RegistroFotografico>? = ArrayList<RegistroFotografico>()
+        var listaFotografiasEliminar: ArrayList<RegistroFotografico>? = ArrayList()
     }
 
-    private var listaFotografias: MutableList<RegistroFotografico>? = ArrayList<RegistroFotografico>()
+    private var listaFotografias: MutableList<RegistroFotografico>? = ArrayList()
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
-    private var listaAsistenciaAdolescentes: List<AsistenciaAdolescente>? = null
-    private lateinit var btnAgregarImagen: Button
-
+    private var listaAsistenciaAdolescentes: ArrayList<AsistenciaAdolescente>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +49,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         this.token = i.getSerializableExtra("token") as String
         this.listaAsistenciaAdolescentes = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
 
-        asynTaskObtenerRegistroFotografico()
-
-        if (listaFotografias != null) {
-            mostrarFotografias()
-        }
+        obtenerRegistroFotografico()
 
         btn_agregar_imagenes.setOnClickListener {
             cargarImagen()
@@ -91,14 +86,11 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                                 guardarRegistroFotografico(informeAux)
 
 
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Se ha guardado correctamente el Informe",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText( applicationContext,  "Se ha guardado correctamente el Informe", Toast.LENGTH_SHORT).show()
 
                                 val intent = Intent(applicationContext, MainActivity::class.java)
-                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
+                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                                // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 val usuarioAux = informeAux.idTaller.idUsuario
                                 usuarioAux.token = this.token
@@ -161,7 +153,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
             var ancho=bitmap?.width!!
             var alto=bitmap.height
 
-            while (alto > 1200 || ancho > 1200){
+            while (alto > 875 || ancho > 875){
 
                 ancho= (ancho/1.25F).toInt()
                 alto=(alto/1.25F).toInt()
@@ -199,46 +191,46 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     }
 
-
     /*********************Obtener Registro Fotográfico***************************/
-    private fun asynTaskObtenerRegistroFotografico() {
+    private fun obtenerRegistroFotografico(){
+        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+        val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
 
-        val task = object : AsyncTask<Unit, Unit, MutableList<RegistroFotografico>>() {
+        call.enqueue(object : Callback<List<RegistroFotografico>>{
 
+            override fun onFailure(call: Call<List<RegistroFotografico>>, t: Throwable) {
 
-            override fun doInBackground(vararg p0: Unit?): MutableList<RegistroFotografico>? {
-                val listadoFotografias = servicioObtenerRegistroFotografico()
-                return listadoFotografias
             }
 
-        }
-        listaFotografias = task.execute().get()
+            override fun onResponse(call: Call<List<RegistroFotografico>>, response: Response<List<RegistroFotografico>>) {
+
+                if(response != null){
+
+                    if(response.code()==200){
+                        val listaRegistroFotografico=response.body()
+
+                        if(listaRegistroFotografico != null){
+                            asignarRegistroFotograficoRecyclerView(listaRegistroFotografico)
+                        }
+
+
+                    }
+                }
+            }
+        })
     }
 
-    private fun servicioObtenerRegistroFotografico(): MutableList<RegistroFotografico>? {
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call =
-            servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
+    private fun asignarRegistroFotograficoRecyclerView(listaFotografiasAux: List<RegistroFotografico> ){
 
-        try {
-            val response = call.execute()
+        if(listaFotografiasAux.size >0){
 
-            if (response != null) {
+            listaFotografias= ArrayList(listaFotografiasAux)
+            val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
+            val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
+            recyclerViewRegistroFotografico.adapter = adaptador
+            recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
 
-                val codigoRespuesta: Int = response.code()
-
-                if (codigoRespuesta == 200) {
-                    return response.body()!!
-                } else {
-                    return null
-                }
-            } else {
-                return null
-            }
-        } catch (e: Exception) {
-            return null
         }
-
     }
 
 
@@ -325,7 +317,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
         val servicioAsistencia = ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
         val call = servicioAsistencia.guardarAsistenciaAdolescente(asistencia, "Bearer $token")
-        val asistenciaGuardado = call.execute()
+        call.execute()
     }
 
 
@@ -397,13 +389,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
         val servicioEliminarFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
         val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(), "Bearer $token")
-        val response =call.execute()
+        call.execute()
 
-        if(response != null){
-
-            val code=response.code()
-            Log.i("code", code.toString())
-        }
     }
 
 

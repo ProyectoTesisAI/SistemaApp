@@ -69,6 +69,9 @@ class LoginActivity : AppCompatActivity(){
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.putExtra("usuario", usuario)
                             startActivity(intent)
+
+                            //finalizo el activity LoginActivity, para evitar volver a la pantalla de Login
+                            finish()
                             Toast.makeText(applicationContext, nombre,Toast.LENGTH_LONG).show()
                         }
                         else{

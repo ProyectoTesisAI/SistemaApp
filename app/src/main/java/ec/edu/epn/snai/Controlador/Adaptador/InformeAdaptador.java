@@ -40,7 +40,7 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
     public void onBindViewHolder(@NonNull InformeViewHolder viewHolder, int i) {
 
         //Seteo los valores en los diferentes controles
-        viewHolder.txtTema.setText(informes.get(i).getIdTaller().getTema());
+        viewHolder.txtTema.setText(informes.get(i).getIdTaller().getTema().toUpperCase());
         viewHolder.txtNumeroTaller.setText(informes.get(i).getIdTaller().getNumeroTaller().toString());
 
         if(informes.get(i).getIdTaller().getFecha() != null){

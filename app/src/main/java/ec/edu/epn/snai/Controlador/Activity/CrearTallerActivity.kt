@@ -57,7 +57,7 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
         val tituloToolbar: String= i.getSerializableExtra("tituloToolbar") as String
         getSupportActionBar()?.setTitle(tituloToolbar)
 
-        fabItemsTallers=findViewById<FloatingActionButton>(R.id.fab_agregar_item_taller)
+        fabItemsTallers=findViewById(R.id.fab_agregar_item_taller)
         fabItemsTallers.setOnClickListener {
             dialogoAgregarActividadTaller()
         }
@@ -82,16 +82,25 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
         spTipoCentro.adapter=adapterTipoCentro
 
         val rol=this.usuario.idRolUsuarioCentro.idRol.rol
-        val itemTipoCentro=obtenerItemTipoCentro(rol)
 
-        if(itemTipoCentro != null){
+        if(this.tipoTaller.equals(Constantes.ROL_INSPECTOR_EDUCADOR)){
 
-            if(itemTipoCentro==0 || itemTipoCentro==1){
-                spTipoCentro.setSelection(itemTipoCentro)
-                spTipoCentro.isEnabled=false
-            }
+            spTipoCentro.setSelection(1) //el "1" corresponde a CAI
+            spTipoCentro.isEnabled=false
         }
+        else{
 
+            val itemTipoCentro=obtenerItemTipoCentro(rol)
+
+            if(itemTipoCentro != null){
+
+                if(itemTipoCentro==0 || itemTipoCentro==1){
+                    spTipoCentro.setSelection(itemTipoCentro)
+                    spTipoCentro.isEnabled=false
+                }
+            }
+
+        }
 
         spCentro=findViewById(R.id.spUdiCai)
 
@@ -168,7 +177,9 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
                             toast.show()
 
                             val intent = Intent(this@CrearTallerActivity, MainActivity::class.java)
-                            //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
+
+                            //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                            // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.putExtra("usuario", usuario)
                             startActivity(intent)
@@ -509,11 +520,15 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
             DatePickerDialog.OnDateSetListener { datePicker, anio, mes, dia ->
 
-                var mesFormateado: String = mes.toString()
+                val mesAux=mes+1
+                val mesFormateado: String
                 //Formateo el año obtenido: antepone el 0 si son menores de 10
-                if ((mes + 1) < 10) {
-                    val mesAux=mes+1
+                if (mesAux < 10) {
+
                     mesFormateado = String.format("0$mesAux")
+                }
+                else{
+                    mesFormateado = String.format("$mesAux")
                 }
 
                 var diaFormateado: String = dia.toString()

@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_editar_fotografias.*
 
 class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
-    private var listaFotografias: MutableList<RegistroFotografico>?=ArrayList<RegistroFotografico>()
+    private var listaFotografias: ArrayList<RegistroFotografico>?=null
     private lateinit var informeNuevo: Informe
     private lateinit var token: String
     private var listaAsistenciaAdolescentes: List<AsistenciaAdolescente>? = null
@@ -80,7 +80,9 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext, "Se ha guardado correctamente el Informe", Toast.LENGTH_SHORT).show()
 
                                 val intent = Intent(this@AgregarRegistroFotograficoActivity, MainActivity::class.java)
-                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
+
+                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                                // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 val usuarioAux= informeAux.idTaller.idUsuario
                                 usuarioAux.token=this.token
@@ -136,7 +138,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
             var ancho=bitmap?.width!!
             var alto=bitmap.height
 
-            while (alto > 1200 || ancho > 1200){
+            while (alto > 875 || ancho > 875){
 
                 ancho= (ancho/1.25F).toInt()
                 alto=(alto/1.25F).toInt()
