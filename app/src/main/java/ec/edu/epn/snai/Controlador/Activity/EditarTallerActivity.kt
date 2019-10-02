@@ -85,7 +85,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
         if(this.taller.tipo.equals(Constantes.ROL_INSPECTOR_EDUCADOR)){
 
-            spTipoCentro.setSelection(1)
+            spTipoCentro.setSelection(1) //el "1" corresponde a CAI
             spTipoCentro.isEnabled=false
         }
         else{
@@ -443,11 +443,15 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
             DatePickerDialog.OnDateSetListener { datePicker, anio, mes, dia ->
 
-                var mesFormateado: String = mes.toString()
+                val mesAux=mes+1
+                val mesFormateado: String
                 //Formateo el año obtenido: antepone el 0 si son menores de 10
-                if ((mes + 1) < 10) {
-                    val mesAux=mes+1
+                if (mesAux < 10) {
+
                     mesFormateado = String.format("0$mesAux")
+                }
+                else{
+                    mesFormateado = String.format("$mesAux")
                 }
 
                 var diaFormateado: String = dia.toString()

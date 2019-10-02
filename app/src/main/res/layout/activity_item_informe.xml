@@ -18,19 +18,20 @@
                 android:id="@+id/txtTema"
                 android:gravity="start"
                 android:text="Tema Informe"
-                android:textSize="14dp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
                 android:paddingBottom="5px"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@id/txtFecha"/>
 
         <TextView
                 android:id="@+id/txtFecha"
-                android:layout_width="45dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textSize="11dp"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-light"
                 android:text="Fecha"
                 android:textAlignment="textEnd"
                 android:layout_alignParentRight="true"/>
@@ -41,7 +42,8 @@
             android:id="@+id/txtNumeroTaller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-light"
             android:text="Número Taller"
     />
 
@@ -50,6 +52,7 @@
             android:id="@+id/txtTipo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-light"
             android:text="Tipo"/>
 </LinearLayout>

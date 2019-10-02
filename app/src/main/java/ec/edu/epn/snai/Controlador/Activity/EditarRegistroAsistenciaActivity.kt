@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.MenuItem
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
@@ -14,8 +15,8 @@ import ec.edu.epn.snai.R
 
 class EditarRegistroAsistenciaActivity : AppCompatActivity(){
 
-    private var listaAdolescentesInfractores: List<AsistenciaAdolescente>?=null
-    private var listaActividadesTaller: List<ItemTaller>?=null
+    private var listaAdolescentesInfractores: ArrayList<AsistenciaAdolescente>?=null
+    private var listaActividadesTaller: ArrayList<ItemTaller>?=null
     private lateinit var informeSeleccionado: Informe
     private lateinit var token:String
 
@@ -27,9 +28,6 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i=intent
-        this.informeSeleccionado = i.getSerializableExtra("informeSeleccionado") as Informe
-        this.token = i.getSerializableExtra("token") as String
-        this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
         this.listaAdolescentesInfractores = i.getSerializableExtra("listaAsistencia") as ArrayList<AsistenciaAdolescente>
 
         if(listaAdolescentesInfractores!=null){
@@ -41,6 +39,11 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
             abrirInforme()
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        finish()
+        return true
     }
 
     fun mostrarListadoAsistencia(){
@@ -56,11 +59,17 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
         val cantidadAsistentes=obtenerCantidadParticipantes()
 
         if(cantidadAsistentes > 0 ){
+
+            val i=intent
+            this.informeSeleccionado = i.getSerializableExtra("informeSeleccionado") as Informe
+            this.token = i.getSerializableExtra("token") as String
+            this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
+
             val intent = Intent(this@EditarRegistroAsistenciaActivity, EditarInformeAgregarActivity::class.java)
             intent.putExtra("token",token)
             intent.putExtra("informeSeleccionado", informeSeleccionado)
-            intent.putExtra("listaActividades", java.util.ArrayList(listaActividadesTaller))
-            intent.putExtra("listaAsistencia", java.util.ArrayList(listaAdolescentesInfractores))
+            intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
+            intent.putExtra("listaAsistencia", ArrayList(listaAdolescentesInfractores))
             startActivity(intent)
         }
         else{

@@ -4,28 +4,29 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import ec.edu.epn.snai.Controlador.Fragment.VerEditarFotografiasFragment
+import ec.edu.epn.snai.Controlador.Fragment.VerRegistroFotograficoFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerEditarInformeFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerEditarRegistroAsistenciaFragment
+import ec.edu.epn.snai.Controlador.Fragment.VerRegistroAsistenciaFragment
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.ItemTaller
-import ec.edu.epn.snai.Modelo.RegistroFotografico
 import java.util.ArrayList
 
-class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe, listaFotografiasAux:  List<RegistroFotografico>, listaItemsActividadesAux: List<ItemTaller>, listaAsistenciaAux: List<AsistenciaAdolescente>) : FragmentPagerAdapter(fm) {
+class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: Informe,listaItemsActividadesAux: List<ItemTaller>, listaAsistenciaAux: List<AsistenciaAdolescente>) : FragmentPagerAdapter(fm) {
 
+    val token=tokenAux
     val informe= informeAux
-    val listaFotografias=listaFotografiasAux
     val listaActividades=listaItemsActividadesAux
     val listaAsistencia=listaAsistenciaAux
 
     private fun obtenerBundle() : Bundle{
         val bundle = Bundle()
+
+        bundle.putSerializable("token", token)
         bundle.putSerializable("informeSeleccionado", informe)
         bundle.putSerializable("listaActividades", ArrayList(listaActividades))
         bundle.putSerializable("listaAsistencia", ArrayList(listaAsistencia))
-        bundle.putSerializable("listaFotos", ArrayList(listaFotografias))
         return  bundle
     }
 
@@ -35,15 +36,16 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
         when(posicion){
 
             0->{
-                fragmentAux= VerEditarRegistroAsistenciaFragment()
-                fragmentAux.arguments=obtenerBundle()
-            }
-            1->{
                 fragmentAux= VerEditarInformeFragment()
                 fragmentAux.arguments=obtenerBundle()
             }
+            1->{
+                fragmentAux= VerRegistroFotograficoFragment()
+                fragmentAux.arguments=obtenerBundle()
+            }
             2->{
-                fragmentAux= VerEditarFotografiasFragment()
+
+                fragmentAux= VerEditarRegistroAsistenciaFragment()
                 fragmentAux.arguments=obtenerBundle()
             }
 
@@ -59,13 +61,13 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
         when(posicion){
 
             0->{
-                return "Asistencia"
-            }
-            1->{
                 return "Informe"
             }
-            2->{
+            1->{
                 return "Evidencia"
+            }
+            2->{
+                return "Asistencia"
             }
             else->{
                 return null
