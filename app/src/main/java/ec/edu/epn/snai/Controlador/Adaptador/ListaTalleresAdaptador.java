@@ -15,12 +15,12 @@ import java.util.Date;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del Taller, hecho en Java
-public class TallerAdaptador extends RecyclerView.Adapter<TallerAdaptador.TallerViewHolder>{
+public class ListaTalleresAdaptador extends RecyclerView.Adapter<ListaTalleresAdaptador.TallerViewHolder>{
 
     private List<Taller> talleres= new ArrayList<>();
     private TallerOnItemClickListener onItemClickListenerTaller;
 
-    public TallerAdaptador(List<Taller> talleres, TallerOnItemClickListener onItemClickListener) {
+    public ListaTalleresAdaptador(List<Taller> talleres, TallerOnItemClickListener onItemClickListener) {
         this.talleres = talleres;
         this.onItemClickListenerTaller=onItemClickListener;
     }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente;
 import ec.edu.epn.snai.R;
 
@@ -15,27 +14,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistoAsistencia, hecho en Java
-public class IngresarRegistroAsistenciaAdaptador extends RecyclerView.Adapter<IngresarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
+public class ListaEditarRegistroAsistenciaAdaptador extends RecyclerView.Adapter<ListaEditarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
     private List<AsistenciaAdolescente> adolescenteInfractoresLista= new ArrayList<>();
 
-    public IngresarRegistroAsistenciaAdaptador() {
+    public ListaEditarRegistroAsistenciaAdaptador() {
     }
 
-    public IngresarRegistroAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
+    public ListaEditarRegistroAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
     }
 
     @NonNull
     @Override
-    public IngresarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ListaEditarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_editar_registro_asistencia,viewGroup,false);
         RegistroAsistenciaViewHolder holder= new RegistroAsistenciaViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final IngresarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ListaEditarRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder viewHolder, int i) {
 
         //Seteo los valores en los diferentes controles
         viewHolder.txtNombres.setText(adolescenteInfractoresLista.get(i).getIdAdolescenteInfractor().getNombres());

@@ -8,8 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroAsistenciaAdaptador
-import ec.edu.epn.snai.Controlador.Adaptador.RegistroAsistenciaAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.ListaEditarRegistroAsistenciaAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
 
@@ -24,7 +23,7 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ver_registro_asistencia)
+        setContentView(R.layout.activity_agregar_registro_asistencia)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i=intent
@@ -49,7 +48,8 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
     fun mostrarListadoAsistencia(){
 
         var recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
-        var adaptador = IngresarRegistroAsistenciaAdaptador(listaAdolescentesInfractores)
+        var adaptador =
+            ListaEditarRegistroAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@EditarRegistroAsistenciaActivity)
     }
@@ -65,7 +65,7 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
             this.token = i.getSerializableExtra("token") as String
             this.listaActividadesTaller = i.getSerializableExtra("listaActividades") as ArrayList<ItemTaller>
 
-            val intent = Intent(this@EditarRegistroAsistenciaActivity, EditarInformeAgregarActivity::class.java)
+            val intent = Intent(this@EditarRegistroAsistenciaActivity, EditarInformeActivity::class.java)
             intent.putExtra("token",token)
             intent.putExtra("informeSeleccionado", informeSeleccionado)
             intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))

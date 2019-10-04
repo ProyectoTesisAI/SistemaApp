@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.edu.epn.snai.Controlador.Activity.VerEditarInformeActivity
-import ec.edu.epn.snai.Controlador.Adaptador.InformeAdaptador
+import ec.edu.epn.snai.Controlador.Activity.InformeTabbedActivity
+import ec.edu.epn.snai.Controlador.Adaptador.ListaInformesAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
@@ -18,11 +18,8 @@ import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.InformeServicio
 import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.fragment_informes.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
+class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickListener{
 
     private var listaInformes : List<Informe>?=null
     private lateinit var token:String
@@ -66,7 +63,7 @@ class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
     }
 
     override fun OnItemClick(posicion: Int) {
-        val intent = Intent(context,VerEditarInformeActivity::class.java)
+        val intent = Intent(context,InformeTabbedActivity::class.java)
         intent.putExtra("informeSeleccionado",listaInformes?.get(posicion))
         intent.putExtra("token",token)
         intent.putExtra("usuario", usuario)
@@ -258,7 +255,8 @@ class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
     private fun asignarListaInformesRecyclerView(listaInformesPorTipo: List<Informe>, rootView: View){
 
         listaInformes=listaInformesPorTipo
-        val adaptador=InformeAdaptador(listaInformesPorTipo,this@InformesFragment)
+        val adaptador=
+            ListaInformesAdaptador(listaInformesPorTipo, this@InformesFragment)
         val recyclerViewInforme=rootView.findViewById(R.id.rv_informe) as RecyclerView
         recyclerViewInforme.adapter=adaptador
         recyclerViewInforme.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)

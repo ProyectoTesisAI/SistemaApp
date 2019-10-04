@@ -5,8 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import ec.edu.epn.snai.Controlador.Fragment.VerRegistroFotograficoFragment
-import ec.edu.epn.snai.Controlador.Fragment.VerEditarInformeFragment
-import ec.edu.epn.snai.Controlador.Fragment.VerEditarRegistroAsistenciaFragment
+import ec.edu.epn.snai.Controlador.Fragment.VerInformeFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerRegistroAsistenciaFragment
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
 import ec.edu.epn.snai.Modelo.Informe
@@ -36,7 +35,7 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
         when(posicion){
 
             0->{
-                fragmentAux= VerEditarInformeFragment()
+                fragmentAux= VerInformeFragment()
                 fragmentAux.arguments=obtenerBundle()
             }
             1->{
@@ -45,7 +44,7 @@ class InformePagerAdaptador(fm: FragmentManager, tokenAux : String, informeAux: 
             }
             2->{
 
-                fragmentAux= VerEditarRegistroAsistenciaFragment()
+                fragmentAux= VerRegistroAsistenciaFragment()
                 fragmentAux.arguments=obtenerBundle()
             }
 

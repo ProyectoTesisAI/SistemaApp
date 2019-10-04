@@ -19,11 +19,11 @@ import java.util.List;
 import static ec.edu.epn.snai.R.id.btn_quitar;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistroFotografico, hecho en Java
-public class IngresarRegistroFotograficoAdaptador extends RecyclerView.Adapter<IngresarRegistroFotograficoAdaptador.RegistroFotograficoViewHolder> {
+public class ListaEditarRegistroFotograficoAdaptador extends RecyclerView.Adapter<ListaEditarRegistroFotograficoAdaptador.RegistroFotograficoViewHolder> {
 
     private List<RegistroFotografico> fotografias = new ArrayList<>();
 
-    public IngresarRegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
+    public ListaEditarRegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
         this.fotografias = fotografias;
     }
 

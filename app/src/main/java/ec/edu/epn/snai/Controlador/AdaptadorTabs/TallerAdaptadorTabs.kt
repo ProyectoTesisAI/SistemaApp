@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import ec.edu.epn.snai.Controlador.Fragment.VerRegistroAsistenciaFragment
+import ec.edu.epn.snai.Controlador.Fragment.VerListadoAsistenciaFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerTallerFragment
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
-import ec.edu.epn.snai.Modelo.Usuario
 
 class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Taller, itemsTallerAux: List<ItemTaller>?) : FragmentPagerAdapter(fm) {
 
@@ -42,7 +41,7 @@ class TallerAdaptadorTabs(fm: FragmentManager, tokenAux : String, tallerAux: Tal
 
             }
             1->{
-                fragmentAux=VerRegistroAsistenciaFragment()
+                fragmentAux=VerListadoAsistenciaFragment()
                 fragmentAux.arguments=obtenerBundle()
             }
 

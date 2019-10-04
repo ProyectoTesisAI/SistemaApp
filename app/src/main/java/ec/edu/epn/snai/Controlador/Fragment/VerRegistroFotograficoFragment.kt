@@ -1,21 +1,19 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.edu.epn.snai.Controlador.Adaptador.RegistroFotograficoAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.ListaRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.RegistroFotografico
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.RegistroFotograficoServicio
-import kotlinx.android.synthetic.main.fragment_ver_editar_fotografias.view.*
+import kotlinx.android.synthetic.main.fragment_ver_registro_fotografico.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +37,7 @@ class VerRegistroFotograficoFragment : Fragment(){
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        rootView=inflater.inflate(R.layout.fragment_ver_editar_fotografias,container,false)
+        rootView=inflater.inflate(R.layout.fragment_ver_registro_fotografico,container,false)
         rootView.pbCargando.visibility=View.VISIBLE
         obtenerRegistroFotografico()
 
@@ -81,7 +79,8 @@ class VerRegistroFotograficoFragment : Fragment(){
     private fun asignarRegistroFotograficoRecyclerView(listaFotografias: List<RegistroFotografico> ){
 
         if(listaFotografias.size >0){
-            val adaptadorItemRegistroFotografico= RegistroFotograficoAdaptador(listaFotografias)
+            val adaptadorItemRegistroFotografico=
+                ListaRegistroFotograficoAdaptador(listaFotografias)
             val recyclerViewItemsFotografias= rootView.findViewById<RecyclerView>(R.id.rv_ver_imagenes)
             recyclerViewItemsFotografias.adapter=adaptadorItemRegistroFotografico
             recyclerViewItemsFotografias.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

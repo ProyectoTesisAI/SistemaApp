@@ -9,16 +9,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.edu.epn.snai.Controlador.Adaptador.TallerAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.ListaTalleresAdaptador
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
-import ec.edu.epn.snai.Controlador.Activity.VerInfoTallerActivity
+import ec.edu.epn.snai.Controlador.Activity.TallerTabbedActivity
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.fragment_talleres.view.*
 
-class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
+class TalleresFragment: Fragment(), ListaTalleresAdaptador.TallerOnItemClickListener{
 
     private var listaTalleres: List<Taller>?=null
     private lateinit var token:String
@@ -67,7 +67,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
 
     override fun OnItemClick(posicion: Int) {
 
-        val intent = Intent(context, VerInfoTallerActivity::class.java)
+        val intent = Intent(context, TallerTabbedActivity::class.java)
         intent.putExtra("taller_seleccionado", listaTalleres?.get(posicion))
         intent.putExtra("token", token)
         intent.putExtra("usuario", usuario)
@@ -236,7 +236,7 @@ class TalleresFragment: Fragment(), TallerAdaptador.TallerOnItemClickListener{
     private fun asignarListaTalleresRecyclerView(listaTaller: List<Taller>, rootView: View){
 
         listaTalleres=listaTaller
-        val adaptador = TallerAdaptador(listaTaller, this@TalleresFragment)
+        val adaptador = ListaTalleresAdaptador(listaTaller, this@TalleresFragment)
         val recyclerViewTaller =rootView.findViewById (R.id.rv_taller) as RecyclerView
         recyclerViewTaller.adapter=adaptador
         recyclerViewTaller.layoutManager=LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
