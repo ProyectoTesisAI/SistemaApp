@@ -13,7 +13,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".Controlador.Activity.VerInfoTallerActivity"
+                android:name=".Controlador.Activity.TallerTabbedActivity"
                 android:label="@string/title_activity_ver_info_taller"
                 android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity"
@@ -21,31 +21,29 @@
         <activity android:name=".Controlador.Activity.EditarTallerActivity"
                   android:label="Editar Taller"
                   android:screenOrientation="landscape"/>
-        <activity android:name=".Controlador.Activity.VerInformeActivity"
-                  android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarRegistroAsistenciaActivity"
                   android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"
                   android:screenOrientation="landscape"/>
 
 
-        <activity android:name=".Controlador.Activity.AgregarInformeActivity"
+        <activity android:name=".Controlador.Activity.CrearInformeActivity"
                   android:label="Informe"
                   android:screenOrientation="landscape"/>
-        <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"
+        <activity android:name=".Controlador.Activity.CrearRegistroAsistenciaActivity"
                   android:label="Registro Asistencia"
                   android:screenOrientation="landscape"/>
-        <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"
+        <activity android:name=".Controlador.Activity.CrearRegistroFotograficoActivity"
                   android:label="Registro Fotográfico"
                   android:screenOrientation="landscape"/>
 
-        <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
+        <activity android:name=".Controlador.Activity.InformeTabbedActivity"
                   android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.CrearTallerActivity"
                 android:screenOrientation="landscape"/>
         <activity
-                android:name=".Controlador.Activity.EditarInformeAgregarActivity"
+                android:name=".Controlador.Activity.EditarInformeActivity"
                 android:label="Agregar Informe"/>
         <activity
                 android:name=".Controlador.Activity.MainActivity"

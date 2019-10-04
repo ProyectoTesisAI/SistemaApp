@@ -52,11 +52,11 @@ class EditarActividadTallerActivity : AppCompatActivity() {
         when(item?.itemId){
             R.id.menu_guardar->{
 
-                actividadAux?.actividad=etActividadEditar?.getText().toString()
-                actividadAux?.objetivoEspecifico=etObjetivoEditar?.getText().toString()
-                actividadAux?.materiales=etMaterialesEditar?.getText().toString()
-                actividadAux?.responsable=etResponsableEditar?.getText().toString()
-                actividadAux?.duracion= etDuracionEditar?.getText().toString().toInt()
+                actividadAux.actividad=etActividadEditar?.getText().toString()
+                actividadAux.objetivoEspecifico=etObjetivoEditar?.getText().toString()
+                actividadAux.materiales=etMaterialesEditar?.getText().toString()
+                actividadAux.responsable=etResponsableEditar?.getText().toString()
+                actividadAux.duracion= etDuracionEditar?.getText().toString().toInt()
 
                 val intent = Intent()
                 intent.putExtra("actividad_rescatada",actividadAux)
@@ -100,7 +100,7 @@ class EditarActividadTallerActivity : AppCompatActivity() {
         return true
     }
 
-    fun habilitarDeshabilitarAtributos(habilitado: Boolean){
+    private fun habilitarDeshabilitarAtributos(habilitado: Boolean){
         etActividadEditar?.isEnabled =habilitado
         etObjetivoEditar?.isEnabled =habilitado
         etMaterialesEditar?.isEnabled =habilitado
@@ -109,7 +109,7 @@ class EditarActividadTallerActivity : AppCompatActivity() {
 
     }
 
-    fun habilitarDeshabilitarFocus(habilitado: Boolean){
+    private fun habilitarDeshabilitarFocus(habilitado: Boolean){
         etActividadEditar?.isFocusableInTouchMode =habilitado
         etObjetivoEditar?.isFocusableInTouchMode =habilitado
         etMaterialesEditar?.isFocusableInTouchMode =habilitado

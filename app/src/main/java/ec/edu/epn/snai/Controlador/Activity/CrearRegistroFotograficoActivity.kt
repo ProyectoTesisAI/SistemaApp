@@ -12,12 +12,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Base64
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroFotograficoAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.ListaEditarRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.*
 import java.io.ByteArrayOutputStream
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
@@ -26,7 +24,7 @@ import ec.edu.epn.snai.Servicios.*
 import kotlinx.android.synthetic.main.activity_editar_fotografias.*
 
 
-class AgregarRegistroFotograficoActivity : AppCompatActivity() {
+class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
     private var listaFotografias: ArrayList<RegistroFotografico> = ArrayList()
     private lateinit var informeNuevo: Informe
@@ -79,7 +77,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
                                 Toast.makeText(applicationContext, "Se ha guardado correctamente el Informe", Toast.LENGTH_SHORT).show()
 
-                                val intent = Intent(this@AgregarRegistroFotograficoActivity, MainActivity::class.java)
+                                val intent = Intent(this@CrearRegistroFotograficoActivity, MainActivity::class.java)
 
                                 //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
                                 // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
@@ -168,9 +166,10 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
         if(listaFotografias != null){
 
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador =
+                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
-            recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@AgregarRegistroFotograficoActivity)
+            recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@CrearRegistroFotograficoActivity)
         }
 
     }

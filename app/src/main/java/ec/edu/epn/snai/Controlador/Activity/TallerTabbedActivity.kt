@@ -7,17 +7,11 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.ItemInformeAdaptador
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.TallerAdaptadorTabs
-import ec.edu.epn.snai.Modelo.CAI
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.Modelo.Usuario
@@ -25,13 +19,13 @@ import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
 import ec.edu.epn.snai.Utilidades.Constantes
-import kotlinx.android.synthetic.main.activity_ver_info_taller.*
+import kotlinx.android.synthetic.main.activity_tabbed_taller.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.ArrayList
 
-class VerInfoTallerActivity : AppCompatActivity() {
+class TallerTabbedActivity : AppCompatActivity() {
 
     private lateinit var token:String
     private lateinit var taller:Taller
@@ -42,7 +36,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ver_info_taller)
+        setContentView(R.layout.activity_tabbed_taller)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
         supportActionBar?.elevation=0F
 
@@ -67,7 +61,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
 
         btftCrearInforme=findViewById(R.id.fab_crear_informe)
         btftCrearInforme.setOnClickListener {
-            val intent = Intent(applicationContext, AgregarRegistroAsistenciaActivity::class.java)
+            val intent = Intent(applicationContext, CrearRegistroAsistenciaActivity::class.java)
             intent.putExtra("token",token)
             intent.putExtra("taller_seleccionado", taller)
             if(itemsTaller != null){
@@ -201,7 +195,7 @@ class VerInfoTallerActivity : AppCompatActivity() {
                 if(response.code()==204){
                     Toast.makeText(applicationContext, "Se ha eliminado correctamente el Taller", Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(this@VerInfoTallerActivity, MainActivity::class.java)
+                    val intent = Intent(this@TallerTabbedActivity, MainActivity::class.java)
                     //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
                     // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

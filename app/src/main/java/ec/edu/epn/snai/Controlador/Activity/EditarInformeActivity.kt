@@ -1,9 +1,7 @@
 package ec.edu.epn.snai.Controlador.Activity
 
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
 import android.view.MenuItem
 import ec.edu.epn.snai.R
 import android.support.v7.widget.LinearLayoutManager
@@ -18,7 +16,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class EditarInformeAgregarActivity : AppCompatActivity(){
+class EditarInformeActivity : AppCompatActivity(){
 
     private var numeroParticipantes=0
 
@@ -170,7 +168,7 @@ class EditarInformeAgregarActivity : AppCompatActivity(){
         if(informeNuevo != null){
 
             if(!informeNuevo.adolescentesJustificacion.isNullOrBlank() && !informeNuevo.socializacionDesarrollo.isNullOrBlank() && !informeNuevo.socializacionObjetivos.isNullOrBlank() && !informeNuevo.cierreEvaluacion.isNullOrBlank() && !informeNuevo.conclusiones.isNullOrBlank() ){
-                val intent = Intent(this@EditarInformeAgregarActivity, EditarRegistroFotograficoActivity::class.java)
+                val intent = Intent(this@EditarInformeActivity, EditarRegistroFotograficoActivity::class.java)
                 intent.putExtra("token",token)
                 intent.putExtra("informeSeleccionado", obtenerVariablesInforme())
                 intent.putExtra("listaAsistencia", java.util.ArrayList(listaAsistenciaAdolescentes))

@@ -15,7 +15,7 @@ import android.util.Base64
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.IngresarRegistroFotograficoAdaptador
+import ec.edu.epn.snai.Controlador.Adaptador.ListaEditarRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.*
 import java.io.ByteArrayOutputStream
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente
@@ -183,7 +183,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         if (listaFotografias != null) {
 
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador =
+                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
         }
@@ -225,7 +226,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
             listaFotografias= ArrayList(listaFotografiasAux)
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador = IngresarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador =
+                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
 

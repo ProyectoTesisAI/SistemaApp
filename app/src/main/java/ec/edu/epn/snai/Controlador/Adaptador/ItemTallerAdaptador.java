@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.ItemTaller;
-import ec.edu.epn.snai.Modelo.Taller;
 import ec.edu.epn.snai.R;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class ItemTallerAdaptador extends RecyclerView.Adapter<ItemTallerAdaptado
     @NonNull
     @Override
     public ItemTallerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_informe,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_taller,viewGroup, false);
         ItemTallerViewHolder holder= new ItemTallerViewHolder(view,onItemTallerClickListener);
         return holder;
     }

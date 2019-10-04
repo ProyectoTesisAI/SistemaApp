@@ -24,7 +24,7 @@ public class ItemInformeAdaptador extends RecyclerView.Adapter<ItemInformeAdapta
     @NonNull
     @Override
     public ItemInformeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_informe,viewGroup, false);
+        View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_actividad_taller,viewGroup, false);
         ItemInformeViewHolder holder= new ItemInformeViewHolder(view);
         return holder;
     }

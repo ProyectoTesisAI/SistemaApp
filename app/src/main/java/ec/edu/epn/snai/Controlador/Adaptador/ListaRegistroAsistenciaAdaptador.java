@@ -1,6 +1,5 @@
 package ec.edu.epn.snai.Controlador.Adaptador;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,20 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import ec.edu.epn.snai.Modelo.AdolescenteInfractor;
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente;
-import ec.edu.epn.snai.Modelo.Taller;
 import ec.edu.epn.snai.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistoAsistencia, hecho en Java
-public class RegistroAsistenciaAdaptador extends RecyclerView.Adapter<RegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
+public class ListaRegistroAsistenciaAdaptador extends RecyclerView.Adapter<ListaRegistroAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
     private List<AsistenciaAdolescente> adolescenteInfractoresLista= new ArrayList<>();
 
-    public RegistroAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
+    public ListaRegistroAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
         this.adolescenteInfractoresLista = adolescenteInfractoresLista;
     }
 

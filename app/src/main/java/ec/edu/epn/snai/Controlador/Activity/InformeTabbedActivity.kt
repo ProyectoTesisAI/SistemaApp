@@ -1,6 +1,5 @@
 package ec.edu.epn.snai.Controlador.Activity
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -16,13 +15,13 @@ import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.*
 import ec.edu.epn.snai.Utilidades.Constantes
-import kotlinx.android.synthetic.main.activity_ver_editar_informe.*
+import kotlinx.android.synthetic.main.activity_tabbed_informe.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.ArrayList
 
-class VerEditarInformeActivity : AppCompatActivity() {
+class InformeTabbedActivity : AppCompatActivity() {
 
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
@@ -32,7 +31,7 @@ class VerEditarInformeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_ver_editar_informe)
+        setContentView(R.layout.activity_tabbed_informe)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
         supportActionBar?.elevation=0F
 

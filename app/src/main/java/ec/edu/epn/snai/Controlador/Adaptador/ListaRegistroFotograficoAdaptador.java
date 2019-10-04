@@ -8,20 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.RegistroFotografico;
 import ec.edu.epn.snai.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistroFotografico, hecho en Java
-public class RegistroFotograficoAdaptador extends RecyclerView.Adapter<RegistroFotograficoAdaptador.RegistroFotograficoViewHolder>{
+public class ListaRegistroFotograficoAdaptador extends RecyclerView.Adapter<ListaRegistroFotograficoAdaptador.RegistroFotograficoViewHolder>{
 
     private List<RegistroFotografico> fotografias = new ArrayList<>();
 
-    public RegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
+    public ListaRegistroFotograficoAdaptador(List<RegistroFotografico> fotografias) {
         this.fotografias = fotografias;
     }
 

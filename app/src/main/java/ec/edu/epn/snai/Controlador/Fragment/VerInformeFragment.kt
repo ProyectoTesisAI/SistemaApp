@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class VerEditarInformeFragment : Fragment(){
+class VerInformeFragment : Fragment(){
 
     private lateinit var informeSeleccionado: Informe
     private var itemsTaller: List<ItemTaller>?=null

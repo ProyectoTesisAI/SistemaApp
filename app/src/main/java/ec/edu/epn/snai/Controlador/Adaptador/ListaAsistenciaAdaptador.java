@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import ec.edu.epn.snai.Modelo.AdolescenteInfractor;
 import ec.edu.epn.snai.Modelo.AsistenciaAdolescente;
 import ec.edu.epn.snai.R;
 
@@ -14,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del RegistoAsistencia, hecho en Java
-public class ListadoAsistenciaAdaptador extends RecyclerView.Adapter<ListadoAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
+public class ListaAsistenciaAdaptador extends RecyclerView.Adapter<ListaAsistenciaAdaptador.RegistroAsistenciaViewHolder>{
 
     private List<AsistenciaAdolescente> listaAsistenciaAdolescentesInfractores = new ArrayList<>();
 
 
-    public ListadoAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
+    public ListaAsistenciaAdaptador(List<AsistenciaAdolescente> adolescenteInfractoresLista) {
         this.listaAsistenciaAdolescentesInfractores = adolescenteInfractoresLista;
     }
 

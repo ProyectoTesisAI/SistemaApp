@@ -9,13 +9,12 @@ import android.widget.TextView;
 import ec.edu.epn.snai.Modelo.Informe;
 import ec.edu.epn.snai.R;
 
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 //Clase Adaptador correspondiente al RecyclerView del Informe, hecho en Java
-public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.InformeViewHolder>{
+public class ListaInformesAdaptador extends RecyclerView.Adapter<ListaInformesAdaptador.InformeViewHolder>{
 
     private List<Informe> informes = new ArrayList<>();
     private InformeOnItemClickListener onItemClickListenerInforme;
@@ -23,7 +22,7 @@ public class InformeAdaptador extends RecyclerView.Adapter<InformeAdaptador.Info
     String pattern = "dd/MM/yyyy";
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-    public InformeAdaptador(List<Informe> informes, InformeOnItemClickListener onItemClickListener) {
+    public ListaInformesAdaptador(List<Informe> informes, InformeOnItemClickListener onItemClickListener) {
         this.informes = informes;
         this.onItemClickListenerInforme=onItemClickListener;
     }

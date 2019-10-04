@@ -16,7 +16,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AgregarInformeActivity : AppCompatActivity(){
+class CrearInformeActivity : AppCompatActivity(){
 
     private var numeroParticipantes=0
 
@@ -164,7 +164,7 @@ class AgregarInformeActivity : AppCompatActivity(){
 
             if(!informeNuevo.adolescentesJustificacion.isNullOrBlank() && !informeNuevo.socializacionDesarrollo.isNullOrBlank() && !informeNuevo.socializacionObjetivos.isNullOrBlank() && !informeNuevo.cierreEvaluacion.isNullOrBlank() && !informeNuevo.conclusiones.isNullOrBlank() ){
 
-                val intent = Intent(this@AgregarInformeActivity, AgregarRegistroFotograficoActivity::class.java)
+                val intent = Intent(this@CrearInformeActivity, CrearRegistroFotograficoActivity::class.java)
                 intent.putExtra("token",token)
                 intent.putExtra("informeNuevo", informeNuevo)
                 intent.putExtra("listaAsistencia", ArrayList(listaAsistenciaAdolescentes))

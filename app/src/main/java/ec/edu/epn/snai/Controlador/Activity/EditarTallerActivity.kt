@@ -347,7 +347,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         val builder = AlertDialog.Builder(this)
 
         //obtengo la vista o layout del dialogo
-        val view = layoutInflater.inflate(R.layout.dialog_activity_taller, null)
+        val view = layoutInflater.inflate(R.layout.dialogo_crear_activity_taller, null)
 
         //añado la vista al builder
         builder.setView(view)
