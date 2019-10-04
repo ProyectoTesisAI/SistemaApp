@@ -92,8 +92,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                                 //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
                                 // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                val usuarioAux = informeAux.idTaller.idUsuario
-                                usuarioAux.token = this.token
+                                val usuarioAux=MainActivity.Companion.usuario
                                 intent.putExtra("usuario", usuarioAux)
                                 startActivity(intent)
                             }

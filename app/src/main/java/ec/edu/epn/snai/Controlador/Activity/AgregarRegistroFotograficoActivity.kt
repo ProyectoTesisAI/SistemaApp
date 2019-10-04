@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_editar_fotografias.*
 
 class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
-    private var listaFotografias: ArrayList<RegistroFotografico>?=null
+    private var listaFotografias: ArrayList<RegistroFotografico> = ArrayList()
     private lateinit var informeNuevo: Informe
     private lateinit var token: String
     private var listaAsistenciaAdolescentes: List<AsistenciaAdolescente>? = null
@@ -84,8 +84,7 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
                                 //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
                                 // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                val usuarioAux= informeAux.idTaller.idUsuario
-                                usuarioAux.token=this.token
+                                val usuarioAux=MainActivity.Companion.usuario
                                 intent.putExtra("usuario",usuarioAux)
                                 startActivity(intent)
                             }
@@ -113,7 +112,8 @@ class AgregarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun cargarImagen() {
 
-        if(listaFotografias?.size!! < 5 ){
+
+        if(listaFotografias.size < 5 ){
 
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.setType("image/")

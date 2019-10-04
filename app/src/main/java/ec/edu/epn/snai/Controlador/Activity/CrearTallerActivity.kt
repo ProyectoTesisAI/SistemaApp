@@ -157,7 +157,6 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
         when(item?.itemId){
             R.id.menu_guardar->{
-
                 val tallerAux=guardarTaller()
 
                 if(tallerAux != null){
@@ -177,17 +176,18 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
                             toast.show()
 
                             val intent = Intent(this@CrearTallerActivity, MainActivity::class.java)
-
                             //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
                             // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.putExtra("usuario", usuario)
                             startActivity(intent)
+                            pbCrearTaller.visibility=View.INVISIBLE
                         }
 
 
                     }
                 }
+
             }
             else->{
                 finish()
@@ -648,7 +648,7 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
 
                     if(itemsTaller.size > 0){
 
-                        val tallerEditado = asynTaskEditarTaller(tallerEditar)
+                        val tallerEditado = asynTaskGuardarTaller(tallerEditar)
                         return tallerEditado
                     }
                     else{
@@ -694,13 +694,14 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
         }
     }
 
-    private fun asynTaskEditarTaller(tallerAux: Taller): Taller {
+    private fun asynTaskGuardarTaller(tallerAux: Taller): Taller? {
 
         val miclase = object : AsyncTask<Unit, Unit, Taller>() {
 
-            override fun doInBackground(vararg p0: Unit?): Taller {
-                val tallerEditado = servicioEditarTaller(tallerAux)
-                return tallerEditado!!
+            override fun doInBackground(vararg p0: Unit?): Taller? {
+
+                val tallerGuardado = servicioEditarTaller(tallerAux)
+                return tallerGuardado!!
             }
 
         }
