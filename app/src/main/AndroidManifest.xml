@@ -27,14 +27,18 @@
                   android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarRegistroFotograficoActivity"
                   android:screenOrientation="landscape"/>
-        <activity android:name=".Controlador.Activity.AgregarImagenActivity"
-                  android:screenOrientation="landscape"/>
+
+
         <activity android:name=".Controlador.Activity.AgregarInformeActivity"
+                  android:label="Informe"
                   android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.AgregarRegistroAsistenciaActivity"
+                  android:label="Registro Asistencia"
                   android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.AgregarRegistroFotograficoActivity"
+                  android:label="Registro Fotográfico"
                   android:screenOrientation="landscape"/>
+
         <activity android:name=".Controlador.Activity.VerEditarInformeActivity"
                   android:screenOrientation="landscape"/>
         <activity

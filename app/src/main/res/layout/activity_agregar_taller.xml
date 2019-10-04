@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
+                android:background="#FFFAFAFA"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -13,7 +14,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="12dp"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -42,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Número de Taller" />
+                        android:text="Número de Taller"/>
 
                 <EditText
                         android:layout_width="match_parent"
@@ -52,7 +53,7 @@
                         android:textSize="15sp"
                         android:paddingTop="4sp"
                         android:fontFamily="sans-serif-light"
-                        android:hint="Número de Taller" />
+                        android:hint="Número de Taller"/>
 
             </LinearLayout>
 
@@ -118,7 +119,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -274,4 +274,12 @@
             android:tooltipText="Agregar Actividad"
             android:src="@drawable/ic_add"/>
 
+    <ProgressBar
+            android:id="@+id/pbCrearTaller"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+
+    />
 </android.support.design.widget.CoordinatorLayout>

@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Fragment.InformesFragment
@@ -19,7 +20,11 @@ import ec.edu.epn.snai.Utilidades.Constantes
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var usuario:Usuario
+    //Me permite tratar a todos los atributos y métodos dentro del object como estáticos
+    companion object {
+        lateinit var usuario:Usuario
+    }
+    //private lateinit var usuario:Usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,10 +92,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.nav_cerrar_sesion ->{
+
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
+        return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

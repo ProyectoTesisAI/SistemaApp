@@ -25,11 +25,11 @@ class EditarActividadTallerActivity : AppCompatActivity() {
 
         actividadAux = intent.getSerializableExtra("actividad_seleccionada") as ItemTaller
 
-        etActividadEditar?.setText(actividadAux?.actividad)
-        etObjetivoEditar?.setText(actividadAux?.objetivoEspecifico)
-        etMaterialesEditar?.setText(actividadAux?.materiales)
-        etResponsableEditar?.setText(actividadAux?.responsable)
-        etDuracionEditar?.setText(actividadAux?.duracion.toString())
+        etActividadEditar?.setText(actividadAux.actividad)
+        etObjetivoEditar?.setText(actividadAux.objetivoEspecifico)
+        etMaterialesEditar?.setText(actividadAux.materiales)
+        etResponsableEditar?.setText(actividadAux.responsable)
+        etDuracionEditar?.setText(actividadAux.duracion.toString())
 
         habilitarDeshabilitarAtributos(false)
         habilitarDeshabilitarFocus(false)

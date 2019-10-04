@@ -30,5 +30,9 @@ public interface InformeServicio {
     @GET("Informe/InformeSoloCAI")
     Call<List<Informe>> obtenerInformesSoloCai(@Header("Authorization") String token);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @DELETE("Informe/{id}")
+    Call<Void> eliminarInforme(@Path("id") String id,@Header("Authorization") String token);
+
 
 }

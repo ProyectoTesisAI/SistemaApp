@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#ffff"
         tools:context=".Controlador.Activity.EditarInformeAgregarActivity">
 
     <android.support.v4.widget.NestedScrollView
@@ -14,7 +15,7 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="12sp"
+                android:padding="12dp"
                 android:orientation="vertical">
 
             <TextView

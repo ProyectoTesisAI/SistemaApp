@@ -1,5 +1,7 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -22,6 +24,7 @@ import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.TallerServicio
+import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.activity_ver_info_taller.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,7 +35,6 @@ class VerInfoTallerActivity : AppCompatActivity() {
 
     private lateinit var token:String
     private lateinit var taller:Taller
-    private lateinit var menuAux:Menu
     private var itemsTaller: List<ItemTaller>?=null
     private lateinit var usuario: Usuario
 
@@ -78,12 +80,20 @@ class VerInfoTallerActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuAux=menu
-        menuInflater.inflate(R.menu.menu_gestion, menu)
 
-        menu.findItem(R.id.menu_editar).isVisible = true
-        menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=false
+        val rol=this.usuario.idRolUsuarioCentro.idRol.rol
+
+        if(rol != null){
+            if(rol.equals(Constantes.ROL_ADMINISTRADOR)){
+
+                menuInflater.inflate(R.menu.menu_gestion, menu)
+
+                menu.findItem(R.id.menu_editar).isVisible = true
+                menu.findItem(R.id.menu_eliminar).isVisible=true
+                menu.findItem(R.id.menu_guardar).isVisible=false
+            }
+        }
+
         return true
 
     }
@@ -104,6 +114,24 @@ class VerInfoTallerActivity : AppCompatActivity() {
                 }
 
                 startActivity(intent)
+
+            }
+            R.id.menu_eliminar->{
+
+                val builder = AlertDialog.Builder(this)
+
+                builder.setTitle("Eliminar")
+                builder.setMessage("¿Está seguro de eliminar?")
+                builder.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+
+                        eliminarTaller(taller.idTaller)
+                    })
+                builder.setNegativeButton("CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //finish()
+                    })
+                builder.show()
 
             }
             else->{
@@ -156,5 +184,35 @@ class VerInfoTallerActivity : AppCompatActivity() {
 
 
     }
+
+    private fun eliminarTaller(idTaller: Int){
+        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+        val call = servicio.eliminarTaller(idTaller.toString(), "Bearer " + token)
+
+        call.enqueue(object : Callback<Void>{
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Taller", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+                if(response.code()==204){
+                    Toast.makeText(applicationContext, "Se ha eliminado correctamente el Taller", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this@VerInfoTallerActivity, MainActivity::class.java)
+                    //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                    // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.putExtra("usuario",usuario)
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+        })
+    }
+
 
 }

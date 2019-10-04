@@ -44,4 +44,8 @@ public interface TallerServicio {
     @GET("Taller/TalleresSinInformeSoloCAI")
     Call<List<Taller>> obtenerTalleresSinInformeSoloCAI(@Header("Authorization") String token);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @DELETE("Taller/{id}")
+    Call<Void> eliminarTaller(@Path("id") String id,@Header("Authorization") String token);
+
 }

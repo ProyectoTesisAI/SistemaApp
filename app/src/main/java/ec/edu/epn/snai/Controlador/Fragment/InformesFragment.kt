@@ -69,6 +69,7 @@ class InformesFragment: Fragment(), InformeAdaptador.InformeOnItemClickListener{
         val intent = Intent(context,VerEditarInformeActivity::class.java)
         intent.putExtra("informeSeleccionado",listaInformes?.get(posicion))
         intent.putExtra("token",token)
+        intent.putExtra("usuario", usuario)
         startActivity(intent)
     }
 

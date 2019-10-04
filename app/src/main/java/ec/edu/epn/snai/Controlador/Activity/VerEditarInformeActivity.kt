@@ -1,5 +1,8 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -11,22 +14,21 @@ import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.InformePagerAdaptador
 import ec.edu.epn.snai.Modelo.*
 import ec.edu.epn.snai.R
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.RegistroAsistenciaServicio
-import ec.edu.epn.snai.Servicios.RegistroFotograficoServicio
-import ec.edu.epn.snai.Servicios.TallerServicio
+import ec.edu.epn.snai.Servicios.*
+import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.activity_ver_editar_informe.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.ArrayList
 
 class VerEditarInformeActivity : AppCompatActivity() {
 
     private lateinit var informeSeleccionado: Informe
     private lateinit var token: String
-    private var listaFotos: List<RegistroFotografico>?=null
     private var listaActividadesTaller: List<ItemTaller>?=null
     private var listaRegistroAsistencia: List<AsistenciaAdolescente>?=null
-
-    private lateinit var menuAux: Menu
+    private lateinit var usuario: Usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,7 @@ class VerEditarInformeActivity : AppCompatActivity() {
         val i = intent
         this.informeSeleccionado= i.getSerializableExtra("informeSeleccionado") as Informe
         this.token = i.getSerializableExtra("token") as String
+        this.usuario=i.getSerializableExtra("usuario") as Usuario
 
 
         asynTaskObtenerListadoRegistroAsistencia()
@@ -57,12 +60,19 @@ class VerEditarInformeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuAux=menu
-        menuInflater.inflate(R.menu.menu_gestion, menu)
 
-        menu.findItem(R.id.menu_editar).isVisible = true
-        menu.findItem(R.id.menu_eliminar).isVisible=false
-        menu.findItem(R.id.menu_guardar).isVisible=false
+        val rol=this.usuario.idRolUsuarioCentro.idRol.rol
+
+        if(rol != null){
+            if(rol.equals(Constantes.ROL_ADMINISTRADOR)){
+
+                menuInflater.inflate(R.menu.menu_gestion, menu)
+
+                menu.findItem(R.id.menu_editar).isVisible = true
+                menu.findItem(R.id.menu_eliminar).isVisible=true
+                menu.findItem(R.id.menu_guardar).isVisible=false
+            }
+        }
         return true
 
     }
@@ -80,6 +90,25 @@ class VerEditarInformeActivity : AppCompatActivity() {
                 intent.putExtra("listaActividades", ArrayList(listaActividadesTaller))
                 intent.putExtra("listaAsistencia", ArrayList(listaRegistroAsistencia))
                 startActivity(intent)
+
+            }
+            R.id.menu_eliminar->{
+
+                val builder = AlertDialog.Builder(this)
+
+                builder.setTitle("Eliminar")
+                builder.setMessage("¿Está seguro de eliminar?")
+                builder.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+
+                        eliminarInforme(informeSeleccionado.idInforme)
+                    })
+                builder.setNegativeButton("CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //finish()
+                    })
+                builder.show()
+
 
             }
             else->{
@@ -188,5 +217,29 @@ class VerEditarInformeActivity : AppCompatActivity() {
         }else{
             return null
         }
+    }
+
+    private fun eliminarInforme(idInforme: Int){
+        val servicio = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+        val call = servicio.eliminarInforme(idInforme.toString(), "Bearer " + token)
+
+        call.enqueue(object : Callback<Void> {
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+
+                Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Informe", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+                if(response != null){
+
+                    if(response.code()==204){
+                        Toast.makeText(applicationContext, "Se ha eliminado correctamente el Informe", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+            }
+        })
     }
 }
