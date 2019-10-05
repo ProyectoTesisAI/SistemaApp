@@ -52,6 +52,8 @@
                         android:textSize="15sp"
                         android:paddingTop="4sp"
                         android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:hint="Número de Taller"/>
 
             </LinearLayout>
@@ -85,6 +87,8 @@
                             android:textSize="15sp"
                             android:paddingTop="4sp"
                             android:fontFamily="sans-serif-light"
+                            android:singleLine="true"
+                            android:imeOptions="actionNext"
                             android:hint="Fecha" android:focusableInTouchMode="false"/>
 
                 </LinearLayout>
@@ -113,6 +117,8 @@
                             android:hint="Hora"
                             android:paddingTop="4sp"
                             android:fontFamily="sans-serif-light"
+                            android:singleLine="true"
+                            android:imeOptions="actionNext"
                             android:id="@+id/etHoraTallerCrear"/>
 
                 </LinearLayout>
@@ -224,6 +230,8 @@
                         android:textSize="15sp"
                         android:paddingTop="4sp"
                         android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
                         android:id="@+id/etObjetivoTallerCrear"
                 />
             </LinearLayout>
@@ -250,6 +258,8 @@
                         android:textSize="15dp"
                         android:paddingTop="4sp"
                         android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
                         android:id="@+id/etRecomendacionesTallerCrear"
                 />
             </LinearLayout>
