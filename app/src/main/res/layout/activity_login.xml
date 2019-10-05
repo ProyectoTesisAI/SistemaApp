@@ -41,6 +41,8 @@
                     android:ems="50"
                     android:hint="@string/prompt_user"
                     android:padding="10dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
                     android:textSize="17sp" android:fontFamily="sans-serif-light"/>
 
             <EditText
@@ -53,6 +55,8 @@
                     android:ems="10"
                     android:hint="@string/prompt_password"
                     android:padding="10dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:textSize="17sp" android:fontFamily="sans-serif-light"/>
             <Button
                     android:id="@+id/btn_acceder_login"
