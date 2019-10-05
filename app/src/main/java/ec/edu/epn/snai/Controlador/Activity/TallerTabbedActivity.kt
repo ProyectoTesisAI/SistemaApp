@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -42,9 +43,9 @@ class TallerTabbedActivity : AppCompatActivity() {
 
 
         val i = intent
-        this.taller = i.getSerializableExtra("taller_seleccionado") as Taller
-        this.token = i.getSerializableExtra("token") as String
+        this.taller = i.getSerializableExtra("tallerSeleccionado") as Taller
         this.usuario=i.getSerializableExtra("usuario") as Usuario
+        this.token = usuario.token
 
         asynTaskObtenerListadoItemsTaller()
 
@@ -63,9 +64,9 @@ class TallerTabbedActivity : AppCompatActivity() {
         btftCrearInforme.setOnClickListener {
             val intent = Intent(applicationContext, CrearRegistroAsistenciaActivity::class.java)
             intent.putExtra("token",token)
-            intent.putExtra("taller_seleccionado", taller)
+            intent.putExtra("tallerSeleccionado", taller)
             if(itemsTaller != null){
-                intent.putExtra("items_taller_seleccionado", ArrayList(itemsTaller))
+                intent.putExtra("itemsTallerSeleccionado", ArrayList(itemsTaller))
             }
 
             startActivity(intent)
@@ -138,7 +139,8 @@ class TallerTabbedActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoItemsTaller(){
 
-        val task = object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {

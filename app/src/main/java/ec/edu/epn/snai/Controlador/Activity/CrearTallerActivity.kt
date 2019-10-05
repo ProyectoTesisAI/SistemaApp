@@ -180,6 +180,7 @@ class CrearTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerOn
                             // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.putExtra("usuario", usuario)
+                            intent.putExtra("tipoTaller", tallerAux.tipo)
                             startActivity(intent)
                             pbCrearTaller.visibility=View.INVISIBLE
                         }

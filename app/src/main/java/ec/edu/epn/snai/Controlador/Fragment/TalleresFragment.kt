@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -29,26 +30,11 @@ class TalleresFragment: Fragment(), ListaTalleresAdaptador.TallerOnItemClickList
         super.onCreate(savedInstanceState)
 
         if(arguments!=null){
-            token=arguments?.getSerializable("token") as String
             usuario=arguments?.getSerializable("usuario") as Usuario
             tipoTaller=arguments?.getSerializable("tipoTaller") as String?
+            this.token=usuario.token
 
-            if(tipoTaller == null){
 
-                val rol=usuario.idRolUsuarioCentro.idRol.rol
-
-                if( rol.equals(Constantes.ROL_ADMINISTRADOR) || rol.equals(Constantes.ROL_SUBDIRECTOR) || rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(
-                        Constantes.ROL_COORDINADOR_CAI)  || rol.contains("DIRECTOR") || rol.contains("PSICOLOGO") ){
-                    tipoTaller=Constantes.TIPO_TALLER_PSICOLOGIA
-                }
-                else if(rol.contains("JURIDICO")){
-                    tipoTaller=Constantes.TIPO_TALLER_JURIDICO
-                }
-                else if(rol.contains("INSPECTOR EDUCADOR")){
-                    tipoTaller=Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR
-                }
-
-            }
         }
 
 
@@ -68,8 +54,7 @@ class TalleresFragment: Fragment(), ListaTalleresAdaptador.TallerOnItemClickList
     override fun OnItemClick(posicion: Int) {
 
         val intent = Intent(context, TallerTabbedActivity::class.java)
-        intent.putExtra("taller_seleccionado", listaTalleres?.get(posicion))
-        intent.putExtra("token", token)
+        intent.putExtra("tallerSeleccionado", listaTalleres?.get(posicion))
         intent.putExtra("usuario", usuario)
         startActivity(intent)
     }
@@ -84,7 +69,8 @@ class TalleresFragment: Fragment(), ListaTalleresAdaptador.TallerOnItemClickList
     private fun asynTaskObtenerListadoTalleres(usuario: Usuario,rootView: View, tipoTaller: String){
 
 
-        val task = object : AsyncTask<Unit, Unit, List<Taller>>() {
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<Taller>>() {
 
             override fun doInBackground(vararg p0: Unit?): List<Taller>? {
 

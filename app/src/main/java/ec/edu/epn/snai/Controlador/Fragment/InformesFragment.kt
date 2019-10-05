@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -30,9 +31,10 @@ class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickLis
         super.onCreate(savedInstanceState)
 
         if(arguments!=null){
-            token=arguments?.getSerializable("token") as String
+
             usuario=arguments?.getSerializable("usuario") as Usuario
             tipoTaller=arguments?.getSerializable("tipoTaller") as String?
+            this.token=usuario.token
 
 
             if(tipoTaller == null){
@@ -65,7 +67,6 @@ class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickLis
     override fun OnItemClick(posicion: Int) {
         val intent = Intent(context,InformeTabbedActivity::class.java)
         intent.putExtra("informeSeleccionado",listaInformes?.get(posicion))
-        intent.putExtra("token",token)
         intent.putExtra("usuario", usuario)
         startActivity(intent)
     }
@@ -78,7 +79,8 @@ class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickLis
     private fun asynTaskObtenerListadoInformes(usuario: Usuario,rootView: View, tipoTaller: String){
 
 
-        val task = object : AsyncTask<Unit, Unit, List<Informe>>() {
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<Informe>>() {
 
             override fun doInBackground(vararg p0: Unit?): List<Informe>? {
 

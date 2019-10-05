@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -29,9 +30,9 @@ class CrearRegistroAsistenciaActivity : AppCompatActivity(){
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //activo el botón Atrás
 
         val i=intent
-        this.tallerSeleccionado = i.getSerializableExtra("taller_seleccionado") as Taller
+        this.tallerSeleccionado = i.getSerializableExtra("tallerSeleccionado") as Taller
         this.token = i.getSerializableExtra("token") as String
-        this.listaActividadesTaller = i.getSerializableExtra("items_taller_seleccionado") as ArrayList<ItemTaller>
+        this.listaActividadesTaller = i.getSerializableExtra("itemsTallerSeleccionado") as ArrayList<ItemTaller>
 
 
         asynTaskObtenerListadoRegistroAsistencia()
@@ -63,7 +64,8 @@ class CrearRegistroAsistenciaActivity : AppCompatActivity(){
 
     private fun asynTaskObtenerListadoRegistroAsistencia(){
 
-        val task = object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {

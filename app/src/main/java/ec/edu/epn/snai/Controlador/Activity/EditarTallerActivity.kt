@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -173,6 +174,7 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
                             //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP para indicar que el activity actuar lo voy a eliminar del stack
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             intent.putExtra("usuario", usuario)
+                            intent.putExtra("tipoTaller", tallerAux.tipo)
                             startActivity(intent)
                         }
 
@@ -232,7 +234,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskObtenerListadoUzdi(){
 
-        val miclase = object : AsyncTask<Unit, Unit, List<UDI>>(){
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<UDI>>(){
 
             override fun doInBackground(vararg p0: Unit?): List<UDI> {
                 val listadoUzdi=obtenerListadoUZDI()
@@ -245,7 +248,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskObtenerListadoCai(){
 
-        val task = object : AsyncTask<Unit, Unit, List<CAI>>(){
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<CAI>>(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<CAI> {
@@ -704,7 +708,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskEditarTaller(tallerAux: Taller): Taller {
 
-        val miclase = object : AsyncTask<Unit, Unit, Taller>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Taller>() {
 
             override fun doInBackground(vararg p0: Unit?): Taller {
                 val tallerEditado = servicioEditarTaller(tallerAux)
@@ -746,7 +751,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskEditarItemTaller(itemTallerAux: ItemTaller) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 val tallerEditado = servicioEditarItemTaller(itemTallerAux)
@@ -769,7 +775,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskEliminarItemsTaller(idItemTaller: Int){
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
 
@@ -833,7 +840,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskGenerarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor> {
 
-        val miclase = object : AsyncTask<Unit, Unit, List<AdolescenteInfractor>>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<AdolescenteInfractor>>() {
 
             override fun doInBackground(vararg p0: Unit?): List<AdolescenteInfractor>? {
 
@@ -872,7 +880,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskEliminarRegistroAsistencia(idTaller: Int){
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
 
@@ -920,7 +929,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia{
 
-        val miclase = object : AsyncTask<Unit, Unit, RegistroAsistencia>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, RegistroAsistencia>() {
 
             override fun doInBackground(vararg p0: Unit?): RegistroAsistencia {
                 val registroAsistenciaAux = servicioGuardarRegistroAsistencia(registroAsistencia)
@@ -957,7 +967,8 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente){
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
