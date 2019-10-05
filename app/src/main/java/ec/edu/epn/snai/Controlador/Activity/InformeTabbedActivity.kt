@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -37,9 +38,8 @@ class InformeTabbedActivity : AppCompatActivity() {
 
         val i = intent
         this.informeSeleccionado= i.getSerializableExtra("informeSeleccionado") as Informe
-        this.token = i.getSerializableExtra("token") as String
         this.usuario=i.getSerializableExtra("usuario") as Usuario
-
+        this.token = usuario.token
 
         asynTaskObtenerListadoRegistroAsistencia()
         asynTaskObtenerListadoActividadesTaller()
@@ -121,7 +121,8 @@ class InformeTabbedActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoActividadesTaller(){
 
-        val task = object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
@@ -139,7 +140,8 @@ class InformeTabbedActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoRegistroAsistencia(){
 
-        val task = object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
+        val task = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
 
 
             override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {

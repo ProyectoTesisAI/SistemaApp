@@ -9,9 +9,8 @@ import android.support.v4.widget.DrawerLayout
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
-import android.widget.Toast
+import android.widget.TextView
 import ec.edu.epn.snai.Controlador.Fragment.InformesFragment
 import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
 import ec.edu.epn.snai.Modelo.Usuario
@@ -24,7 +23,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         lateinit var usuario:Usuario
     }
-    //private lateinit var usuario:Usuario
+    private var tipoTaller:String?=null
+    private var tipoInforme:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,32 +46,88 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         usuario = intent.getSerializableExtra("usuario") as Usuario
+        this.tipoTaller = intent.getSerializableExtra("tipoTaller") as String?
+        this.tipoInforme = intent.getSerializableExtra("tipoInforme") as String?
 
-        if(usuario!= null){
+        asignarDatosUsuarioHeader(navView)
+        itemsMenuRol(usuario,navView)
 
-            itemsMenuRol(usuario,navView)
+        if (savedInstanceState == null) {
 
-            if (savedInstanceState == null) {
-
-                //Agrego en el bundle la variable token
-                var bundle = Bundle()
-                bundle.putSerializable("token", usuario.token)
-                bundle.putSerializable("usuario", usuario)
-
-                //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
-                val talleresFragment=TalleresFragment()
-                talleresFragment.arguments=bundle
-
-                supportFragmentManager.beginTransaction().
-                    replace(R.id.frameLayout, talleresFragment).commit()
-                navView.setCheckedItem(R.id.nav_gestion_taller_psicologia)
+            if(tipoInforme != null){
+                asignarTipoInformeSeleccionado()
             }
+            else{
+                asignarTipoTallerSeleccionado()
+            }
+
+
         }
-        else{
-            Toast.makeText(applicationContext, "Ha caducado la sesión del Usuario", Toast.LENGTH_LONG).show()
-        }
+
 
     }
+
+    private fun asignarDatosUsuarioHeader(navView: NavigationView){
+        val header=navView.getHeaderView(0)
+
+        val txtNombre=header.findViewById<TextView>(R.id.txtUsuario)
+        val txtRol=header.findViewById<TextView>(R.id.txtRol)
+
+        val usuarioAux="${usuario.nombres.toUpperCase()} ${usuario.apellidos.toUpperCase()}"
+        val rol=usuario.idRolUsuarioCentro.idRol.rol
+
+        txtNombre.setText(usuarioAux)
+        txtRol.setText(rol)
+    }
+
+    private fun asignarTipoTallerSeleccionado(){
+
+        if(tipoTaller == null){
+
+            val rol=usuario.idRolUsuarioCentro.idRol.rol
+
+            if( rol.equals(Constantes.ROL_ADMINISTRADOR) || rol.equals(Constantes.ROL_SUBDIRECTOR) || rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(
+                    Constantes.ROL_COORDINADOR_CAI)  || rol.contains("DIRECTOR") || rol.contains("PSICOLOGO") ){
+                tipoTaller=Constantes.TIPO_TALLER_PSICOLOGIA
+            }
+            else if(rol.contains("JURIDICO")){
+                tipoTaller=Constantes.TIPO_TALLER_JURIDICO
+            }
+            else if(rol.contains("INSPECTOR EDUCADOR")){
+                tipoTaller=Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR
+            }
+
+        }
+
+        when(tipoTaller){
+            Constantes.TIPO_TALLER_PSICOLOGIA -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_PSICOLOGIA)
+            }
+            Constantes.TIPO_TALLER_JURIDICO -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_JURIDICO)
+            }
+            Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR -> {
+                abrirTalleresFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
+            }
+        }
+    }
+
+    private fun asignarTipoInformeSeleccionado(){
+
+        when(tipoInforme) {
+
+            Constantes.TIPO_TALLER_PSICOLOGIA -> {
+                abrirInformesFragment(Constantes.TIPO_TALLER_PSICOLOGIA)
+            }
+            Constantes.TIPO_TALLER_JURIDICO -> {
+                abrirInformesFragment(Constantes.TIPO_TALLER_JURIDICO)
+            }
+            Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR -> {
+                abrirInformesFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
+            }
+        }
+    }
+
 
     override fun onBackPressed() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -108,50 +164,53 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
 
+
         when(item.itemId) {
 
             /********** CREAR TALLERES ***********/
             R.id.nav_crear_taller_psicologia->{
-                abrirCrearTallerActivity(Constantes.TIPO_TALLER_PSICOLOGIA, "CREAR TALLER PSICOLOGÍA")
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_PSICOLOGIA)
             }
             R.id.nav_crear_taller_juridico->{
-                abrirCrearTallerActivity(Constantes.TIPO_TALLER_JURIDICO, "CREAR TALLER JURÍDICO")
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_JURIDICO)
             }
             R.id.nav_crear_taller_inspector_educador->{
-                abrirCrearTallerActivity(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "CREAR TALLER INSPECTOR EDUCADOR")
+                abrirCrearTallerActivity(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
+
             }
 
             /********** GESTIONAR  TALLERES ***********/
             R.id.nav_gestion_taller_psicologia -> {
-                abrirTalleresFragment(Constantes.TIPO_TALLER_PSICOLOGIA, "TALLERES DE PSICOLOGÍA SIN INFORME")
+                abrirTalleresFragment(Constantes.TIPO_TALLER_PSICOLOGIA)
             }
             R.id.nav_gestion_taller_juridico -> {
-                abrirTalleresFragment(Constantes.TIPO_TALLER_JURIDICO, "TALLERES JURÍDICOS SIN INFORME")
+                abrirTalleresFragment(Constantes.TIPO_TALLER_JURIDICO)
             }
             R.id.nav_gestion_taller_inspector_educador -> {
-                abrirTalleresFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "TALLERES DE INSPECTOR EDUCADOR SIN INFORME")
+                abrirTalleresFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
             }
 
 
             /********** GESTIONAR  INFORMES ***********/
             R.id.nav_gestion_informe_psicologia -> {
-                abrirInformeFragment(Constantes.TIPO_TALLER_PSICOLOGIA, "INFORMES DE PSICOLOGÍA")
+                abrirInformesFragment(Constantes.TIPO_TALLER_PSICOLOGIA)
             }
             R.id.nav_gestion_informe_juridico->{
-                abrirInformeFragment(Constantes.TIPO_TALLER_JURIDICO, "INFORMES JURÍDICOS")
+                abrirInformesFragment(Constantes.TIPO_TALLER_JURIDICO)
             }
             R.id.nav_gestion_informe_inspector_educador->{
-                abrirInformeFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR, "INFORMES DE INSPECTOR EDUCADOR")
+                abrirInformesFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
             }
 
         }
-
         return true
 
 
     }
 
-    private fun abrirCrearTallerActivity(tipoTallerSeleccionado:String, tituloToolbar: String){
+    private fun abrirCrearTallerActivity(tipoTallerSeleccionado:String){
+
+        val tituloToolbar="CREAR TALLER $tipoTallerSeleccionado"
 
         //Agrego en el bundle la variable token
         val intent= Intent(this@MainActivity, CrearTallerActivity::class.java)
@@ -163,12 +222,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
-    private fun abrirTalleresFragment(tipoTallerSeleccionado:String, tituloToolbar: String){
+    private fun abrirTalleresFragment(tipoTallerSeleccionado:String){
 
+        val tituloToolbar="TALLERES SIN INFORME - $tipoTallerSeleccionado"
         getSupportActionBar()?.setTitle(tituloToolbar)
+
         //Agrego en el bundle la variable token
         val bundle = Bundle()
-        bundle.putSerializable("token", usuario.token)
         bundle.putSerializable("usuario",usuario)
         bundle.putSerializable("tipoTaller", tipoTallerSeleccionado)
 
@@ -180,11 +240,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    private fun abrirInformeFragment(tipoTallerSeleccionado:String, tituloToolbar: String){
+    private fun abrirInformesFragment(tipoTallerSeleccionado:String){
+
+       val tituloToolbar= "INFORMES - $tipoTallerSeleccionado"
         getSupportActionBar()?.setTitle(tituloToolbar)
         //Agrego en el bundle la variable token
         val bundle = Bundle()
-        bundle.putSerializable("token", usuario.token)
         bundle.putSerializable("usuario",usuario)
         bundle.putSerializable("tipoTaller", tipoTallerSeleccionado)
 
@@ -216,15 +277,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         menu.findItem(R.id.menu_psicologo).isVisible=false
         menu.findItem(R.id.menu_inspector_educador).isVisible=false
 
-        if (rolUsuario.contains("JURIDICO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+        if (rolUsuario.contains("JURIDICO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || Constantes.ROL_ADMINISTRADOR.equals(rolUsuario) || Constantes.ROL_SUBDIRECTOR.equals(rolUsuario)) {
             menu.findItem(R.id.menu_juridico).isVisible = true
         }
 
-        if (rolUsuario.contains("PSICOLOGO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+        if (rolUsuario.contains("PSICOLOGO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || Constantes.ROL_ADMINISTRADOR.equals(rolUsuario) || Constantes.ROL_SUBDIRECTOR.equals(rolUsuario)) {
             menu.findItem(R.id.menu_psicologo).isVisible = true
         }
 
-        if ("INSPECTOR EDUCADOR".equals(rolUsuario) || "COORDINADOR CAI".equals(rolUsuario) || "DIRECTOR TECNICO DE MEDIDAS PRIVATIVAS Y ATENCIÓN".equals(rolUsuario) || "ADMINISTRADOR".equals(rolUsuario) || "SUBDIRECTOR".equals(rolUsuario)) {
+        if (Constantes.ROL_INSPECTOR_EDUCADOR.equals(rolUsuario) || Constantes.ROL_COORDINADOR_CAI.equals(rolUsuario) || Constantes.ROL_DIRECTOR_CAI.equals(rolUsuario) || Constantes.ROL_ADMINISTRADOR.equals(rolUsuario) || Constantes.ROL_SUBDIRECTOR.equals(rolUsuario)) {
             menu.findItem(R.id.menu_inspector_educador).isVisible=true
         }
 

@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
@@ -94,6 +95,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 val usuarioAux=MainActivity.Companion.usuario
                                 intent.putExtra("usuario", usuarioAux)
+                                intent.putExtra("tipoInforme", informeAux.idTaller.tipo)
                                 startActivity(intent)
                             }
 
@@ -253,7 +255,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEditarInforme(informe: Informe): Informe? {
 
-        val miclase = object : AsyncTask<Unit, Unit, Informe>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Informe>() {
 
             override fun doInBackground(vararg p0: Unit?): Informe? {
                 val informeEditado = servicioEditarInforme(informe)
@@ -303,7 +306,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEditarRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioEditarRegistroAsistencia(asistenciaAdolescente)
@@ -354,7 +358,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskGuardarRegistroFotografico(rf: RegistroFotografico) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioGuardarRegistroFotografico(rf)
@@ -376,7 +381,8 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEliminarRegistroFotografico(registroFotografico: RegistroFotografico) {
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        val miclase = @SuppressLint("StaticFieldLeak")
+        object : AsyncTask<Unit, Unit, Unit>() {
 
             override fun doInBackground(vararg p0: Unit?) {
                 servicioEliminarRegistroFotografico(registroFotografico)

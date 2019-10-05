@@ -5,56 +5,65 @@
 
     <item android:id="@+id/menu_psicologo" android:title="Psicologo">
         <menu>
+            <group android:checkableBehavior="single">
 
-            <item
-                    android:id="@+id/nav_crear_taller_psicologia"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/crear_taller_psicologia"/>
-            <item
-                    android:id="@+id/nav_gestion_taller_psicologia"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/gestion_talleres_psicologo"/>
-            <item
-                    android:id="@+id/nav_gestion_informe_psicologia"
-                    android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/gestion_informes_psicologo"/>
+                <item
+                        android:id="@+id/nav_crear_taller_psicologia"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/crear_taller_psicologia"/>
+                <item
+                        android:id="@+id/nav_gestion_taller_psicologia"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/gestion_talleres_psicologo"/>
+                <item
+                        android:id="@+id/nav_gestion_informe_psicologia"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="@string/gestion_informes_psicologo"/>
+            </group>
+
         </menu>
     </item>
 
 
     <item android:id="@+id/menu_juridico" android:title="Juridico">
         <menu>
+            <group android:checkableBehavior="single">
 
-            <item
-                    android:id="@+id/nav_crear_taller_juridico"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/crear_taller_juridico"/>
-            <item
-                    android:id="@+id/nav_gestion_taller_juridico"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/gestion_talleres_juridico"/>
-            <item
-                    android:id="@+id/nav_gestion_informe_juridico"
-                    android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/gestion_informes_juridico"/>
+                <item
+                        android:id="@+id/nav_crear_taller_juridico"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/crear_taller_juridico"/>
+                <item
+                        android:id="@+id/nav_gestion_taller_juridico"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/gestion_talleres_juridico"/>
+                <item
+                        android:id="@+id/nav_gestion_informe_juridico"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="@string/gestion_informes_juridico"/>
+            </group>
+
         </menu>
     </item>
 
     <item  android:id="@+id/menu_inspector_educador" android:title="Inspector Educador">
         <menu>
+            <group android:checkableBehavior="single">
 
-            <item
-                    android:id="@+id/nav_crear_taller_inspector_educador"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/crear_taller_inspector_educador"/>
-            <item
-                    android:id="@+id/nav_gestion_taller_inspector_educador"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/gestion_talleres_inspector_educador"/>
-            <item
-                    android:id="@+id/nav_gestion_informe_inspector_educador"
-                    android:icon="@drawable/ic_menu_manage"
-                    android:title="@string/gestion_informes_inspector_educador"/>
+                <item
+                        android:id="@+id/nav_crear_taller_inspector_educador"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/crear_taller_inspector_educador"/>
+                <item
+                        android:id="@+id/nav_gestion_taller_inspector_educador"
+                        android:icon="@drawable/ic_menu_gallery"
+                        android:title="@string/gestion_talleres_inspector_educador"/>
+                <item
+                        android:id="@+id/nav_gestion_informe_inspector_educador"
+                        android:icon="@drawable/ic_menu_manage"
+                        android:title="@string/gestion_informes_inspector_educador"/>
+            </group>
+
         </menu>
     </item>
 
