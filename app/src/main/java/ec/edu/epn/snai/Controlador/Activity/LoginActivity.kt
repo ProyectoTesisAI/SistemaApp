@@ -55,6 +55,8 @@ class LoginActivity : AppCompatActivity(){
     }
 
     private fun asynTaskIniciarSesion(){
+
+
         val miclase = @SuppressLint("StaticFieldLeak")
         object : AsyncTask<Unit, Unit, Usuario>() {
 
@@ -92,16 +94,21 @@ class LoginActivity : AppCompatActivity(){
 
     private fun servicioIniciarSesion(): Usuario?{
 
-        val servicio_login = ClienteApiRest.getRetrofitInstance().create(UsuarioServicio::class.java)
-        val call = servicio_login.login(user)
-        val response =call.execute()
-        if(response.code() == 200){
+        try{
+            val servicio_login = ClienteApiRest.getRetrofitInstance().create(UsuarioServicio::class.java)
+            val call = servicio_login.login(user)
+            val response =call.execute()
+            if(response.code() == 200){
 
-            val usuario=response.body()
-            return usuario
-        }
-        else{
+                val usuario=response.body()
+                return usuario
+            }
+            else{
+                return null
+            }
+        }catch (e: Exception){
             return null
         }
+
     }
 }

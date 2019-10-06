@@ -139,75 +139,90 @@ class TallerTabbedActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoItemsTaller(){
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
+
+        try{
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
-                val listadoItemsTaller=obtenerItemsTaller()
-                if(listadoItemsTaller != null){
-                    return listadoItemsTaller
+                override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
+                    val listadoItemsTaller=obtenerItemsTaller()
+                    if(listadoItemsTaller != null){
+                        return listadoItemsTaller
+                    }
+                    else{
+                        return null
+                    }
                 }
-                else{
-                    return null
-                }
+
             }
+            itemsTaller= task.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener la lista de actividad del Taller", Toast.LENGTH_SHORT).show()
         }
-        itemsTaller= task.execute().get()
+
 
     }
 
     private fun obtenerItemsTaller(): List<ItemTaller>?{
-        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call = servicio.listarItemsPorTaller(taller.idTaller.toString(),"Bearer "+ token)
-        val response= call.execute()
 
-        if(response != null){
+        try {
+            val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call = servicio.listarItemsPorTaller(taller.idTaller.toString(), "Bearer " + token)
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val itemsTallerAux =response.body()
-                Log.i("item", itemsTallerAux?.size.toString())
-                return itemsTallerAux
-            }
-            else{
+            if (response != null) {
+
+                if (response.code() == 200) {
+                    val itemsTallerAux = response.body()
+                    Log.i("item", itemsTallerAux?.size.toString())
+                    return itemsTallerAux
+                } else {
+                    return null
+                }
+            } else {
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
-
 
     }
 
     private fun eliminarTaller(idTaller: Int){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call = servicio.eliminarTaller(idTaller.toString(), "Bearer " + token)
 
-        call.enqueue(object : Callback<Void>{
+        try{
+            val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call = servicio.eliminarTaller(idTaller.toString(), "Bearer " + token)
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            call.enqueue(object : Callback<Void>{
 
-                Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Taller", Toast.LENGTH_SHORT).show()
-            }
+                override fun onFailure(call: Call<Void>, t: Throwable) {
 
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-
-                if(response.code()==204){
-                    Toast.makeText(applicationContext, "Se ha eliminado correctamente el Taller", Toast.LENGTH_SHORT).show()
-
-                    val intent = Intent(this@TallerTabbedActivity, MainActivity::class.java)
-                    //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
-                    // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.putExtra("usuario",usuario)
-                    startActivity(intent)
-                    finish()
+                    Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Taller", Toast.LENGTH_SHORT).show()
                 }
 
-            }
-        })
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+                    if(response.code()==204){
+                        Toast.makeText(applicationContext, "Se ha eliminado correctamente el Taller", Toast.LENGTH_SHORT).show()
+
+                        val intent = Intent(this@TallerTabbedActivity, MainActivity::class.java)
+                        //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                        // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.putExtra("usuario",usuario)
+                        startActivity(intent)
+                        finish()
+                    }
+
+                }
+            })
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Taller", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 

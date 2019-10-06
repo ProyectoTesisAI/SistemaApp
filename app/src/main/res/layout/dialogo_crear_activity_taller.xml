@@ -5,82 +5,98 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:padding="16dp"
-                  android:scrollbars="vertical"
-                  android:scrollbarAlwaysDrawVerticalTrack="true">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Actividad"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textMultiLine"
-                      android:hint="Actividad"
-                      android:id="@+id/etActividad"
-                      android:imeOptions="actionNext"
-                      android:textSize="15sp"/>
-        </android.support.design.widget.TextInputLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textMultiLine"
+                  android:hint="Actividad"
+                  android:id="@+id/etActividad"
+                  android:imeOptions="actionNext"
+                  android:textSize="14sp"
+                  android:fontFamily="sans-serif-light"
+                  android:layout_marginBottom="10dp"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Objetivo"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textMultiLine"
-                      android:id="@+id/etObjetivo"
-                      android:hint="Objetivo"
-                      android:imeOptions="actionNext"
-                      android:textSize="15sp"/>
-        </android.support.design.widget.TextInputLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textMultiLine"
+                  android:id="@+id/etObjetivo"
+                  android:hint="Objetivo"
+                  android:imeOptions="actionNext"
+                  android:textSize="14sp"
+                  android:fontFamily="sans-serif-light"
+                  android:layout_marginBottom="10dp"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Materiales"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textMultiLine"
-                      android:id="@+id/etMateriales"
-                      android:hint="Materiales"
-                      android:imeOptions="actionNext"
-                      android:textSize="15sp"/>
-        </android.support.design.widget.TextInputLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textMultiLine"
+                  android:id="@+id/etMateriales"
+                  android:hint="Materiales"
+                  android:imeOptions="actionNext"
+                  android:textSize="14sp"
+                  android:fontFamily="sans-serif-light"
+                  android:layout_marginBottom="10dp"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Responsable"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="text"
-                      android:id="@+id/etResponsable"
-                      android:hint="Responsable"
-                      android:imeOptions="actionNext"
-                      android:textSize="15sp"/>
-        </android.support.design.widget.TextInputLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="text"
+                  android:id="@+id/etResponsable"
+                  android:hint="Responsable"
+                  android:imeOptions="actionNext"
+                  android:textSize="14sp"
+                  android:fontFamily="sans-serif-light"
+                  android:layout_marginBottom="10dp"/>
 
-        <android.support.design.widget.TextInputLayout
+        <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_marginBottom="10dp">
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Duración"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/etDuracion"
-                      android:inputType="number"
-                      android:hint="Duración"
-                      android:imeOptions="actionDone"
-                      android:textSize="15sp"/>
-        </android.support.design.widget.TextInputLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/etDuracion"
+                  android:inputType="number"
+                  android:hint="Duración"
+                  android:imeOptions="actionDone"
+                  android:textSize="14sp"
+                  android:fontFamily="sans-serif-light"
+                  android:layout_marginBottom="10dp"/>
 
         <RelativeLayout
                 android:layout_gravity="bottom|end"

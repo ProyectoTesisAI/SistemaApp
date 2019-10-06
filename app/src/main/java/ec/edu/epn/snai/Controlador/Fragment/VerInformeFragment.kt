@@ -35,12 +35,13 @@ class VerInformeFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView=inflater.inflate(R.layout.fragment_ver_informe,container,false)
+
         asignarVariablesTaller(rootView)
+
         val adaptadorItemInforme= ItemInformeAdaptador(itemsTaller)
         val recyclerViewItemsInforme= rootView.findViewById<RecyclerView>(R.id.rv_items_informe_fr)
         recyclerViewItemsInforme.adapter=adaptadorItemInforme
-        recyclerViewItemsInforme.layoutManager=
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        recyclerViewItemsInforme.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         return rootView
     }
 

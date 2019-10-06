@@ -64,11 +64,12 @@ class VerListadoAsistenciaFragment: Fragment() {
 
     fun mostrarListadoAsistencia(view: View){
 
-        val recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
-        val adaptador =
-            ListaAsistenciaAdaptador(listaAsistenciaAdolescentesInfractores)
-        recyclerViewRegistroAsistencia.adapter=adaptador
-        recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        if(listaAsistenciaAdolescentesInfractores?.size!! > 0){
+            val recyclerViewRegistroAsistencia=view.findViewById(R.id.rv_listado_asistencia) as RecyclerView
+            val adaptador = ListaAsistenciaAdaptador(listaAsistenciaAdolescentesInfractores)
+            recyclerViewRegistroAsistencia.adapter=adaptador
+            recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        }
 
     }
 }

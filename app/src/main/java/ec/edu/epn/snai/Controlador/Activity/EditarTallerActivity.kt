@@ -215,50 +215,73 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     }
 
-    private fun obtenerListadoUZDI(): List<UDI>{
+    private fun obtenerListadoUZDI(): List<UDI>?{
 
-        val servicioUzdi= ClienteApiRest.getRetrofitInstance().create(UzdiServicio::class.java)
-        val call =servicioUzdi.obtenerListaUZDI("Bearer $token")
-        val listadoUzdi = call.execute().body()
-        return  listadoUzdi!!
+        try{
+            val servicioUzdi= ClienteApiRest.getRetrofitInstance().create(UzdiServicio::class.java)
+            val call =servicioUzdi.obtenerListaUZDI("Bearer $token")
+            val listadoUzdi = call.execute().body()
+            return  listadoUzdi!!
+        }catch (e:Exception){
+            return null
+        }
+
 
     }
 
-    private fun obtenerListadoCAI(): List<CAI>{
+    private fun obtenerListadoCAI(): List<CAI>?{
 
-        val servicioCai= ClienteApiRest.getRetrofitInstance().create(CaiServicio::class.java)
-        val call =servicioCai.obtenerListaCAI("Bearer $token")
-        val listadoCai = call.execute().body()
-        return  listadoCai!!
+        try{
+            val servicioCai= ClienteApiRest.getRetrofitInstance().create(CaiServicio::class.java)
+            val call =servicioCai.obtenerListaCAI("Bearer $token")
+            val listadoCai = call.execute().body()
+            return  listadoCai!!
+
+        }catch (e:Exception){
+            return null
+        }
+
     }
 
     private fun asynTaskObtenerListadoUzdi(){
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<UDI>>(){
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<UDI>>(){
 
-            override fun doInBackground(vararg p0: Unit?): List<UDI> {
-                val listadoUzdi=obtenerListadoUZDI()
-                return listadoUzdi
+                override fun doInBackground(vararg p0: Unit?): List<UDI> {
+                    val listadoUzdi=obtenerListadoUZDI()!!
+                    return listadoUzdi
+                }
+
             }
+            listaUZDI= miclase.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener la lista de UZDI", Toast.LENGTH_SHORT).show()
         }
-        listaUZDI= miclase.execute().get()
+
     }
 
     private fun asynTaskObtenerListadoCai(){
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<CAI>>(){
+        try{
+
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<CAI>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<CAI> {
-                val listadoCai=obtenerListadoCAI()
-                return listadoCai
+                override fun doInBackground(vararg p0: Unit?): List<CAI> {
+                    val listadoCai=obtenerListadoCAI()!!
+                    return listadoCai
+                }
+
             }
-
+            listaCAI= task.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener la Lista de CAI", Toast.LENGTH_SHORT).show()
         }
-        listaCAI= task.execute().get()
+
     }
 
     private fun itemSelectedPorCentroUzdiCai(posicionTipoCentro: Int){
@@ -287,62 +310,71 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     fun obtenerNumeroParticipanteUZDI(uzdi: UDI?){
 
-        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioTaller.obtenerNumeroParticipantesUZDI(uzdi, "Bearer $token")
+        try{
+            val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioTaller.obtenerNumeroParticipantesUZDI(uzdi, "Bearer $token")
 
-        call.enqueue(object : Callback<String> {
+            call.enqueue(object : Callback<String> {
 
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-                if (response.isSuccessful) {
+                    if (response.isSuccessful) {
 
-                    var numeroParticipantes=response.body()
-                    if(numeroParticipantes==null){
-                        numeroParticipantes="0"
+                        var numeroParticipantes=response.body()
+                        if(numeroParticipantes==null){
+                            numeroParticipantes="0"
+                        }
+                        txtNumeroParticipantesTallerCrear.text= "$numeroParticipantes"
+
                     }
-                    txtNumeroParticipantesTallerCrear.text= "$numeroParticipantes"
 
                 }
 
-            }
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    call.cancel()
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                call.cancel()
+                }
+            })
 
-            }
-        })
+
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener el número de participantes", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
     private fun obtenerNumeroParticipanteCAI(cai: CAI?){
 
-        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioTaller.obtenerNumeroParticipantesCAI(cai,"Bearer $token")
+        try {
+            val servicioTaller = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call = servicioTaller.obtenerNumeroParticipantesCAI(cai, "Bearer $token")
 
-        call.enqueue(object : Callback<String> {
+            call.enqueue(object : Callback<String> {
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-                if (response.isSuccessful) {
+                    if (response.isSuccessful) {
 
-                    var numeroParticipantes=response.body()
+                        var numeroParticipantes = response.body()
 
-                    if(numeroParticipantes==null){
-                        numeroParticipantes="0"
+                        if (numeroParticipantes == null) {
+                            numeroParticipantes = "0"
+                        }
+                        txtNumeroParticipantesTallerCrear.text = "$numeroParticipantes"
+
                     }
-                    txtNumeroParticipantesTallerCrear.text= "$numeroParticipantes"
 
                 }
 
-            }
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    call.cancel()
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                call.cancel()
-
-            }
-        })
-
+                }
+            })
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener el número de participantes", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun dialogoAgregarActividadTaller(){
@@ -687,38 +719,50 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioEditarTaller(tallerAux: Taller): Taller?{
 
-        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioTaller.editarTaller( tallerAux,"Bearer $token")
-        val response = call.execute()
+        try{
+            val servicioTaller= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioTaller.editarTaller( tallerAux,"Bearer $token")
+            val response = call.execute()
 
-        if(response != null){
+            if(response != null){
 
-            if(response.code() == 200){
-                val tallerGuardado=response.body()
-                return tallerGuardado!!
+                if(response.code() == 200){
+                    val tallerGuardado=response.body()
+                    return tallerGuardado!!
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+
+        }catch (e:Exception){
             return null
         }
+
     }
 
-    private fun asynTaskEditarTaller(tallerAux: Taller): Taller {
+    private fun asynTaskEditarTaller(tallerAux: Taller): Taller? {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Taller>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Taller>() {
 
-            override fun doInBackground(vararg p0: Unit?): Taller {
-                val tallerEditado = servicioEditarTaller(tallerAux)
-                return tallerEditado!!
+                override fun doInBackground(vararg p0: Unit?): Taller {
+                    val tallerEditado = servicioEditarTaller(tallerAux)
+                    return tallerEditado!!
+                }
+
             }
+            val tallerRescatado = miclase.execute().get()
+            return tallerRescatado
 
+        }catch (e:Exception){
+            return null
         }
-        val tallerRescatado = miclase.execute().get()
-        return tallerRescatado
+
     }
 
 
@@ -744,23 +788,33 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioEditarItemTaller(itemTallerAux: ItemTaller){
 
-        val servicioTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
-        val call =servicioTaller.editarItemTaller( itemTallerAux,"Bearer $token")
-        val response = call.execute()
+        try{
+            val servicioTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
+            val call =servicioTaller.editarItemTaller( itemTallerAux,"Bearer $token")
+            val response = call.execute()
+
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar la actividad del Taller", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun asynTaskEditarItemTaller(itemTallerAux: ItemTaller) {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try {
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun doInBackground(vararg p0: Unit?) {
-                val tallerEditado = servicioEditarItemTaller(itemTallerAux)
+                override fun doInBackground(vararg p0: Unit?) {
+                    val tallerEditado = servicioEditarItemTaller(itemTallerAux)
+                }
+
             }
-
+            val tallerRescatado = miclase.execute().get()
+            return tallerRescatado
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar la actividad del Taller", Toast.LENGTH_SHORT).show()
         }
-        val tallerRescatado = miclase.execute().get()
-        return tallerRescatado
     }
 
 
@@ -768,23 +822,31 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioEliminarItemsTaller(idItemTaller: Int){
 
-        val servicioItemTaller= ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
-        val call =servicioItemTaller.eliminarItemTaller( idItemTaller,"Bearer $token")
-        val response = call.execute()
+        try {
+            val servicioItemTaller = ClienteApiRest.getRetrofitInstance().create(ItemTallerServicio::class.java)
+            val call = servicioItemTaller.eliminarItemTaller(idItemTaller, "Bearer $token")
+            val response = call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar la actividad del Taller", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun asynTaskEliminarItemsTaller(idItemTaller: Int){
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try {
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun doInBackground(vararg p0: Unit?) {
+                override fun doInBackground(vararg p0: Unit?) {
 
-                servicioEliminarItemsTaller(idItemTaller)
+                    servicioEliminarItemsTaller(idItemTaller)
+                }
+
             }
-
+            miclase.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar la actividad del Taller", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
     }
 
 
@@ -798,70 +860,88 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioGenerarRegistroAsistenciaUzdi(uzdi: UDI): List<AdolescenteInfractor>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorUzdi( uzdi,"Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+            val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorUzdi( uzdi,"Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaAsistencia= response.body()
-                return listaAsistencia!!
-            }
-            else{
-                return null
-            }
-        }
-        else{
-            return null
-        }
-    }
+            if(response != null){
 
-    private fun servicioGenerarRegistroAsistenciaCai(cai: CAI): List<AdolescenteInfractor>?{
-
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorCai( cai,"Bearer $token")
-        val response = call.execute()
-
-        if(response != null){
-
-            if(response.code() == 200){
-                val listaAsistencia= response.body()
-                return listaAsistencia!!
-            }
-            else{
-                return null
-            }
-        }
-        else{
-            return null
-        }
-    }
-
-    private fun asynTaskGenerarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor> {
-
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<AdolescenteInfractor>>() {
-
-            override fun doInBackground(vararg p0: Unit?): List<AdolescenteInfractor>? {
-
-                if(taller.idUdi != null &&  taller.idCai == null){
-                    val listaAsistenciaUzdi = servicioGenerarRegistroAsistenciaUzdi(taller.idUdi)
-                    return listaAsistenciaUzdi!!
-                }
-                else if (taller.idUdi == null && taller.idCai != null){
-                    val listaAsistenciaCai = servicioGenerarRegistroAsistenciaCai(taller.idCai)
-                    return listaAsistenciaCai!!
+                if(response.code() == 200){
+                    val listaAsistencia= response.body()
+                    return listaAsistencia!!
                 }
                 else{
                     return null
                 }
+            }
+            else{
+                return null
+            }
+        }catch (e:Exception){
+            return null
+        }
 
+    }
+
+    private fun servicioGenerarRegistroAsistenciaCai(cai: CAI): List<AdolescenteInfractor>?{
+
+        try{
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+            val call =servicioRegistroAsistencia.listaAdolescentesInfractoresPorCai( cai,"Bearer $token")
+            val response = call.execute()
+
+            if(response != null){
+
+                if(response.code() == 200){
+                    val listaAsistencia= response.body()
+                    return listaAsistencia!!
+                }
+                else{
+                    return null
+                }
+            }
+            else{
+                return null
             }
 
+        }catch (e:Exception){
+            return null
         }
-        val listaAsistencia = miclase.execute().get()
-        return listaAsistencia!!
+
+    }
+
+    private fun asynTaskGenerarRegistroAsistencia(taller: Taller): List<AdolescenteInfractor>? {
+
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<AdolescenteInfractor>>() {
+
+                override fun doInBackground(vararg p0: Unit?): List<AdolescenteInfractor>? {
+
+                    if(taller.idUdi != null &&  taller.idCai == null){
+                        val listaAsistenciaUzdi = servicioGenerarRegistroAsistenciaUzdi(taller.idUdi)
+                        return listaAsistenciaUzdi!!
+                    }
+                    else if (taller.idUdi == null && taller.idCai != null){
+                        val listaAsistenciaCai = servicioGenerarRegistroAsistenciaCai(taller.idCai)
+                        return listaAsistenciaCai!!
+                    }
+                    else{
+                        return null
+                    }
+
+                }
+
+            }
+            val listaAsistencia = miclase.execute().get()
+            return listaAsistencia!!
+
+        }catch (e:Exception){
+            return null
+        }
+
     }
 
 
@@ -873,23 +953,35 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioEliminarRegistroAsistencia(idTaller: Int){
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        val call =servicioRegistroAsistencia.eliminarRegistroAsistencia( idTaller,"Bearer $token")
-        val response = call.execute()
+        try{
+
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+            val call =servicioRegistroAsistencia.eliminarRegistroAsistencia( idTaller,"Bearer $token")
+            val response = call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun asynTaskEliminarRegistroAsistencia(idTaller: Int){
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try{
 
-            override fun doInBackground(vararg p0: Unit?) {
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-                servicioEliminarRegistroAsistencia(idTaller)
+                override fun doInBackground(vararg p0: Unit?) {
+
+                    servicioEliminarRegistroAsistencia(idTaller)
+                }
+
             }
-
+            miclase.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
 
@@ -902,44 +994,56 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
         val registroAsistencia= RegistroAsistencia()
         registroAsistencia.idTaller=taller
 
-        return asynTaskGuardarRegistroAsistencia(registroAsistencia)
+        return asynTaskGuardarRegistroAsistencia(registroAsistencia)!!
 
     }
 
     private fun servicioGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        val call =servicioRegistroAsistencia.guardarRegistroAsistencia( registroAsistencia,"Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+            val call =servicioRegistroAsistencia.guardarRegistroAsistencia( registroAsistencia,"Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val registroAsistenciaAux=response.body()
-                return registroAsistenciaAux!!
+            if(response != null){
+
+                if(response.code() == 200){
+                    val registroAsistenciaAux=response.body()
+                    return registroAsistenciaAux!!
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
-    private fun asynTaskGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia{
+    private fun asynTaskGuardarRegistroAsistencia(registroAsistencia: RegistroAsistencia): RegistroAsistencia?{
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, RegistroAsistencia>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, RegistroAsistencia>() {
 
-            override fun doInBackground(vararg p0: Unit?): RegistroAsistencia {
-                val registroAsistenciaAux = servicioGuardarRegistroAsistencia(registroAsistencia)
-                return registroAsistenciaAux!!
+                override fun doInBackground(vararg p0: Unit?): RegistroAsistencia {
+                    val registroAsistenciaAux = servicioGuardarRegistroAsistencia(registroAsistencia)
+                    return registroAsistenciaAux!!
+                }
+
             }
+            val registroAsistenciaGuardado = miclase.execute().get()
+            return registroAsistenciaGuardado
 
+        }catch (e:Exception){
+            return null
         }
-        val registroAsistenciaGuardado = miclase.execute().get()
-        return registroAsistenciaGuardado
+
     }
 
 
@@ -960,22 +1064,35 @@ class EditarTallerActivity : AppCompatActivity(),ItemTallerAdaptador.ItemTallerO
 
     private fun servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente: AsistenciaAdolescente){
 
-        val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
-        val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
-        call.execute()
+
+        try{
+
+            val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
+            val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
+            call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al guardar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente){
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try{
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
+
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
+                }
+
             }
-
+            miclase.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al guardar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
 

@@ -121,126 +121,149 @@ class InformeTabbedActivity : AppCompatActivity() {
 
     private fun asynTaskObtenerListadoActividadesTaller(){
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
+
+        try{
+
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<ItemTaller>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
-                val listadoItemsTaller=obtenerActividadesTaller()
-                if(listadoItemsTaller!=null){
-                    return listadoItemsTaller
-                }else{
-                    return null
+                override fun doInBackground(vararg p0: Unit?): List<ItemTaller>? {
+                    val listadoItemsTaller=obtenerActividadesTaller()
+                    if(listadoItemsTaller!=null){
+                        return listadoItemsTaller
+                    }else{
+                        return null
+                    }
                 }
-            }
 
+            }
+            listaActividadesTaller= task.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener las actividades del Taller", Toast.LENGTH_SHORT).show()
         }
-        listaActividadesTaller= task.execute().get()
+
     }
 
     private fun asynTaskObtenerListadoRegistroAsistencia(){
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
+
+        try{
+
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<AsistenciaAdolescente>>(){
 
 
-            override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {
-                val listadoAsistencia=obtenerRegistroAsistencia()
-                if(listadoAsistencia!=null){
-                    return listadoAsistencia
-                }else{
-                    return null
+                override fun doInBackground(vararg p0: Unit?): List<AsistenciaAdolescente>? {
+                    val listadoAsistencia=obtenerRegistroAsistencia()
+                    if(listadoAsistencia!=null){
+                        return listadoAsistencia
+                    }else{
+                        return null
+                    }
                 }
-            }
 
+            }
+            listaRegistroAsistencia= task.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener el Registro de Asistencia", Toast.LENGTH_SHORT).show()
         }
-        listaRegistroAsistencia= task.execute().get()
+
     }
 
 
     private fun obtenerActividadesTaller(): List<ItemTaller>?{
 
-        val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        if(informeSeleccionado.idTaller!=null){
-            val call = servicio.listarItemsPorTaller(informeSeleccionado.idTaller.idTaller.toString(),"Bearer "+ token)
+        try {
+            val servicio = ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            if (informeSeleccionado.idTaller != null) {
+                val call =
+                    servicio.listarItemsPorTaller(informeSeleccionado.idTaller.idTaller.toString(), "Bearer " + token)
 
-            try{
-                val response=call.execute()
 
-                if(response != null){
+                val response = call.execute()
 
-                    val codigoRespuesta: Int= response.code()
+                if (response != null) {
 
-                    if(codigoRespuesta==200){
+                    val codigoRespuesta: Int = response.code()
+
+                    if (codigoRespuesta == 200) {
                         return response.body()!!
-                    }
-                    else{
+                    } else {
                         return null
                     }
-                }
-                else{
+                } else {
                     return null
                 }
-            }catch (e: Exception){
-                Log.i("ERROR",e.message)
-                return  null
+
+            } else {
+                return null
             }
-        }else{
+        } catch (e: Exception) {
             return null
         }
     }
 
-    private fun obtenerRegistroAsistencia(): List<AsistenciaAdolescente>?{
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
-        if(informeSeleccionado.idTaller!=null){
-            val call = servicio.listaAdolescentesInfractoresPorTaller(informeSeleccionado.idTaller,"Bearer "+ token)
-            try{
-                val response=call.execute()
+    private fun obtenerRegistroAsistencia(): List<AsistenciaAdolescente>? {
 
-                if(response != null){
+        try {
+            val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
+            if (informeSeleccionado.idTaller != null) {
+                val call =
+                    servicio.listaAdolescentesInfractoresPorTaller(informeSeleccionado.idTaller, "Bearer " + token)
 
-                    val codigoRespuesta: Int= response.code()
+                val response = call.execute()
 
-                    if(codigoRespuesta==200){
+                if (response != null) {
+
+                    val codigoRespuesta: Int = response.code()
+
+                    if (codigoRespuesta == 200) {
                         return response.body()!!
-                    }
-                    else{
+                    } else {
                         return null
                     }
-                }
-                else{
+                } else {
                     return null
                 }
-            }catch (e: Exception){
-                Log.i("ERROR",e.message)
-                return  null
+
+            } else {
+                return null
             }
-        }else{
+        } catch (e: Exception) {
             return null
         }
     }
 
     private fun eliminarInforme(idInforme: Int){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call = servicio.eliminarInforme(idInforme.toString(), "Bearer " + token)
 
-        call.enqueue(object : Callback<Void> {
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+        try{
+            val servicio = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call = servicio.eliminarInforme(idInforme.toString(), "Bearer " + token)
 
-                Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Informe", Toast.LENGTH_SHORT).show()
-            }
+            call.enqueue(object : Callback<Void> {
 
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                override fun onFailure(call: Call<Void>, t: Throwable) {
 
-                if(response != null){
+                    Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Informe", Toast.LENGTH_SHORT).show()
+                }
 
-                    if(response.code()==204){
-                        Toast.makeText(applicationContext, "Se ha eliminado correctamente el Informe", Toast.LENGTH_SHORT).show()
-                        finish()
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+
+                    if(response != null){
+
+                        if(response.code()==204){
+                            Toast.makeText(applicationContext, "Se ha eliminado correctamente el Informe", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
                     }
                 }
-            }
-        })
+            })
+
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al eliminar el Informe", Toast.LENGTH_SHORT).show()
+        }
+
     }
 }

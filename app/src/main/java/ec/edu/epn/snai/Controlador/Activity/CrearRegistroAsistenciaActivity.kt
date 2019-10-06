@@ -54,8 +54,7 @@ class CrearRegistroAsistenciaActivity : AppCompatActivity(){
         if(listaRegistroAsistencia!=null){
 
             val recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
-            val adaptador =
-                ListaEditarRegistroAsistenciaAdaptador(listaRegistroAsistencia)
+            val adaptador = ListaEditarRegistroAsistenciaAdaptador(listaRegistroAsistencia)
             recyclerViewRegistroAsistencia.adapter=adaptador
             recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@CrearRegistroAsistenciaActivity)
         }
@@ -82,32 +81,38 @@ class CrearRegistroAsistenciaActivity : AppCompatActivity(){
     }
 
     private fun servicioOtenerRegistroAsistencia(): List<AsistenciaAdolescente>?{
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-        if(tallerSeleccionado!=null){
+        try{
+            val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroAsistenciaServicio::class.java)
 
-            val call = servicio.listaAdolescentesInfractoresPorTaller(tallerSeleccionado,"Bearer "+ token)
-            try{
-                val response=call.execute()
+            if(tallerSeleccionado!=null){
 
-                if(response != null){
+                val call = servicio.listaAdolescentesInfractoresPorTaller(tallerSeleccionado,"Bearer "+ token)
+                try{
+                    val response=call.execute()
 
-                    if(response.code()==200){
-                        return response.body()!!
+                    if(response != null){
+
+                        if(response.code()==200){
+                            return response.body()!!
+                        }
+                        else{
+                            return null
+                        }
                     }
                     else{
                         return null
                     }
+                }catch (e: Exception){
+                    return  null
                 }
-                else{
-                    return null
-                }
-            }catch (e: Exception){
-                return  null
+            }else{
+                return null
             }
-        }else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun abrirInforme(){

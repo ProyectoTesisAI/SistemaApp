@@ -47,9 +47,8 @@ class EditarRegistroAsistenciaActivity : AppCompatActivity(){
 
     fun mostrarListadoAsistencia(){
 
-        var recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
-        var adaptador =
-            ListaEditarRegistroAsistenciaAdaptador(listaAdolescentesInfractores)
+        val recyclerViewRegistroAsistencia=findViewById(R.id.rv_registro_asistencia) as RecyclerView
+        val adaptador = ListaEditarRegistroAsistenciaAdaptador(listaAdolescentesInfractores)
         recyclerViewRegistroAsistencia.adapter=adaptador
         recyclerViewRegistroAsistencia.layoutManager = LinearLayoutManager(this@EditarRegistroAsistenciaActivity)
     }
