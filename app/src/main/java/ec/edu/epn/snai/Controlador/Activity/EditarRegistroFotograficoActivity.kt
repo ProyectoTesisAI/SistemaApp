@@ -185,8 +185,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
         if (listaFotografias != null) {
 
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador =
-                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador = ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
         }
@@ -195,31 +194,38 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     /*********************Obtener Registro Fotográfico***************************/
     private fun obtenerRegistroFotografico(){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
 
-        call.enqueue(object : Callback<List<RegistroFotografico>>{
+        try{
+            val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+            val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
 
-            override fun onFailure(call: Call<List<RegistroFotografico>>, t: Throwable) {
+            call.enqueue(object : Callback<List<RegistroFotografico>>{
 
-            }
+                override fun onFailure(call: Call<List<RegistroFotografico>>, t: Throwable) {
 
-            override fun onResponse(call: Call<List<RegistroFotografico>>, response: Response<List<RegistroFotografico>>) {
+                }
 
-                if(response != null){
+                override fun onResponse(call: Call<List<RegistroFotografico>>, response: Response<List<RegistroFotografico>>) {
 
-                    if(response.code()==200){
-                        val listaRegistroFotografico=response.body()
+                    if(response != null){
 
-                        if(listaRegistroFotografico != null){
-                            asignarRegistroFotograficoRecyclerView(listaRegistroFotografico)
+                        if(response.code()==200){
+                            val listaRegistroFotografico=response.body()
+
+                            if(listaRegistroFotografico != null){
+                                asignarRegistroFotograficoRecyclerView(listaRegistroFotografico)
+                            }
+
+
                         }
-
-
                     }
                 }
-            }
-        })
+            })
+
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al obtener el Registro Fotográfico", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun asignarRegistroFotograficoRecyclerView(listaFotografiasAux: List<RegistroFotografico> ){
@@ -228,8 +234,7 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
             listaFotografias= ArrayList(listaFotografiasAux)
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador =
-                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador =  ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@EditarRegistroFotograficoActivity)
 
@@ -255,39 +260,52 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEditarInforme(informe: Informe): Informe? {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Informe>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Informe>() {
 
-            override fun doInBackground(vararg p0: Unit?): Informe? {
-                val informeEditado = servicioEditarInforme(informe)
-                return informeEditado
+                override fun doInBackground(vararg p0: Unit?): Informe? {
+                    val informeEditado = servicioEditarInforme(informe)
+                    return informeEditado
+                }
+
             }
-
-        }
-        val informeRescatado = miclase.execute().get()
-        if (informeRescatado != null) {
-            return informeRescatado
-        } else {
-            return null
-        }
-    }
-
-    private fun servicioEditarInforme(informe: Informe): Informe? {
-        val servicioInforme = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call = servicioInforme.editarInforme(informe, "Bearer $token")
-        val response = call.execute()
-
-        if (response != null) {
-
-            if (response.code() == 200) {
-                val informeGuardado = response.body()
-                return informeGuardado
+            val informeRescatado = miclase.execute().get()
+            if (informeRescatado != null) {
+                return informeRescatado
             } else {
                 return null
             }
-        } else {
+
+        }catch (e:Exception){
             return null
         }
+
+    }
+
+    private fun servicioEditarInforme(informe: Informe): Informe? {
+
+        try{
+            val servicioInforme = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call = servicioInforme.editarInforme(informe, "Bearer $token")
+            val response = call.execute()
+
+            if (response != null) {
+
+                if (response.code() == 200) {
+                    val informeGuardado = response.body()
+                    return informeGuardado
+                } else {
+                    return null
+                }
+            } else {
+                return null
+            }
+
+        }catch (e:Exception){
+            return null
+        }
+
     }
 
 
@@ -306,23 +324,36 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEditarRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente) {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioEditarRegistroAsistencia(asistenciaAdolescente)
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioEditarRegistroAsistencia(asistenciaAdolescente)
+
+                }
 
             }
+            miclase.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar el Registro de Asistencia", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
+
     }
 
     private fun servicioEditarRegistroAsistencia(asistencia: AsistenciaAdolescente) {
 
-        val servicioAsistencia = ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
-        val call = servicioAsistencia.guardarAsistenciaAdolescente(asistencia, "Bearer $token")
-        call.execute()
+        try{
+
+            val servicioAsistencia = ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
+            val call = servicioAsistencia.guardarAsistenciaAdolescente(asistencia, "Bearer $token")
+            call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al editar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 
@@ -358,22 +389,34 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskGuardarRegistroFotografico(rf: RegistroFotografico) {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try{
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioGuardarRegistroFotografico(rf)
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
+
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioGuardarRegistroFotografico(rf)
+                }
+
             }
-
+            miclase.execute().get()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al guardar el Registro Fotográfico", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
     private fun servicioGuardarRegistroFotografico(registroFoto: RegistroFotografico): RegistroFotografico? {
-        val servicioFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioFotografias.guardarRegistroFotograficoMovil(registroFoto, "Bearer $token")
-        val fotografiasGuardado = call.execute().body()
-        return fotografiasGuardado!!
+
+        try{
+            val servicioFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+            val call = servicioFotografias.guardarRegistroFotograficoMovil(registroFoto, "Bearer $token")
+            val fotografiasGuardado = call.execute().body()
+            return fotografiasGuardado!!
+        }catch (e:Exception){
+            return null
+        }
+
     }
 
 
@@ -381,22 +424,34 @@ class EditarRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskEliminarRegistroFotografico(registroFotografico: RegistroFotografico) {
 
-        val miclase = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, Unit>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioEliminarRegistroFotografico(registroFotografico)
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioEliminarRegistroFotografico(registroFotografico)
+                }
+
             }
+            miclase.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error en el Registro Fotográfico", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
     private fun servicioEliminarRegistroFotografico(registroFoto: RegistroFotografico) {
 
-        val servicioEliminarFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(), "Bearer $token")
-        call.execute()
+        try{
+
+            val servicioEliminarFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+            val call = servicioEliminarFotografias.eliminarRegistroFotografico(registroFoto.idRegistroFotografico.toString(), "Bearer $token")
+            call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error en el Registro Fotográfico", Toast.LENGTH_SHORT).show()
+        }
+
 
     }
 

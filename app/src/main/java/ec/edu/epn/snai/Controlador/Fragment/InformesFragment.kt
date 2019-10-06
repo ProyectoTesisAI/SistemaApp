@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Activity.InformeTabbedActivity
 import ec.edu.epn.snai.Controlador.Adaptador.ListaInformesAdaptador
 import ec.edu.epn.snai.Modelo.Informe
@@ -78,167 +79,196 @@ class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickLis
 
     private fun asynTaskObtenerListadoInformes(usuario: Usuario,rootView: View, tipoTaller: String){
 
+        try{
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<Informe>>() {
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<Informe>>() {
 
-            override fun doInBackground(vararg p0: Unit?): List<Informe>? {
+                override fun doInBackground(vararg p0: Unit?): List<Informe>? {
 
-                val rol=usuario.getIdRolUsuarioCentro().getIdRol().getRol()
+                    val rol=usuario.getIdRolUsuarioCentro().getIdRol().getRol()
 
-                if(rol.equals(Constantes.ROL_ADMINISTRADOR)|| rol.equals(Constantes.ROL_SUBDIRECTOR)){
+                    if(rol.equals(Constantes.ROL_ADMINISTRADOR)|| rol.equals(Constantes.ROL_SUBDIRECTOR)){
 
-                    return servicioObtenerTodosLosInformes()
+                        return servicioObtenerTodosLosInformes()
 
-                }else if( rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(Constantes.ROL_DIRECTOR_UZDI)){
+                    }else if( rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(Constantes.ROL_DIRECTOR_UZDI)){
 
-                    return servicioObtenerInformesSoloUzdi()
+                        return servicioObtenerInformesSoloUzdi()
 
-                }else if(rol.equals(Constantes.ROL_COORDINADOR_CAI) || rol.equals(Constantes.ROL_DIRECTOR_CAI)){
+                    }else if(rol.equals(Constantes.ROL_COORDINADOR_CAI) || rol.equals(Constantes.ROL_DIRECTOR_CAI)){
 
-                    return servicioObtenerInformesSoloCai()
+                        return servicioObtenerInformesSoloCai()
 
-                }else {
-                    return servicioObtenerInformesPorUsuario(usuario)
+                    }else {
+                        return servicioObtenerInformesPorUsuario(usuario)
+                    }
                 }
-            }
 
-            override fun onPostExecute(result: List<Informe>?) {
-                super.onPostExecute(result)
-                if(result != null){
+                override fun onPostExecute(result: List<Informe>?) {
+                    super.onPostExecute(result)
+                    if(result != null){
 
-                    val listaInformesAux=obtenerInformesPorTipo(result,tipoTaller)
-                    if(listaInformesAux != null){
+                        val listaInformesAux=obtenerInformesPorTipo(result,tipoTaller)
+                        if(listaInformesAux != null){
 
-                        if(listaInformesAux.size >0 ){
+                            if(listaInformesAux.size >0 ){
 
-                            rootView.txtSinInformes.visibility=View.INVISIBLE
-                            asignarListaInformesRecyclerView(listaInformesAux, rootView)
+                                rootView.txtSinInformes.visibility=View.INVISIBLE
+                                asignarListaInformesRecyclerView(listaInformesAux, rootView)
+                            }
+                            else{
+                                rootView.txtSinInformes.visibility=View.VISIBLE
+                            }
                         }
                         else{
                             rootView.txtSinInformes.visibility=View.VISIBLE
                         }
+
                     }
                     else{
                         rootView.txtSinInformes.visibility=View.VISIBLE
                     }
 
                 }
-                else{
-                    rootView.txtSinInformes.visibility=View.VISIBLE
-                }
-
             }
+            task.execute()
+        }catch (e:Exception){
+            Toast.makeText(context, "Ha ocurrido un error al listar Los Informes", Toast.LENGTH_SHORT).show()
         }
-        task.execute()
+
     }
 
     private fun servicioObtenerTodosLosInformes(): List<Informe>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerTodosLosInformes( "Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerTodosLosInformes( "Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaInformes= response.body()
-                return listaInformes
+            if(response != null){
+
+                if(response.code() == 200){
+                    val listaInformes= response.body()
+                    return listaInformes
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun servicioObtenerInformesPorUsuario(usuario: Usuario): List<Informe>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerInformesPorUsuario( usuario,"Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerInformesPorUsuario( usuario,"Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaInformesUsuario= response.body()
+            if(response != null){
 
-                if(listaInformesUsuario != null){
+                if(response.code() == 200){
+                    val listaInformesUsuario= response.body()
 
-                    return listaInformesUsuario
+                    if(listaInformesUsuario != null){
+
+                        return listaInformesUsuario
+                    }
+                    else{
+                        return null
+                    }
+
                 }
                 else{
                     return null
                 }
-
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun servicioObtenerInformesSoloUzdi(): List<Informe>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerInformesSoloUzdi("Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerInformesSoloUzdi("Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaInformesUzdi= response.body()
+            if(response != null){
 
-                if(listaInformesUzdi != null){
+                if(response.code() == 200){
+                    val listaInformesUzdi= response.body()
 
-                    return listaInformesUzdi
+                    if(listaInformesUzdi != null){
+
+                        return listaInformesUzdi
+                    }
+                    else{
+                        return null
+                    }
+
                 }
                 else{
                     return null
                 }
-
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun servicioObtenerInformesSoloCai(): List<Informe>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerInformesSoloCai( "Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerInformesSoloCai( "Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaInformesCai= response.body()
+            if(response != null){
 
-                if(listaInformesCai != null){
+                if(response.code() == 200){
+                    val listaInformesCai= response.body()
 
-                    return listaInformesCai
+                    if(listaInformesCai != null){
+
+                        return listaInformesCai
+                    }
+                    else{
+                        return null
+                    }
+
                 }
                 else{
                     return null
                 }
-
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun obtenerInformesPorTipo(listaInformes: List<Informe>, tipoTaller: String): List<Informe>?{
@@ -257,8 +287,7 @@ class InformesFragment: Fragment(), ListaInformesAdaptador.InformeOnItemClickLis
     private fun asignarListaInformesRecyclerView(listaInformesPorTipo: List<Informe>, rootView: View){
 
         listaInformes=listaInformesPorTipo
-        val adaptador=
-            ListaInformesAdaptador(listaInformesPorTipo, this@InformesFragment)
+        val adaptador= ListaInformesAdaptador(listaInformesPorTipo, this@InformesFragment)
         val recyclerViewInforme=rootView.findViewById(R.id.rv_informe) as RecyclerView
         recyclerViewInforme.adapter=adaptador
         recyclerViewInforme.layoutManager=LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)

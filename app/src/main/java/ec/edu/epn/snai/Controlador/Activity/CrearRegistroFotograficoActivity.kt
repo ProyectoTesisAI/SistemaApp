@@ -1,5 +1,6 @@
 package ec.edu.epn.snai.Controlador.Activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
@@ -166,8 +167,7 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
         if(listaFotografias != null){
 
             val recyclerViewRegistroFotografico = findViewById(R.id.rv_editar_imagenes) as RecyclerView
-            val adaptador =
-                ListaEditarRegistroFotograficoAdaptador(listaFotografias)
+            val adaptador = ListaEditarRegistroFotograficoAdaptador(listaFotografias)
             recyclerViewRegistroFotografico.adapter = adaptador
             recyclerViewRegistroFotografico.layoutManager = LinearLayoutManager(this@CrearRegistroFotograficoActivity)
         }
@@ -197,41 +197,56 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskGuardarInforme(informe: Informe): Informe?{
 
-        val miclase = object : AsyncTask<Unit, Unit, Informe>(){
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Informe>(){
 
-            override fun doInBackground(vararg p0: Unit?): Informe? {
-                val informeEditado=servicioGuardarInforme(informe)
-                return informeEditado
+                override fun doInBackground(vararg p0: Unit?): Informe? {
+                    val informeEditado=servicioGuardarInforme(informe)
+                    return informeEditado
+                }
+
             }
-
-        }
-        val informeRescatado=miclase.execute().get()
-        if(informeRescatado != null){
-            return informeRescatado
-        }
-        else{
-            return null
-        }
-    }
-
-    private fun servicioGuardarInforme(informe: Informe): Informe? {
-        val servicioInforme = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
-        val call = servicioInforme.editarInforme(informe, "Bearer $token")
-        val response = call.execute()
-
-        if(response != null){
-
-            if(response.code() == 200){
-                val informeGuardado= response.body()
-                return informeGuardado
+            val informeRescatado=miclase.execute().get()
+            if(informeRescatado != null){
+                return informeRescatado
             }
             else{
                 return null
             }
-        }
-        else{
+
+        }catch (e:Exception){
             return null
         }
+
+
+    }
+
+    private fun servicioGuardarInforme(informe: Informe): Informe? {
+
+        try{
+            val servicioInforme = ClienteApiRest.getRetrofitInstance().create(InformeServicio::class.java)
+            val call = servicioInforme.editarInforme(informe, "Bearer $token")
+            val response = call.execute()
+
+            if(response != null){
+
+                if(response.code() == 200){
+                    val informeGuardado= response.body()
+                    return informeGuardado
+                }
+                else{
+                    return null
+                }
+            }
+            else{
+                return null
+            }
+
+        }catch (e:Exception){
+            return null
+        }
+
     }
 
 
@@ -252,21 +267,34 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskGuardarListadoRegistroAsistencia(asistenciaAdolescente: AsistenciaAdolescente){
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>() {
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente)
+                }
+
             }
+            miclase.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error, en el Registro Fotográfico", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
     private fun servicioGuardarListadoRegistroAsistenciaUzdi(asistenciaAdolescente: AsistenciaAdolescente){
 
-        val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
-        val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
-        call.execute()
+        try{
+
+            val servicioAsistenciaAdolescente= ClienteApiRest.getRetrofitInstance().create(AsistenciaAdolescenteServicio::class.java)
+            val call =servicioAsistenciaAdolescente.guardarAsistenciaAdolescente( asistenciaAdolescente,"Bearer $token")
+            call.execute()
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al guardar el Registro de Asitencia", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 
@@ -275,9 +303,9 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
         if(informe != null){
 
-            if(listaFotografias?.size!! > 0 ){
+            if(listaFotografias.size > 0 ){
 
-                for (f in listaFotografias!!){
+                for (f in listaFotografias){
 
                     if(f.imagenAux!=null){
 
@@ -293,35 +321,49 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
     private fun asynTaskGuardarFoto(rf: RegistroFotografico){
 
-        val miclase = object : AsyncTask<Unit, Unit, Unit>(){
+        try{
+            val miclase = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, Unit>(){
 
-            override fun doInBackground(vararg p0: Unit?) {
-                servicioGuardarRegistroFotografico(rf)
+                override fun doInBackground(vararg p0: Unit?) {
+                    servicioGuardarRegistroFotografico(rf)
+                }
+
             }
+            miclase.execute().get()
 
+        }catch (e:Exception){
+            Toast.makeText(applicationContext, "Ha ocurrido un error al guardar el Registro Fotográfico", Toast.LENGTH_SHORT).show()
         }
-        miclase.execute().get()
+
     }
 
     private fun servicioGuardarRegistroFotografico(registroFoto: RegistroFotografico): RegistroFotografico? {
-        val servicioFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicioFotografias.guardarRegistroFotograficoMovil(registroFoto, "Bearer $token")
 
-        val response = call.execute()
+        try{
+            val servicioFotografias = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+            val call = servicioFotografias.guardarRegistroFotograficoMovil(registroFoto, "Bearer $token")
 
-        if(response != null){
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val fotografiasGuardado= response.body()
-                return fotografiasGuardado
+            if(response != null){
+
+                if(response.code() == 200){
+                    val fotografiasGuardado= response.body()
+                    return fotografiasGuardado
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+
+        }catch (e:Exception){
             return null
         }
+
     }
 
 

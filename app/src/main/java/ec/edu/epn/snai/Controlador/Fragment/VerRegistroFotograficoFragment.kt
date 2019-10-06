@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.ListaRegistroFotograficoAdaptador
 import ec.edu.epn.snai.Modelo.Informe
 import ec.edu.epn.snai.Modelo.RegistroFotografico
@@ -45,42 +46,48 @@ class VerRegistroFotograficoFragment : Fragment(){
     }
 
     private fun obtenerRegistroFotografico(){
-        val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
-        val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
 
-        call.enqueue(object : Callback<List<RegistroFotografico>>{
+        try{
+            val servicio = ClienteApiRest.getRetrofitInstance().create(RegistroFotograficoServicio::class.java)
+            val call = servicio.obtenerRegistroFotograficoPorInforme(informeSeleccionado.idInforme.toString(), "Bearer " + token)
 
-            override fun onFailure(call: Call<List<RegistroFotografico>>, t: Throwable) {
+            call.enqueue(object : Callback<List<RegistroFotografico>>{
 
-                rootView.pbCargando.visibility=View.INVISIBLE
+                override fun onFailure(call: Call<List<RegistroFotografico>>, t: Throwable) {
 
-            }
+                    rootView.pbCargando.visibility=View.INVISIBLE
 
-            override fun onResponse(call: Call<List<RegistroFotografico>>, response: Response<List<RegistroFotografico>>) {
+                }
 
-                if(response != null){
+                override fun onResponse(call: Call<List<RegistroFotografico>>, response: Response<List<RegistroFotografico>>) {
 
-                    if(response.code()==200){
-                        val listaRegistroFotografico=response.body()
+                    if(response != null){
 
-                        if(listaRegistroFotografico != null){
-                            asignarRegistroFotograficoRecyclerView(listaRegistroFotografico)
+                        if(response.code()==200){
+                            val listaRegistroFotografico=response.body()
+
+                            if(listaRegistroFotografico != null){
+                                asignarRegistroFotograficoRecyclerView(listaRegistroFotografico)
+
+                            }
+
 
                         }
-
-
                     }
+                    rootView.pbCargando.visibility=View.INVISIBLE
                 }
-                rootView.pbCargando.visibility=View.INVISIBLE
-            }
-        })
+            })
+
+        }catch (e:Exception){
+            Toast.makeText(context, "Ha ocurrido un error al obtener el Registro Fotográfico", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun asignarRegistroFotograficoRecyclerView(listaFotografias: List<RegistroFotografico> ){
 
         if(listaFotografias.size >0){
-            val adaptadorItemRegistroFotografico=
-                ListaRegistroFotograficoAdaptador(listaFotografias)
+            val adaptadorItemRegistroFotografico= ListaRegistroFotograficoAdaptador(listaFotografias)
             val recyclerViewItemsFotografias= rootView.findViewById<RecyclerView>(R.id.rv_ver_imagenes)
             recyclerViewItemsFotografias.adapter=adaptadorItemRegistroFotografico
             recyclerViewItemsFotografias.layoutManager= LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

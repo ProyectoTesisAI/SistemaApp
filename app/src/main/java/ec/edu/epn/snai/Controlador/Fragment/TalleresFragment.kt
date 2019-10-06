@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.ListaTalleresAdaptador
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -69,141 +70,173 @@ class TalleresFragment: Fragment(), ListaTalleresAdaptador.TallerOnItemClickList
     private fun asynTaskObtenerListadoTalleres(usuario: Usuario,rootView: View, tipoTaller: String){
 
 
-        val task = @SuppressLint("StaticFieldLeak")
-        object : AsyncTask<Unit, Unit, List<Taller>>() {
+        try{
 
-            override fun doInBackground(vararg p0: Unit?): List<Taller>? {
+            val task = @SuppressLint("StaticFieldLeak")
+            object : AsyncTask<Unit, Unit, List<Taller>>() {
 
-                val rol=usuario.getIdRolUsuarioCentro().getIdRol().getRol()
+                override fun doInBackground(vararg p0: Unit?): List<Taller>? {
 
-                if(rol.equals(Constantes.ROL_ADMINISTRADOR)|| rol.equals(Constantes.ROL_SUBDIRECTOR)){
+                    val rol=usuario.getIdRolUsuarioCentro().getIdRol().getRol()
 
-                    return servicioObtenerTalleresSinInforme()
+                    if(rol.equals(Constantes.ROL_ADMINISTRADOR)|| rol.equals(Constantes.ROL_SUBDIRECTOR)){
 
-                }else if( rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(Constantes.ROL_DIRECTOR_UZDI)){
+                        return servicioObtenerTalleresSinInforme()
 
-                    return servicioObtenerTalleresSinInformeSoloUZDI()
+                    }else if( rol.equals(Constantes.ROL_LIDER_UZDI) || rol.equals(Constantes.ROL_DIRECTOR_UZDI)){
 
-                }else if(rol.equals(Constantes.ROL_COORDINADOR_CAI) || rol.equals(Constantes.ROL_DIRECTOR_CAI)){
+                        return servicioObtenerTalleresSinInformeSoloUZDI()
 
-                    return servicioObtenerTalleresSinInformeSoloCAI()
+                    }else if(rol.equals(Constantes.ROL_COORDINADOR_CAI) || rol.equals(Constantes.ROL_DIRECTOR_CAI)){
 
-                }else {
-                    return servicioObtenerTalleresSinInformePorUsuario(usuario)
+                        return servicioObtenerTalleresSinInformeSoloCAI()
+
+                    }else {
+                        return servicioObtenerTalleresSinInformePorUsuario(usuario)
+                    }
                 }
-            }
 
-            override fun onPostExecute(result: List<Taller>?) {
-                super.onPostExecute(result)
-                if(result != null){
+                override fun onPostExecute(result: List<Taller>?) {
+                    super.onPostExecute(result)
+                    if(result != null){
 
-                    val listaTallerAux=obtenerTalleresPorTipo(result,tipoTaller)
-                    if(listaTallerAux != null){
+                        val listaTallerAux=obtenerTalleresPorTipo(result,tipoTaller)
+                        if(listaTallerAux != null){
 
-                        if(listaTallerAux.size >0 ){
-                            rootView.txtSinTalleres.visibility=View.INVISIBLE
-                            asignarListaTalleresRecyclerView(listaTallerAux, rootView)
+                            if(listaTallerAux.size >0 ){
+                                rootView.txtSinTalleres.visibility=View.INVISIBLE
+                                asignarListaTalleresRecyclerView(listaTallerAux, rootView)
+                            }
+                            else{
+                                rootView.txtSinTalleres.visibility=View.VISIBLE
+                            }
                         }
                         else{
                             rootView.txtSinTalleres.visibility=View.VISIBLE
                         }
+
                     }
                     else{
                         rootView.txtSinTalleres.visibility=View.VISIBLE
                     }
 
                 }
-                else{
-                    rootView.txtSinTalleres.visibility=View.VISIBLE
-                }
-
             }
+            task.execute()
+
+        }catch (e:Exception){
+            Toast.makeText(context, "Ha ocurrido un error al obtener la Lista de Talleres", Toast.LENGTH_SHORT).show()
         }
-        task.execute()
+
+
     }
 
     private fun servicioObtenerTalleresSinInforme(): List<Taller>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerTalleresSinInforme( "Bearer $token")
-        val response = call.execute()
+        try{
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerTalleresSinInforme( "Bearer $token")
+            val response = call.execute()
 
-        if(response != null){
+            if(response != null){
 
-            if(response.code() == 200){
-                val listaTalleres= response.body()
-                return listaTalleres
+                if(response.code() == 200){
+                    val listaTalleres= response.body()
+                    return listaTalleres
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+
+        }catch (e:Exception){
             return null
         }
     }
 
     private fun servicioObtenerTalleresSinInformePorUsuario(usuario: Usuario): List<Taller>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerTalleresSinInformePorUsuario( usuario,"Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerTalleresSinInformePorUsuario( usuario,"Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaTalleresPorUsuario= response.body()
-                return listaTalleresPorUsuario
+            if(response != null){
+
+                if(response.code() == 200){
+                    val listaTalleresPorUsuario= response.body()
+                    return listaTalleresPorUsuario
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
+
     }
 
     private fun servicioObtenerTalleresSinInformeSoloUZDI(): List<Taller>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerTalleresSinInformeSoloUZDI( "Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerTalleresSinInformeSoloUZDI( "Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaTalleresUzdi= response.body()
-                return listaTalleresUzdi
+            if(response != null){
+
+                if(response.code() == 200){
+                    val listaTalleresUzdi= response.body()
+                    return listaTalleresUzdi
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun servicioObtenerTalleresSinInformeSoloCAI(): List<Taller>?{
 
-        val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
-        val call =servicioRegistroAsistencia.obtenerTalleresSinInformeSoloCAI( "Bearer $token")
-        val response = call.execute()
+        try{
 
-        if(response != null){
+            val servicioRegistroAsistencia= ClienteApiRest.getRetrofitInstance().create(TallerServicio::class.java)
+            val call =servicioRegistroAsistencia.obtenerTalleresSinInformeSoloCAI( "Bearer $token")
+            val response = call.execute()
 
-            if(response.code() == 200){
-                val listaTalleresCai= response.body()
-                return listaTalleresCai
+            if(response != null){
+
+                if(response.code() == 200){
+                    val listaTalleresCai= response.body()
+                    return listaTalleresCai
+                }
+                else{
+                    return null
+                }
             }
             else{
                 return null
             }
-        }
-        else{
+        }catch (e:Exception){
             return null
         }
+
     }
 
     private fun obtenerTalleresPorTipo(listaTaller: List<Taller>, tipoTaller: String): List<Taller>?{
