@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            user.usuario = txtUsuario//"oscar_espana"//txtUsuario //tatiana.mayorga02 /// sandra.correa02
+            user.usuario = txtUsuario //tatiana.mayorga02 /// sandra.correa02
             user.contraseña = cifrarPassword(txtPassword) //oscar_snai_2019//txtPassword //SuJ[w[9Xac /// cKUwN7m\$vT
 
             asynTaskIniciarSesion()

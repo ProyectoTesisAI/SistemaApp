@@ -175,7 +175,6 @@
                             android:layout_height="wrap_content"
                             android:spinnerMode="dropdown"
                             android:layout_marginTop="0sp"
-                            style="@style/MiSpinner"
                             android:id="@+id/spUdiCai"/>
 
                 </LinearLayout>

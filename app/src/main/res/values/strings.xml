@@ -17,6 +17,9 @@
     <string name="gestion_informes_juridico">Gestionar Informes</string>
     <string name="gestion_informes_inspector_educador">Gestionar Informes</string>
 
+    <string name="crear_usuario">Crear Usuario</string>
+    <string name="desactivar_usuario">Usuarios Desactivados</string>
+    <string name="activar_usuario">Usuarios Activos</string>
 
     <string name="prompt_user">Usuario</string>
     <string name="prompt_password">Constraseña</string>
@@ -56,5 +59,20 @@
     </string-array>
     <string name="title_activity_ver_info_taller">Información Taller</string>
 
-
+    <string name="prompRol">Rol</string>
+    <string-array name="rol">
+        <item>ADMINISTRADOR</item>
+        <item>SUBDIRECTOR</item>
+        <item>DIRECTOR TECNICO DE MEDIDAS PRIVATIVAS Y ATENCIÓN</item>
+        <item>COORDINADOR CAI</item>
+        <item>DIRECTOR TECNICO DE MEDIDAS NO PRIVATIVAS Y PREVENCIÓN</item>
+        <item>LIDER UZDI</item>
+        <item>EQUIPO TECNICO PSICOLOGO UZDI</item>
+        <item>TRABAJADOR SOCIAL UZDI</item>
+        <item>EQUIPO TECNICO JURIDICO UZDI</item>
+        <item>EQUIPO TECNICO PSICOLOGO CAI</item>
+        <item>TRABAJADOR SOCIAL CAI</item>
+        <item>EQUIPO TECNICO JURIDICO CAI</item>
+        <item>INSPECTOR EDUCADOR</item>
+    </string-array>
 </resources>
