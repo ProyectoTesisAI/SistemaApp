@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:app="http://schemas.android.com/apk/res-auto"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" android:background="#FFFF">
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Nombres"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/etNombresUsuario"
+                        android:inputType="text"
+                        android:textSize="15sp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:hint="Nombres"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Apellidos"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Apellidos"
+                        android:textSize="15sp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:id="@+id/etApellidosUsuario"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Cédula/Documento"/>
+
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Cédula/Documento"
+                        android:textSize="15dp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:id="@+id/etCedulaUsuario"
+                />
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Teléfono"/>
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Teléfono"
+                        android:inputType="number"
+                        android:textSize="15sp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:id="@+id/etTelefonoUsuario"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Usuario"/>
+
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Usuario"
+                        android:textSize="15dp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/etUsuario"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="10sp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Contraseña"/>
+
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint=" Contraseña"
+                        android:textSize="15dp"
+                        android:paddingTop="4sp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:id="@+id/txtContrasenaUsuario"
+                />
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingRight="12sp">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text=" Rol"/>
+
+                <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dialog"
+                        android:layout_marginTop="0sp"
+                        android:gravity="top|start"
+                        android:prompt="@string/prompRol"
+                        android:id="@+id/spRolUsuario"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingRight="12sp">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:id="@+id/txtTipoCentroUsuario"
+                        android:text=" Centro"/>
+                <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dropdown"
+
+                        android:layout_marginTop="0sp"
+                        android:gravity="top|start"
+                        android:id="@+id/spCentroUsuario"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <ProgressBar
+            android:id="@+id/pbCrearTaller"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+
+    />
+</android.support.design.widget.CoordinatorLayout>

@@ -18,6 +18,9 @@
                 android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarActividadTallerActivity"
                   android:screenOrientation="landscape"/>
+        <activity android:name=".Controlador.Activity.CrearUsuarioActivity"
+                  android:label="CREAR USUARIO"
+                  android:screenOrientation="landscape"/>
         <activity android:name=".Controlador.Activity.EditarTallerActivity"
                   android:label="Editar Taller"
                   android:screenOrientation="landscape"/>

@@ -22,5 +22,7 @@ public class Constantes {
     public static final String ROL_JURIDICO_UZDI="EQUIPO TECNICO JURIDICO UZDI";
     public static final String ROL_PSICOLOGO_CAI="EQUIPO TECNICO PSICOLOGO CAI";
     public static final String ROL_JURIDICO_CAI="EQUIPO TECNICO JURIDICO CAI";
+    public static final String ROL_TRABAJADOR_SOCIAL_UZDI="TRABAJADOR SOCIAL UZDI";
+    public static final String ROL_TRABAJADOR_SOCIAL_CAI="TRABAJADOR SOCIAL CAI";
 
 }

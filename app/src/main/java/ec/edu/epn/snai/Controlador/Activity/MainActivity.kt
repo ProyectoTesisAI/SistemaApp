@@ -11,8 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.widget.TextView
-import ec.edu.epn.snai.Controlador.Fragment.InformesFragment
-import ec.edu.epn.snai.Controlador.Fragment.TalleresFragment
+import ec.edu.epn.snai.Controlador.Fragment.*
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Utilidades.Constantes
@@ -202,6 +201,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 abrirInformesFragment(Constantes.TIPO_TALLER_INSPECTOR_EDUCADOR)
             }
 
+            /********** GESTION USUARIOS ***********/
+            R.id.nav_crear_usuario -> {
+                abrirCrearUsuario()
+            }
+
+            R.id.nav_activar_usuario -> {
+                abrirGestionUsuariosActivados()
+            }
+
+            R.id.nav_desactivar_usuario -> {
+                abrirGestionUsuariosDesactivados()
+            }
+
         }
         return true
 
@@ -255,6 +267,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         cargarInformesFragment(informesFragment)
     }
 
+    private fun abrirGestionUsuariosActivados(){
+
+        val tituloToolbar="USUARIOS ACTIVOS"
+        getSupportActionBar()?.setTitle(tituloToolbar)
+
+        //Agrego en el bundle la variable token
+        val bundle = Bundle()
+        bundle.putSerializable("usuario",usuario)
+
+        val usuariosFragment=UsuariosActivosFragment()
+        usuariosFragment.arguments=bundle
+
+        cargarUsuariosActivosFragment(usuariosFragment)
+    }
+
+    private fun abrirCrearUsuario(){
+
+        val intent = Intent(applicationContext, CrearUsuarioActivity::class.java)
+        intent.putExtra("usuario", usuario)
+        startActivity(intent)
+    }
+
+    private fun abrirGestionUsuariosDesactivados(){
+
+        val tituloToolbar="USUARIOS DESACTIVADOS"
+        getSupportActionBar()?.setTitle(tituloToolbar)
+
+        //Agrego en el bundle la variable token
+        val bundle = Bundle()
+        bundle.putSerializable("usuario",usuario)
+
+        val usuariosFragment=UsuariosDesactivadosFragment()
+        usuariosFragment.arguments=bundle
+
+        cargarUsuariosDesactivadosFragment(usuariosFragment)
+    }
+
     private fun cargarTalleresFragment(fragment: TalleresFragment){
         val fm=supportFragmentManager.beginTransaction()
         fm.replace(R.id.frameLayout,fragment)
@@ -266,6 +315,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fm.replace(R.id.frameLayout,fragment)
         fm.commit()
     }
+
+    private fun cargarUsuariosActivosFragment(fragment: UsuariosActivosFragment){
+        val fm=supportFragmentManager.beginTransaction()
+        fm.replace(R.id.frameLayout,fragment)
+        fm.commit()
+    }
+
+    private fun cargarUsuariosDesactivadosFragment(fragment: UsuariosDesactivadosFragment){
+        val fm=supportFragmentManager.beginTransaction()
+        fm.replace(R.id.frameLayout,fragment)
+        fm.commit()
+    }
+
 
 
     private fun itemsMenuRol(usuario: Usuario,navView: NavigationView){
