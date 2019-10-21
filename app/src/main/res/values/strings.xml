@@ -75,4 +75,9 @@
         <item>EQUIPO TECNICO JURIDICO CAI</item>
         <item>INSPECTOR EDUCADOR</item>
     </string-array>
+
+    <string-array name="nacionalidad">
+        <item>ECUATORIANA</item>
+        <item>EXTRANJERA</item>
+    </string-array>
 </resources>

@@ -14,6 +14,7 @@ import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
 import ec.edu.epn.snai.Modelo.Reporte1
 import ec.edu.epn.snai.Modelo.Reporte2
+import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
@@ -59,7 +60,11 @@ class Reporte3CAIFragment:Fragment() {
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 var fechaFutura: Date? = null
                 fechaFutura = sdf.parse(etFechaFutura.text.toString())
-                obtenerListaReporte3(fechaFutura)
+
+                val reporte2=Reporte5()
+
+                reporte2.fechaAprehension=fechaFutura
+                obtenerListaReporte3(reporte2)
 
             }
 
@@ -104,7 +109,7 @@ class Reporte3CAIFragment:Fragment() {
     }
 
     /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte3(fecha:Date ){
+    private fun obtenerListaReporte3(fecha:Reporte5 ){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
