@@ -14,6 +14,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte1AdaptadorTabs
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte2AdaptadorTabs
+import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte3AdaptadorTabs
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.TallerAdaptadorTabs
 import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
@@ -63,6 +64,10 @@ class ReporteTabbedActivity : AppCompatActivity() {
             }
             "Reporte 3"->{
 
+                getSupportActionBar()?.setTitle("REPORTE 3 - EDAD RESPECTO A UN FECHA FUTURA")
+                val adaptador=Reporte3AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 4"->{
 
