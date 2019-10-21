@@ -16,4 +16,10 @@ public interface ReporteServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteTipoDelitoUDI")
     Call<List<Reporte1>> obtenerReporteTipoDelitoUZDI(@Body Reporte1 reporte1, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/reporteTipoDelitoCAI")
+    Call<List<Reporte1>> obtenerReporteTipoDelitoCAI(@Body Reporte1 reporte1, @Header("Authorization") String token);
+
+
 }

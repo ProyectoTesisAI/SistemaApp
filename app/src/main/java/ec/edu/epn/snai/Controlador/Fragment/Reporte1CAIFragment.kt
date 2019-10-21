@@ -24,7 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class Reporte1UZDIFragment:Fragment() {
+class Reporte1CAIFragment:Fragment() {
 
     private lateinit var token: String
     private var listaDatosTipoPenalCAI: List<DatosTipoPenalCAI> =ArrayList()
@@ -130,7 +130,7 @@ class Reporte1UZDIFragment:Fragment() {
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
-            val call = servicio.obtenerReporteTipoDelitoUZDI( reporte1,"Bearer " + token)
+            val call = servicio.obtenerReporteTipoDelitoCAI( reporte1,"Bearer " + token)
 
             call.enqueue(object : Callback<List<Reporte1>>{
 
