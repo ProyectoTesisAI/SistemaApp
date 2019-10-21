@@ -47,4 +47,7 @@ dependencies {
 
     //dependencias para encriptar
     implementation 'cc.duduhuo.util:digest-util:1.1.1'
+
+    // dependencia para spinner searchable
+    implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
 }

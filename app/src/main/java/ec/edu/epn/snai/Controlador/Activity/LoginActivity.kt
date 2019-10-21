@@ -43,8 +43,8 @@ class LoginActivity : AppCompatActivity(){
                 return@setOnClickListener
             }
 
-            user.usuario = txtUsuario //tatiana.mayorga02 /// sandra.correa02
-            user.contraseña = cifrarPassword(txtPassword) //oscar_snai_2019//txtPassword //SuJ[w[9Xac /// cKUwN7m\$vT
+            user.usuario = "oscar"// txtUsuario
+            user.contraseña = cifrarPassword("españa") //
 
             asynTaskIniciarSesion()
         }
@@ -56,8 +56,7 @@ class LoginActivity : AppCompatActivity(){
 
     private fun asynTaskIniciarSesion(){
 
-
-        val miclase = @SuppressLint("StaticFieldLeak")
+        val task = @SuppressLint("StaticFieldLeak")
         object : AsyncTask<Unit, Unit, Usuario>() {
 
             override fun onPreExecute() {
@@ -77,7 +76,6 @@ class LoginActivity : AppCompatActivity(){
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     intent.putExtra("usuario", usuario)
                     startActivity(intent)
-                    //finalizo el activity LoginActivity, para evitar volver a la pantalla de Login
                     finish()
 
                     Toast.makeText(applicationContext, bienvenidaUsuario,Toast.LENGTH_LONG).show()
@@ -89,7 +87,7 @@ class LoginActivity : AppCompatActivity(){
             }
 
         }
-        miclase.execute()
+        task.execute()
     }
 
     private fun servicioIniciarSesion(): Usuario?{
