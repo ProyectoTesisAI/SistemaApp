@@ -11,15 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.ListaAsistenciaAdaptador
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
+import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
 import ec.edu.epn.snai.Modelo.DatosTipoPenalCAI
-import ec.edu.epn.snai.Modelo.Reporte1
-import ec.edu.epn.snai.Modelo.Usuario
+import ec.edu.epn.snai.Modelo.Reporte2
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
 import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_2.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,7 +27,6 @@ import retrofit2.Response
 class Reporte2UZDIFragment:Fragment() {
 
     private lateinit var token: String
-    private var listaDatosTipoPenalCAI: List<DatosTipoPenalCAI> =ArrayList()
     private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,117 +36,46 @@ class Reporte2UZDIFragment:Fragment() {
             token=arguments?.getSerializable("token") as String
 
         }
-        asynTaskObtenerListadoCai()
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_1_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_2, container, false)
 
         rootView=view
 
-        asignarListaDatosTipoPenalSpinner()
+        rootView.btnReporte2.setOnClickListener {
+            val reporte2Aux= Reporte2()
+            val edad = rootView.txtEdadBusqueda?.text.toString()
+            reporte2Aux.edad = Integer.parseInt(edad)
 
-        rootView.btnReporte1.setOnClickListener {
-            val reporte1Aux=Reporte1()
-
-            if(listaDatosTipoPenalCAI.size > 0){
-
-                val delito=listaDatosTipoPenalCAI.get(rootView.spTipoDelito.selectedItemPosition)
-                reporte1Aux.tipoDelto=delito.tipoPenal
-
-                obtenerListaReporte1(reporte1Aux)
-            }
-
+            obtenerListaReporte2(reporte2Aux)
         }
         return rootView
     }
 
-    /************************* LISTA DATOS TIPO PENAL ***********************************/
-    private fun asynTaskObtenerListadoCai(){
-
-        try{
-
-            val task = @SuppressLint("StaticFieldLeak")
-            object : AsyncTask<Unit, Unit, List<DatosTipoPenalCAI>>(){
-
-
-                override fun doInBackground(vararg p0: Unit?): List<DatosTipoPenalCAI> {
-                    val listadoTipoPenal=obtenerDatosTipoPenal()
-                    return listadoTipoPenal!!
-                }
-
-            }
-            listaDatosTipoPenalCAI= task.execute().get()
-        }catch (e:Exception){
-            Toast.makeText(context, "Ha ocurrido un error al obtener los datos de tipo penal", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun obtenerDatosTipoPenal(): List<DatosTipoPenalCAI>?{
+    /****************************LISTA REPORTE 2 ***********************************************/
+    private fun obtenerListaReporte2(reporte2: Reporte2){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
-            val call = servicio.obtenerDatosTipoPenal( "Bearer " + token)
+            val call = servicio.obtenerReporteEdadUDI( reporte2,"Bearer " + token)
 
-            val resultado= call.execute()
-            if(resultado.code() == 200){
-                return resultado.body()!!
-            }
-            else{
-                return null
-            }
+            call.enqueue(object : Callback<List<Reporte2>>{
 
-        }catch (e:Exception){
-            Toast.makeText(context, "Ha ocurrido un error al obtener el Registro Fotográfico", Toast.LENGTH_SHORT).show()
-            return null
-        }
-
-    }
-
-    private fun asignarListaDatosTipoPenalSpinner(){
-
-        if(listaDatosTipoPenalCAI.size > 0){
-
-            val listaTipoPenalCAIAux:MutableList<String> = ArrayList<String>()
-
-            for (p in listaDatosTipoPenalCAI){
-                listaTipoPenalCAIAux.add(p.tipoPenal)
-            }
-
-            val adapterTipoDelito= ArrayAdapter<String>(context ,android.R.layout.simple_expandable_list_item_1,listaTipoPenalCAIAux)
-            adapterTipoDelito.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            rootView.spTipoDelito.adapter=adapterTipoDelito
-        }
-
-
-    }
-
-
-    /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte1(reporte1: Reporte1){
-
-        try{
-            val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
-            val call = servicio.obtenerReporteTipoDelitoUZDI( reporte1,"Bearer " + token)
-
-            call.enqueue(object : Callback<List<Reporte1>>{
-
-                override fun onFailure(call: Call<List<Reporte1>>, t: Throwable) {
+                override fun onFailure(call: Call<List<Reporte2>>, t: Throwable) {
 
                 }
 
-                override fun onResponse(call: Call<List<Reporte1>>, response: Response<List<Reporte1>>) {
+                override fun onResponse(call: Call<List<Reporte2>>, response: Response<List<Reporte2>>) {
 
                     if(response.code()==200){
-                        val listaResultadosReporte1=response.body()
+                        val listaResultadosReporte2=response.body()
 
-                        if(listaResultadosReporte1 != null){
+                        if(listaResultadosReporte2 != null){
 
                             rootView.txtSinReportes.visibility=View.GONE
-                            rootView.rv_reporte_1.visibility= View.VISIBLE
-                            mostrarListadoReportes1(listaResultadosReporte1)
+                            rootView.rv_reporte_2.visibility= View.VISIBLE
+                            mostrarListadoReportes2(listaResultadosReporte2)
                         }
 
 
@@ -165,13 +93,13 @@ class Reporte2UZDIFragment:Fragment() {
 
     }
 
-    fun mostrarListadoReportes1(listaReportesReporte1: List<Reporte1>){
+    fun mostrarListadoReportes2(listaReportesReporte2: List<Reporte2>){
 
-        if(listaReportesReporte1.size > 0){
-            val recyclerViewReportes1=rootView.findViewById(R.id.rv_reporte_1) as RecyclerView
-            val adaptador = Reporte1Adaptador(listaReportesReporte1)
-            recyclerViewReportes1.adapter=adaptador
-            recyclerViewReportes1.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        if(listaReportesReporte2.size > 0){
+            val recyclerViewReportes2=rootView.findViewById(R.id.rv_reporte_2) as RecyclerView
+            val adaptador = Reporte2Adaptador(listaReportesReporte2)
+            recyclerViewReportes2.adapter=adaptador
+            recyclerViewReportes2.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         }
 
     }
