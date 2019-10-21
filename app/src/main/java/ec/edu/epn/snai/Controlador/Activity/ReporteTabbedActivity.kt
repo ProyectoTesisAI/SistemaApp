@@ -49,6 +49,7 @@ class ReporteTabbedActivity : AppCompatActivity() {
 
         when(reporte){
             "Reporte 1"->{
+                getSupportActionBar()?.setTitle("REPORTE 1 - TIPO DELITO")
                 val adaptador=Reporte1AdaptadorTabs(supportFragmentManager,token)
                 view_pager_reporte.adapter=adaptador
                 tabs_reporte.setupWithViewPager(view_pager_reporte)
@@ -84,4 +85,9 @@ class ReporteTabbedActivity : AppCompatActivity() {
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        finish()
+        return true
+    }
 }

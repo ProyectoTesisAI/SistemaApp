@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import ec.edu.epn.snai.Controlador.Fragment.Reporte1CAIFragment
 import ec.edu.epn.snai.Controlador.Fragment.Reporte1UZDIFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerListadoAsistenciaFragment
 import ec.edu.epn.snai.Controlador.Fragment.VerTallerFragment
@@ -31,6 +32,8 @@ class Reporte1AdaptadorTabs(fm: FragmentManager, tokenAux : String) : FragmentPa
 
             }
             1->{
+                fragmentAux= Reporte1CAIFragment()
+                fragmentAux.arguments=obtenerBundle()
             }
 
         }
