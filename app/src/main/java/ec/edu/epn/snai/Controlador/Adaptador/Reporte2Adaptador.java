@@ -36,7 +36,7 @@ public class Reporte2Adaptador extends RecyclerView.Adapter<Reporte2Adaptador.Re
         viewHolder.txtNombres.setText(listaResultadosReporte2.get(i).getNombres());
         viewHolder.txtApellidos.setText(listaResultadosReporte2.get(i).getApellidos());
         viewHolder.txtGenero.setText(listaResultadosReporte2.get(i).getGenero());
-        viewHolder.txtEdad.setText(listaResultadosReporte2.get(i).getEdad());
+        viewHolder.txtEdad.setText(listaResultadosReporte2.get(i).getEdad().toString());
 
     }
 
