@@ -3,6 +3,7 @@ package ec.edu.epn.snai.Servicios;
 import ec.edu.epn.snai.Modelo.DatosTipoPenalCAI;
 import ec.edu.epn.snai.Modelo.Reporte1;
 import ec.edu.epn.snai.Modelo.Reporte2;
+import ec.edu.epn.snai.Modelo.Reporte5;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -31,10 +32,14 @@ public interface ReporteServicio {
     Call<List<Reporte2>> obtenerReporteEdadUDI(@Body Reporte2 reporte2, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Adolescente_Infractor//reporteEdadFechaUDI")
+    @POST("Adolescente_Infractor/reporteEdadFechaUDI")
     Call<List<Reporte2>> obtenerReporteEdadFechaUZDI(@Body Date fechaFutura, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Adolescente_Infractor//reporteEdadFechaCAI")
+    @POST("Adolescente_Infractor/reporteEdadFechaCAI")
     Call<List<Reporte2>> obtenerReporteEdadFechaCAI(@Body Date fechaFutura, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/reporteFechaIngesoCAI")
+    Call<List<Reporte5>> obtenerReporteFechaIngresoCAI(@Body Date fechaIngreso, @Header("Authorization") String token);
 }

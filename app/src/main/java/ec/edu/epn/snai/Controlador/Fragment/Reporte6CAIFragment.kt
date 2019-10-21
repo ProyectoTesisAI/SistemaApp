@@ -12,21 +12,24 @@ import android.widget.EditText
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
+import ec.edu.epn.snai.Controlador.Adaptador.Reporte6Adaptador
 import ec.edu.epn.snai.Modelo.Reporte1
 import ec.edu.epn.snai.Modelo.Reporte2
+import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
 import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
 import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
 import kotlinx.android.synthetic.main.fragment_resultados_reporte_3_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_6_.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Reporte3CAIFragment:Fragment() {
+class Reporte6CAIFragment:Fragment() {
 
     private lateinit var token: String
     private lateinit var rootView: View
@@ -42,24 +45,24 @@ class Reporte3CAIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_3_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_6_, container, false)
 
         rootView=view
 
-        val etFechaFutura=rootView.etFechaFutura
-        etFechaFutura.setOnClickListener {
-            dialogoFechaFutura(etFechaFutura)
+        val etFechaIngreso=rootView.etFechaIngreso
+        etFechaIngreso.setOnClickListener {
+            dialogoFechaIngreso(etFechaIngreso)
         }
 
-        rootView.btnReporte3.setOnClickListener {
+        rootView.btnReporte6.setOnClickListener {
 
 
-            if (etFechaFutura.text.toString().isNotBlank()) {
+            if (etFechaIngreso.text.toString().isNotBlank()) {
 
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 var fechaFutura: Date? = null
-                fechaFutura = sdf.parse(etFechaFutura.text.toString())
-                obtenerListaReporte3(fechaFutura)
+                fechaFutura = sdf.parse(etFechaIngreso.text.toString())
+                obtenerListaReporte6(fechaFutura)
 
             }
 
@@ -67,7 +70,7 @@ class Reporte3CAIFragment:Fragment() {
         return rootView
     }
 
-    private fun dialogoFechaFutura(etFechaFutura: EditText){
+    private fun dialogoFechaIngreso(etFechaFutura: EditText){
         val cldr = Calendar.getInstance()
         val diaSeleccionado = cldr.get(Calendar.DAY_OF_MONTH)
         val mesSeleccionado = cldr.get(Calendar.MONTH)
@@ -104,35 +107,35 @@ class Reporte3CAIFragment:Fragment() {
     }
 
     /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte3(fecha:Date ){
+    private fun obtenerListaReporte6(fecha:Date ){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
-            val call = servicio.obtenerReporteEdadFechaCAI( fecha,"Bearer " + token)
+            val call = servicio.obtenerReporteFechaIngresoCAI( fecha,"Bearer " + token)
 
-            call.enqueue(object : Callback<List<Reporte2>>{
+            call.enqueue(object : Callback<List<Reporte5>>{
 
-                override fun onFailure(call: Call<List<Reporte2>>, t: Throwable) {
+                override fun onFailure(call: Call<List<Reporte5>>, t: Throwable) {
 
                 }
 
-                override fun onResponse(call: Call<List<Reporte2>>, response: Response<List<Reporte2>>) {
+                override fun onResponse(call: Call<List<Reporte5>>, response: Response<List<Reporte5>>) {
 
                     if(response.code()==200){
-                        val listaResultadosReporte3=response.body()
+                        val listaResultadosReporte6=response.body()
 
-                        if(listaResultadosReporte3 != null){
+                        if(listaResultadosReporte6 != null){
 
                             rootView.txtSinReportes.visibility=View.GONE
-                            rootView.rv_reporte_3.visibility= View.VISIBLE
-                            mostrarListadoReportes3(listaResultadosReporte3)
+                            rootView.rv_reporte_6.visibility= View.VISIBLE
+                            mostrarListadoReportes6(listaResultadosReporte6)
                         }
 
 
                     }
                     else{
                         rootView.txtSinReportes.visibility=View.VISIBLE
-                        rootView.rv_reporte_3.visibility= View.GONE
+                        rootView.rv_reporte_6.visibility= View.GONE
                     }
                 }
             })
@@ -143,13 +146,13 @@ class Reporte3CAIFragment:Fragment() {
 
     }
 
-    fun mostrarListadoReportes3(listaReportesReporte2: List<Reporte2>){
+    fun mostrarListadoReportes6(listaReportesReporte6: List<Reporte5>){
 
-        if(listaReportesReporte2.size > 0){
-            val recyclerViewReportes1=rootView.findViewById(R.id.rv_reporte_3) as RecyclerView
-            val adaptador = Reporte2Adaptador(listaReportesReporte2)
-            recyclerViewReportes1.adapter=adaptador
-            recyclerViewReportes1.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+        if(listaReportesReporte6.size > 0){
+            val recyclerViewReportes6=rootView.findViewById(R.id.rv_reporte_3) as RecyclerView
+            val adaptador = Reporte6Adaptador(listaReportesReporte6)
+            recyclerViewReportes6.adapter=adaptador
+            recyclerViewReportes6.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         }
 
     }
