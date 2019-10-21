@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte1AdaptadorTabs
+import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte2AdaptadorTabs
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.Reporte3AdaptadorTabs
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.TallerAdaptadorTabs
 import ec.edu.epn.snai.Modelo.ItemTaller
@@ -56,7 +57,10 @@ class ReporteTabbedActivity : AppCompatActivity() {
                 tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 2"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 2 - EDAD")
+                val adaptador= Reporte2AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 3"->{
 

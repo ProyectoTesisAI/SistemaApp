@@ -1,7 +1,5 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
-import android.annotation.SuppressLint
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,10 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
-import ec.edu.epn.snai.Modelo.DatosTipoPenalCAI
-import ec.edu.epn.snai.Modelo.Reporte1
 import ec.edu.epn.snai.Modelo.Reporte2
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -28,7 +23,6 @@ import retrofit2.Response
 class Reporte2CAIFragment:Fragment() {
 
     private lateinit var token: String
-    private var listaDatosEdadCAI: List<DatosTipoPenalCAI> =ArrayList()
     private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +32,6 @@ class Reporte2CAIFragment:Fragment() {
             token=arguments?.getSerializable("token") as String
 
         }
-        asynTaskObtenerListadoCai()
 
     }
 
@@ -46,69 +39,19 @@ class Reporte2CAIFragment:Fragment() {
         val view= inflater.inflate(R.layout.fragment_resultados_reporte_2, container, false)
 
         rootView=view
+        rootView.btnReporte2.setOnClickListener {
+            val reporte2Aux = Reporte2()
 
+            val edad = rootView.txtEdadBusqueda?.text.toString()
+            reporte2Aux.edad = Integer.parseInt(edad)
 
-
-        rootView.btnReporte1.setOnClickListener {
-            val reporte1Aux=Reporte1()
-
-            if(listaDatosEdadCAI.size > 0){
-
-                val edad=listaDatosEdadCAI.get(rootView.spTipoDelito.selectedItemPosition)
-                reporte1Aux.tipoDelto=edad.tipoPenal
-
-                obtenerListaReporte1(reporte1Aux)
-            }
-
+            obtenerListaReporte2(reporte2Aux)
         }
         return rootView
     }
 
-    /************************* LISTA DATOS TIPO PENAL ***********************************/
-    private fun asynTaskObtenerListadoCai(){
-
-        try{
-
-            val task = @SuppressLint("StaticFieldLeak")
-            object : AsyncTask<Unit, Unit, List<DatosTipoPenalCAI>>(){
-
-
-                override fun doInBackground(vararg p0: Unit?): List<DatosTipoPenalCAI> {
-                    val listadoTipoPenal=obtenerDatosTipoPenal()
-                    return listadoTipoPenal!!
-                }
-
-            }
-            listaDatosEdadCAI= task.execute().get()
-        }catch (e:Exception){
-            Toast.makeText(context, "Ha ocurrido un error al obtener los datos de tipo penal", Toast.LENGTH_SHORT).show()
-        }
-
-    }
-
-    private fun obtenerDatosTipoPenal(): List<DatosTipoPenalCAI>?{
-
-        try{
-            val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
-            val call = servicio.obtenerDatosTipoPenal( "Bearer " + token)
-
-            val resultado= call.execute()
-            if(resultado.code() == 200){
-                return resultado.body()!!
-            }
-            else{
-                return null
-            }
-
-        }catch (e:Exception){
-            Toast.makeText(context, "Ha ocurrido un error al obtener el Registro Fotográfico", Toast.LENGTH_SHORT).show()
-            return null
-        }
-
-    }
-
-    /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte1(reporte2: Reporte2){
+    /****************************LISTA REPORTE 2 ***********************************************/
+    private fun obtenerListaReporte2(reporte2: Reporte2){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
@@ -136,7 +79,7 @@ class Reporte2CAIFragment:Fragment() {
                     }
                     else{
                         rootView.txtSinReportes.visibility=View.VISIBLE
-                        rootView.rv_reporte_1.visibility= View.GONE
+                        rootView.rv_reporte_2.visibility= View.GONE
                     }
                 }
             })
