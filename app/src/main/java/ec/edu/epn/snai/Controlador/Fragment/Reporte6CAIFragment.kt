@@ -149,7 +149,7 @@ class Reporte6CAIFragment:Fragment() {
     fun mostrarListadoReportes6(listaReportesReporte6: List<Reporte5>){
 
         if(listaReportesReporte6.size > 0){
-            val recyclerViewReportes6=rootView.findViewById(R.id.rv_reporte_3) as RecyclerView
+            val recyclerViewReportes6=rootView.findViewById(R.id.rv_reporte_6) as RecyclerView
             val adaptador = Reporte6Adaptador(listaReportesReporte6)
             recyclerViewReportes6.adapter=adaptador
             recyclerViewReportes6.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

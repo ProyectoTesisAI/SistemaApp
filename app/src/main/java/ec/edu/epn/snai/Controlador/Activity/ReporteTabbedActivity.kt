@@ -68,6 +68,10 @@ class ReporteTabbedActivity : AppCompatActivity() {
             }
             "Reporte 4"->{
 
+                getSupportActionBar()?.setTitle("REPORTE 4 - NACIONALIDAD")
+                val adaptador=Reporte4AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 5"->{
 
