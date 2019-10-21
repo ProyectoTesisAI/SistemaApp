@@ -6,6 +6,7 @@ import ec.edu.epn.snai.Modelo.Reporte2;
 import retrofit2.Call;
 import retrofit2.http.*;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ReporteServicio {
@@ -22,11 +23,18 @@ public interface ReporteServicio {
     @POST("Adolescente_Infractor/reporteTipoDelitoCAI")
     Call<List<Reporte1>> obtenerReporteTipoDelitoCAI(@Body Reporte1 reporte1, @Header("Authorization") String token);
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteEdadCAI")
     Call<List<Reporte2>> obtenerReporteEdadCAI(@Body Reporte2 reporte2, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteEdadUDI")
     Call<List<Reporte2>> obtenerReporteEdadUDI(@Body Reporte2 reporte2, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor//reporteEdadFechaUDI")
+    Call<List<Reporte2>> obtenerReporteEdadFechaUZDI(@Body Date fechaFutura, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor//reporteEdadFechaCAI")
+    Call<List<Reporte2>> obtenerReporteEdadFechaCAI(@Body Date fechaFutura, @Header("Authorization") String token);
 }
