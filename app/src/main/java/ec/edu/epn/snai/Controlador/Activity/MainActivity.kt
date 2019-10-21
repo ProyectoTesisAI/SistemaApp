@@ -214,6 +214,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 abrirGestionUsuariosDesactivados()
             }
 
+            /********** GESTION REPORTS ***********/
+            R.id.nav_gestion_reportes -> {
+                abrirReportesFragment()
+            }
         }
         return true
 
@@ -250,7 +254,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         cargarTalleresFragment(talleresFragment)
     }
-
 
     private fun abrirInformesFragment(tipoTallerSeleccionado:String){
 
@@ -304,6 +307,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         cargarUsuariosDesactivadosFragment(usuariosFragment)
     }
 
+    private fun abrirReportesFragment(){
+
+        val tituloToolbar="REPORTES"
+        getSupportActionBar()?.setTitle(tituloToolbar)
+
+        //Agrego en el bundle la variable token
+        val bundle = Bundle()
+        bundle.putSerializable("usuario",usuario)
+
+        //Seteo el bundle en el argumento de TalleresFragment, el cual contiene el token del usuario
+        val reportesFragment=ReportesFragment()
+        reportesFragment.arguments=bundle
+
+        cargarReportesFragment(reportesFragment)
+    }
+
     private fun cargarTalleresFragment(fragment: TalleresFragment){
         val fm=supportFragmentManager.beginTransaction()
         fm.replace(R.id.frameLayout,fragment)
@@ -328,6 +347,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fm.commit()
     }
 
+    private fun cargarReportesFragment(fragment: ReportesFragment){
+        val fm=supportFragmentManager.beginTransaction()
+        fm.replace(R.id.frameLayout,fragment)
+        fm.commit()
+    }
 
 
     private fun itemsMenuRol(usuario: Usuario,navView: NavigationView){
