@@ -27,5 +27,10 @@ public interface ReporteServicio {
     @POST("Adolescente_Infractor//reporteEdadFechaUDI")
     Call<List<Reporte2>> obtenerReporteEdadFechaUZDI(@Body Date fechaFutura, @Header("Authorization") String token);
 
+    @POST("Adolescente_Infractor/reporteEdadCAI")
+    Call<List<Reporte2>> obtenerReporteEdadCAI(@Body Reporte2 reporte2, @Header("Authorization") String token);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/reporteEdadUDI")
+    Call<List<Reporte2>> obtenerReporteEdadUDI(@Body Reporte2 reporte2, @Header("Authorization") String token);
 }
