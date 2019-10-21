@@ -29,6 +29,8 @@ class Reporte3AdaptadorTabs(fm: FragmentManager, tokenAux : String) : FragmentPa
 
             }
             1->{
+                fragmentAux= Reporte3CAIFragment()
+                fragmentAux.arguments=obtenerBundle()
             }
 
         }
