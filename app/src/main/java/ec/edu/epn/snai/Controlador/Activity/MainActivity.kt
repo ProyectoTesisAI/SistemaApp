@@ -377,6 +377,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             menu.findItem(R.id.menu_inspector_educador).isVisible=true
         }
 
+        if (rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || Constantes.ROL_ADMINISTRADOR.equals(rolUsuario) || Constantes.ROL_SUBDIRECTOR.equals(rolUsuario)) {
+            menu.findItem(R.id.menu_administracion_usuarios).isVisible = true
+        }
+        if ( Constantes.ROL_ADMINISTRADOR.equals(rolUsuario)) {
+            menu.findItem(R.id.menu_reportes).isVisible = true
+        }
 
     }
 }
