@@ -90,10 +90,16 @@ class ReporteTabbedActivity : AppCompatActivity() {
 
             }
             "Reporte 9"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 9 - LUGAR DE RESIDENCIA")
+                val adaptador=Reporte9AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 10"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 10 - INFORMES COMPLETOS")
+                val adaptador=Reporte10AdaptadorTabs( supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
         }
 

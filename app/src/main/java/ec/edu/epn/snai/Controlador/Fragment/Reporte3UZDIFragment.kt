@@ -10,16 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
-import ec.edu.epn.snai.Modelo.Reporte1
 import ec.edu.epn.snai.Modelo.Reporte2
+import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_3_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_3.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +39,7 @@ class Reporte3UZDIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_3_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_3, container, false)
 
         rootView=view
 
@@ -59,7 +56,11 @@ class Reporte3UZDIFragment:Fragment() {
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 var fechaFutura: Date? = null
                 fechaFutura = sdf.parse(etFechaFutura.text.toString())
-                obtenerListaReporte3(fechaFutura)
+
+                val fecha=Reporte5()
+
+                fecha.fechaAprehension=fechaFutura
+                obtenerListaReporte3(fecha)
 
             }
 
@@ -104,7 +105,7 @@ class Reporte3UZDIFragment:Fragment() {
     }
 
     /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte3(fecha:Date ){
+    private fun obtenerListaReporte3(fecha:Reporte5 ){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
@@ -146,10 +147,10 @@ class Reporte3UZDIFragment:Fragment() {
     fun mostrarListadoReportes3(listaReportesReporte2: List<Reporte2>){
 
         if(listaReportesReporte2.size > 0){
-            val recyclerViewReportes1=rootView.findViewById(R.id.rv_reporte_3) as RecyclerView
+            val recyclerViewReportes3=rootView.findViewById(R.id.rv_reporte_3) as RecyclerView
             val adaptador = Reporte2Adaptador(listaReportesReporte2)
-            recyclerViewReportes1.adapter=adaptador
-            recyclerViewReportes1.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            recyclerViewReportes3.adapter=adaptador
+            recyclerViewReportes3.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         }
 
     }

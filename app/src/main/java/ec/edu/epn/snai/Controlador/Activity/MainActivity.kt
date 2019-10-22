@@ -362,6 +362,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         menu.findItem(R.id.menu_juridico).isVisible = false
         menu.findItem(R.id.menu_psicologo).isVisible=false
         menu.findItem(R.id.menu_inspector_educador).isVisible=false
+        menu.findItem(R.id.menu_administracion_usuarios).isVisible=false
+        menu.findItem(R.id.menu_reportes).isVisible=false
 
         if (rolUsuario.contains("JURIDICO") || rolUsuario.contains("DIRECTOR") || rolUsuario.contains("LIDER") || rolUsuario.contains("COORDINADOR") || Constantes.ROL_ADMINISTRADOR.equals(rolUsuario) || Constantes.ROL_SUBDIRECTOR.equals(rolUsuario)) {
             menu.findItem(R.id.menu_juridico).isVisible = true

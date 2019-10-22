@@ -1,7 +1,5 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
-import android.annotation.SuppressLint
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,22 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.ListaAsistenciaAdaptador
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte4Adaptador
-import ec.edu.epn.snai.Modelo.DatosTipoPenalCAI
-import ec.edu.epn.snai.Modelo.Reporte1
 import ec.edu.epn.snai.Modelo.Reporte3
-import ec.edu.epn.snai.Modelo.Usuario
+import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.activity_agregar_taller.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_4_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_4.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +36,7 @@ class Reporte4UZDIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_4_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_4, container, false)
 
         rootView=view
 
@@ -54,9 +44,11 @@ class Reporte4UZDIFragment:Fragment() {
 
         rootView.btnReporte4.setOnClickListener {
 
-            val nacionalidad=rootView.spNacionalidad.selectedItem.toString()
+            val nacionalidadAux=rootView.spNacionalidad.selectedItem.toString()
 
-                obtenerListaReporte4(nacionalidad)
+            val nacionalidad=Reporte3()
+            nacionalidad.nacionalidad=nacionalidadAux
+            obtenerListaReporte4(nacionalidad)
 
         }
         return rootView
@@ -74,7 +66,7 @@ class Reporte4UZDIFragment:Fragment() {
     }
 
         /****************************LISTA REPORTE 4 ***********************************************/
-    private fun obtenerListaReporte4(nacionalidad: String){
+    private fun obtenerListaReporte4(nacionalidad: Reporte3){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)
@@ -116,10 +108,10 @@ class Reporte4UZDIFragment:Fragment() {
     fun mostrarListadoReportes4(listaReportesReporte4: List<Reporte3>){
 
         if(listaReportesReporte4.size > 0){
-            val recyclerViewReportes1=rootView.findViewById(R.id.rv_reporte_1) as RecyclerView
+            val recyclerViewReportes4=rootView.findViewById(R.id.rv_reporte_4) as RecyclerView
             val adaptador = Reporte4Adaptador(listaReportesReporte4)
-            recyclerViewReportes1.adapter=adaptador
-            recyclerViewReportes1.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            recyclerViewReportes4.adapter=adaptador
+            recyclerViewReportes4.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         }
 
     }
