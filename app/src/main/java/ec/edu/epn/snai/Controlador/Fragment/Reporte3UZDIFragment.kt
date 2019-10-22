@@ -132,13 +132,13 @@ class Reporte3UZDIFragment:Fragment() {
                     }
                     else{
                         rootView.txtSinReportes.visibility=View.VISIBLE
-                        rootView.rv_reporte_1.visibility= View.GONE
+                        rootView.rv_reporte_3.visibility= View.GONE
                     }
                 }
             })
 
         }catch (e:Exception){
-            Toast.makeText(context, "Ha ocurrido un error al obtener los datos tipo penal", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Ha ocurrido un error al obtener los registro del reporte", Toast.LENGTH_SHORT).show()
         }
 
     }
