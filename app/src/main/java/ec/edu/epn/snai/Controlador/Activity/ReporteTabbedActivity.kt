@@ -51,7 +51,10 @@ class ReporteTabbedActivity : AppCompatActivity() {
 
             }
             "Reporte 5"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 5 - TIPO DE MEDIDA")
+                val adaptador= Reporte5AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 6"->{
 
