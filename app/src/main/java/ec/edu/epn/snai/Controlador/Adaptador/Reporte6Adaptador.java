@@ -80,6 +80,6 @@ public class Reporte6Adaptador extends RecyclerView.Adapter<Reporte6Adaptador.Re
 
         cumplimientoMedida=cumplimientoMedida*100;
         int porcetaje=(int) Math.round(cumplimientoMedida);
-        return String.valueOf(porcetaje);
+        return porcetaje+"%";
     }
 }

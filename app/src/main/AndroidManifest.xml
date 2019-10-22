@@ -12,7 +12,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Controlador.Activity.ReporteTabbedActivity"/>
+        <activity android:name=".Controlador.Activity.ReporteTabbedActivity"
+                  android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.TallerTabbedActivity"
                 android:label="@string/title_activity_ver_info_taller"
@@ -56,6 +57,7 @@
                 android:screenOrientation="landscape"/>
         <activity
                 android:name=".Controlador.Activity.LoginActivity"
+                android:screenOrientation="landscape"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
