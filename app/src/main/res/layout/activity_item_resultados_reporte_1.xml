@@ -14,9 +14,10 @@
             android:gravity="center"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
+            android:fontFamily="sans-serif-light"
             android:id="@+id/txtTipoCentro"
             android:text="UZDI / CAI"
-            android:textSize="14sp"/>
+            android:textSize="13sp"/>
 
     <TextView
             android:layout_width="0dp"
@@ -25,6 +26,7 @@
             android:gravity="center"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
+            android:fontFamily="sans-serif-light"
             android:id="@+id/txtNombres"
             android:textSize="13sp"
             android:text="Nombres"/>
@@ -36,6 +38,7 @@
             android:id="@+id/txtApellidos"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
+            android:fontFamily="sans-serif-light"
             android:textSize="13sp"
             android:text="Apellidos"/>
 
@@ -48,7 +51,8 @@
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
             android:id="@+id/txtTipoDelito"
+            android:fontFamily="sans-serif-light"
             android:text="Tipo Delito"
-            android:textSize="14sp"/>
+            android:textSize="13sp"/>
 
 </LinearLayout>

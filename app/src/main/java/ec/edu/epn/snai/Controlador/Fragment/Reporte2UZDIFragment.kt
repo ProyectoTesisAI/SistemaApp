@@ -13,7 +13,6 @@ import ec.edu.epn.snai.Modelo.Reporte2
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
 import kotlinx.android.synthetic.main.fragment_resultados_reporte_2.view.*
 import retrofit2.Call
 import retrofit2.Callback

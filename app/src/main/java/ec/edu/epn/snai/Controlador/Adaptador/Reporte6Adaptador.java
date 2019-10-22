@@ -41,7 +41,7 @@ public class Reporte6Adaptador extends RecyclerView.Adapter<Reporte6Adaptador.Re
         viewHolder.txtTiempoSentencia.setText( listaResultadosReporte6.get(i).getTiempoSetenciaMedida().toString());
         viewHolder.txtFechaCumplimiento60.setText( fomatearFecha(listaResultadosReporte6.get(i).getFechaCumplimiento60()) );
         viewHolder.txtFechaCumplimiento80.setText( fomatearFecha(listaResultadosReporte6.get(i).getFechaCumplimiento80()) );
-        viewHolder.txtPorcentajeCumplimiento.setText( listaResultadosReporte6.get(i).getPorcentajeCumplimiento().toString());
+        viewHolder.txtPorcentajeCumplimiento.setText( formatearPorcentajeCumplimiento(listaResultadosReporte6.get(i).getPorcentajeCumplimiento()) );
     }
 
     @Override
@@ -74,5 +74,12 @@ public class Reporte6Adaptador extends RecyclerView.Adapter<Reporte6Adaptador.Re
         String  pattern = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(fecha);
+    }
+
+    private String formatearPorcentajeCumplimiento(Double cumplimientoMedida){
+
+        cumplimientoMedida=cumplimientoMedida*100;
+        int porcetaje=(int) Math.round(cumplimientoMedida);
+        return String.valueOf(porcetaje);
     }
 }

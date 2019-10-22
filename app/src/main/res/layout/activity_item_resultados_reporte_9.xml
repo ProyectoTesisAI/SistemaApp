@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:background="#ffff"
+        android:orientation="vertical"
+>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:fontFamily="sans-serif-medium"
+            android:id="@+id/txtTipoDelito"
+            android:text="Tipo Delito"
+            android:paddingBottom="5dp"
+            android:textSize="14sp"/>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/txtTipoCentro"
+                android:text="UZDI / CAI"
+                android:textSize="13sp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:id="@+id/txtNombres"
+                android:fontFamily="sans-serif-light"
+                android:textSize="13sp"
+                android:text="Nombres"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/txtApellidos"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="13sp"
+                android:text="Apellidos"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/txtProvinciaResidencia"
+                android:text="Provincia Residencia"
+                android:textSize="13sp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/txtCantonResidencia"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-light"
+                android:text="Cantón Residencia"/>
+
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/txtDireccionResidencia"
+                android:text="Dirección Residencia"
+                android:textSize="13sp"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

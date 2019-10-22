@@ -18,9 +18,7 @@ import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_3_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_3.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,7 +41,7 @@ class Reporte3CAIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_3_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_3, container, false)
 
         rootView=view
 
@@ -61,10 +59,10 @@ class Reporte3CAIFragment:Fragment() {
                 var fechaFutura: Date? = null
                 fechaFutura = sdf.parse(etFechaFutura.text.toString())
 
-                val reporte2=Reporte5()
+                val fecha=Reporte5()
 
-                reporte2.fechaAprehension=fechaFutura
-                obtenerListaReporte3(reporte2)
+                fecha.fechaAprehension=fechaFutura
+                obtenerListaReporte3(fecha)
 
             }
 

@@ -30,13 +30,12 @@ public interface ReporteServicio {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteEdadFechaUDI")
-    Call<List<Reporte2>> obtenerReporteEdadFechaUZDI(@Body Date fechaFutura, @Header("Authorization") String token);
+    Call<List<Reporte2>> obtenerReporteEdadFechaUZDI(@Body Reporte5 fechaFutura, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteEdadFechaCAI")
     Call<List<Reporte2>> obtenerReporteEdadFechaCAI(@Body Reporte5 fechaFutura, @Header("Authorization") String token);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    
     @POST("Adolescente_Infractor/movil/reporteNivelEducacionSUDI")
     Call<List<Reporte6S>> obtenerReporteNivelEducativoSUZDI(@Body Reporte6S nivelEducativo, @Header("Authorization") String token);
 
@@ -79,12 +78,28 @@ public interface ReporteServicio {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteNacionalidadUDI")
     Call<List<Reporte3>> obtenerReporteNacionalidadUZDI(@Body String nacionalidad, @Header("Authorization") String token);
+    
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteNacionalidadUDI")
+    Call<List<Reporte3>> obtenerReporteNacionalidadUZDI(@Body Reporte3 nacionalidad, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Adolescente_Infractor/reporteNacionalidadCAI")
-    Call<List<Reporte3>> obtenerReporteNacionalidadCAI(@Body String nacionalidad, @Header("Authorization") String token);
+    @POST("Adolescente_Infractor/movil/reporteNacionalidadCAI")
+    Call<List<Reporte3>> obtenerReporteNacionalidadCAI(@Body Reporte3 nacionalidad, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteFechaIngesoCAI")
-    Call<List<Reporte5>> obtenerReporteFechaIngresoCAI(@Body Date fechaIngreso, @Header("Authorization") String token);
+    Call<List<Reporte5>> obtenerReporteFechaIngresoCAI(@Body Reporte5 fechaIngreso, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("Adolescente_Infractor/reporteLugarResidenciaUDI")
+    Call<List<Reporte7>> obtenerLugarResidenciaUZDI(@Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("Adolescente_Infractor/reporteLugarResidenciaCAI")
+    Call<List<Reporte7>> obtenerLugarResidenciaCAI(@Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("Adolescente_Infractor/reporteInformesCompletos")
+    Call<List<Reporte8>> obtenerReporteInformesCompletos(@Header("Authorization") String token);
 }

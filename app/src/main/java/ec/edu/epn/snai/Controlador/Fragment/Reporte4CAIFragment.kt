@@ -14,8 +14,7 @@ import ec.edu.epn.snai.Modelo.Reporte3
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_4_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_4.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,7 +35,7 @@ class Reporte4CAIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_4_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_4, container, false)
 
         rootView=view
 
@@ -44,7 +43,9 @@ class Reporte4CAIFragment:Fragment() {
 
         rootView.btnReporte4.setOnClickListener {
 
-            val nacionalidad=rootView.spNacionalidad.selectedItem.toString()
+            val nacionalidadAux=rootView.spNacionalidad.selectedItem.toString()
+            val nacionalidad=Reporte3()
+            nacionalidad.nacionalidad=nacionalidadAux
             obtenerListaReporte4(nacionalidad)
 
         }
@@ -63,7 +64,7 @@ class Reporte4CAIFragment:Fragment() {
     }
 
         /****************************LISTA REPORTE 4 ***********************************************/
-    private fun obtenerListaReporte4(nacionalidad: String){
+    private fun obtenerListaReporte4(nacionalidad: Reporte3){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)

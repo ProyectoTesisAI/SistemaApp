@@ -10,19 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte1Adaptador
-import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte6Adaptador
-import ec.edu.epn.snai.Modelo.Reporte1
-import ec.edu.epn.snai.Modelo.Reporte2
 import ec.edu.epn.snai.Modelo.Reporte5
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
 import ec.edu.epn.snai.Servicios.ReporteServicio
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_1_.view.txtSinReportes
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_3_.view.*
-import kotlinx.android.synthetic.main.fragment_resultados_reporte_6_.view.*
+import kotlinx.android.synthetic.main.fragment_resultados_reporte_6.view.*
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +39,7 @@ class Reporte6CAIFragment:Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.fragment_resultados_reporte_6_, container, false)
+        val view= inflater.inflate(R.layout.fragment_resultados_reporte_6, container, false)
 
         rootView=view
 
@@ -62,7 +56,10 @@ class Reporte6CAIFragment:Fragment() {
                 val sdf = SimpleDateFormat("dd/MM/yyyy")
                 var fechaFutura: Date? = null
                 fechaFutura = sdf.parse(etFechaIngreso.text.toString())
-                obtenerListaReporte6(fechaFutura)
+
+                val fecha=Reporte5()
+                fecha.fechaAprehension=fechaFutura
+                obtenerListaReporte6(fecha)
 
             }
 
@@ -107,7 +104,7 @@ class Reporte6CAIFragment:Fragment() {
     }
 
     /****************************LISTA REPORTE 1 ***********************************************/
-    private fun obtenerListaReporte6(fecha:Date ){
+    private fun obtenerListaReporte6(fecha:Reporte5 ){
 
         try{
             val servicio = ClienteApiRest.getRetrofitInstance().create(ReporteServicio::class.java)

@@ -3,10 +3,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="13dp"
         android:background="#ffff"
         android:orientation="horizontal"
 >
+
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -14,9 +15,9 @@
             android:gravity="center"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
-            android:id="@+id/txtTipoCentro"
             android:fontFamily="sans-serif-light"
-            android:text="UZDI / CAI"
+            android:id="@+id/txtCedula"
+            android:text="Cédula"
             android:textSize="13sp"/>
 
     <TextView
@@ -48,12 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/txtRol"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
-            android:id="@+id/txtGenero"
+            android:textSize="13sp"
             android:fontFamily="sans-serif-light"
-            android:text="Genero"
-            android:textSize="13sp"/>
+            android:text="Rol"/>
+
 
     <TextView
             android:layout_width="0dp"
@@ -62,9 +64,9 @@
             android:gravity="center"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
-            android:id="@+id/txtEdad"
             android:fontFamily="sans-serif-light"
-            android:text="Edad"
+            android:id="@+id/txtNumeroInformes"
+            android:text="Número Informes"
             android:textSize="13sp"/>
 
 </LinearLayout>
