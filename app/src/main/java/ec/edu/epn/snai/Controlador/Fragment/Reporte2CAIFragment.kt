@@ -68,7 +68,7 @@ class Reporte2CAIFragment:Fragment() {
 
                         if(listaResultadosReporte2 != null){
 
-                            rootView.txtSinReportes.visibility=View.GONE
+                            rootView.txtSinReportes2.visibility=View.GONE
                             rootView.rv_reporte_2.visibility= View.VISIBLE
                             mostrarListadoReportes2(listaResultadosReporte2)
                         }
@@ -76,7 +76,7 @@ class Reporte2CAIFragment:Fragment() {
 
                     }
                     else{
-                        rootView.txtSinReportes.visibility=View.VISIBLE
+                        rootView.txtSinReportes2.visibility=View.VISIBLE
                         rootView.rv_reporte_2.visibility= View.GONE
                     }
                 }

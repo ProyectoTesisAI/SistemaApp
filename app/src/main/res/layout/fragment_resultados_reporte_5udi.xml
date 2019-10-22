@@ -9,47 +9,39 @@
     <LinearLayout
                   android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  >
-
-        <TextView
+                  android:layout_height="match_parent">
+        <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                android:fontFamily="sans-serif-medium"
-                android:id="@+id/vwEdadBusqueda"
-                android:text="Edad"
-                android:textSize="14sp"/>
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="3dp"
-                android:paddingEnd="3dp"
-                android:inputType="number"
-                android:id="@+id/txtEdadBusqueda"
-                android:fontFamily="sans-serif-light"
-                android:hint="Edad"
-                android:textSize="14sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo de medida"/>
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spTipoMedida5u"/>
+        </LinearLayout>
 
         <Button
                 android:layout_gravity="center_horizontal"
                 android:text="CONSULTAR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnReporte2"
+                android:id="@+id/btnReporte5u"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif-medium"
                 android:layout_marginBottom="10dp"
                 style="@android:style/Widget.Holo.Button.Small"
-                android:background="@drawable/borde_boton" android:layout_marginLeft="40dp"
+                android:background="@drawable/borde_boton"
+                android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"/>
+
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtSinReportes2"
+                android:id="@+id/txtSinReportes5u"
                 android:fontFamily="sans-serif-light"
                 android:textSize="14sp"
                 android:gravity="center_horizontal"
@@ -59,7 +51,7 @@
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/rv_reporte_2">
+                android:id="@+id/rv_reporte_5u">
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

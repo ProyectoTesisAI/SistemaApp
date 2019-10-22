@@ -1,7 +1,5 @@
 package ec.edu.epn.snai.Controlador.Fragment
 
-import android.annotation.SuppressLint
-import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,10 +7,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.Adaptador.Reporte2Adaptador
-import ec.edu.epn.snai.Modelo.DatosTipoPenalCAI
 import ec.edu.epn.snai.Modelo.Reporte2
 import ec.edu.epn.snai.R
 import ec.edu.epn.snai.Servicios.ClienteApiRest
@@ -71,7 +67,7 @@ class Reporte2UZDIFragment:Fragment() {
 
                         if(listaResultadosReporte2 != null){
 
-                            rootView.txtSinReportes.visibility=View.GONE
+                            rootView.txtSinReportes2.visibility=View.GONE
                             rootView.rv_reporte_2.visibility= View.VISIBLE
                             mostrarListadoReportes2(listaResultadosReporte2)
                         }
@@ -79,7 +75,7 @@ class Reporte2UZDIFragment:Fragment() {
 
                     }
                     else{
-                        rootView.txtSinReportes.visibility=View.VISIBLE
+                        rootView.txtSinReportes2.visibility=View.VISIBLE
                         rootView.rv_reporte_2.visibility= View.GONE
                     }
                 }

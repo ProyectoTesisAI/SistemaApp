@@ -1,15 +1,7 @@
 package ec.edu.epn.snai.Controlador.Activity
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.*
@@ -17,15 +9,7 @@ import ec.edu.epn.snai.Modelo.ItemTaller
 import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
-import ec.edu.epn.snai.Servicios.ClienteApiRest
-import ec.edu.epn.snai.Servicios.TallerServicio
-import ec.edu.epn.snai.Utilidades.Constantes
 import kotlinx.android.synthetic.main.activity_tabbed_reporte.*
-import kotlinx.android.synthetic.main.activity_tabbed_taller.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.ArrayList
 
 class ReporteTabbedActivity : AppCompatActivity() {
 
@@ -74,7 +58,10 @@ class ReporteTabbedActivity : AppCompatActivity() {
                 tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 5"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 5 - TIPO DE MEDIDA")
+                val adaptador= Reporte5AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 6"->{
                 getSupportActionBar()?.setTitle("REPORTE 6 - FECHA INGRESO AL CAI")
@@ -84,10 +71,16 @@ class ReporteTabbedActivity : AppCompatActivity() {
 
             }
             "Reporte 7"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 7 - NIVEL DE EDUCACION")
+                val adaptador= Reporte7AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 8"->{
-
+                getSupportActionBar()?.setTitle("REPORTE 8 - EDAD Y EDUCACION")
+                val adaptador= Reporte8AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 9"->{
                 getSupportActionBar()?.setTitle("REPORTE 9 - LUGAR DE RESIDENCIA")
