@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:background="#ffff"
+        android:orientation="horizontal"
+>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtTipoCentro"
+            android:text="CAI"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtNombres"
+            android:textSize="13sp"
+            android:text="Nombres"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/txtApellidos"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="13sp"
+            android:text="Apellidos"/>
+
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtFechaAprehension"
+            android:text="Fecha Aprehension"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtTiempoSentencia"
+            android:text="Tiempo Sentencia"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/txtFechaCumplimiento60"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="13sp"
+            android:text="Fecha Cumplimiento 60% "/>
+
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtFechaCumplimiento80"
+            android:text="Fecha Cumplimiento 80%"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/txtPorcentajeCumplimiento"
+            android:text="Porcentaje Cumplimiento"
+            android:textSize="14sp"/>
+
+</LinearLayout>

@@ -3,7 +3,10 @@ package ec.edu.epn.snai.Controlador.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.Toast
 import ec.edu.epn.snai.Controlador.AdaptadorTabs.*
+import ec.edu.epn.snai.Modelo.ItemTaller
+import ec.edu.epn.snai.Modelo.Taller
 import ec.edu.epn.snai.Modelo.Usuario
 import ec.edu.epn.snai.R
 import kotlinx.android.synthetic.main.activity_tabbed_reporte.*
@@ -49,11 +52,19 @@ class ReporteTabbedActivity : AppCompatActivity() {
             }
             "Reporte 4"->{
 
+                getSupportActionBar()?.setTitle("REPORTE 4 - NACIONALIDAD")
+                val adaptador=Reporte4AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
             }
             "Reporte 5"->{
 
             }
             "Reporte 6"->{
+                getSupportActionBar()?.setTitle("REPORTE 6 - FECHA INGRESO AL CAI")
+                val adaptador=Reporte6AdaptadorTabs(supportFragmentManager,token)
+                view_pager_reporte.adapter=adaptador
+                tabs_reporte.setupWithViewPager(view_pager_reporte)
 
             }
             "Reporte 7"->{
