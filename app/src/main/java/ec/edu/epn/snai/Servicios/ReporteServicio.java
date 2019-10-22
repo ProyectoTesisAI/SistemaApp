@@ -52,7 +52,7 @@ public interface ReporteServicio {
     Call<List<Reporte6N>> obtenerReporteNivelEducativoNCAI(@Body String nivelEducativo, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoSiUDI")
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoNoUDI")
     Call<List<Reporte6N>> obtenerEdadReporteNivelEducativoNoUDI(@Body Reporte6N edad, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -64,7 +64,7 @@ public interface ReporteServicio {
     Call<List<Reporte6S>> obtenerEdadReporteNivelEducativoSiCAI(@Body Reporte6S edad, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoNoUDI")
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoSiUDI")
     Call<List<Reporte6S>> obtenerEdadReporteNivelEducativoSiUDI(@Body Reporte6S edad, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
