@@ -37,6 +37,38 @@ public interface ReporteServicio {
     Call<List<Reporte2>> obtenerReporteEdadFechaCAI(@Body Reporte5 fechaFutura, @Header("Authorization") String token);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteNivelEducacionSUDI")
+    Call<List<Reporte6S>> obtenerReporteNivelEducativoSUZDI(@Body Reporte6S nivelEducativo, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/reporteNivelEducacionNUDI")
+    Call<List<Reporte6N>> obtenerReporteNivelEducativoNUZDI(@Body String nivelEducativo, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteNivelEducacionSCAI")
+    Call<List<Reporte6S>> obtenerReporteNivelEducativoSCAI(@Body Reporte6S nivelEducativo, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/reporteNivelEducacionNCAI")
+    Call<List<Reporte6N>> obtenerReporteNivelEducativoNCAI(@Body String nivelEducativo, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoSiUDI")
+    Call<List<Reporte6N>> obtenerEdadReporteNivelEducativoNoUDI(@Body Reporte6N edad, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoNoCAI")
+    Call<List<Reporte6N>> obtenerEdadReporteNivelEducativoNoCAI(@Body Reporte6N edad, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoSiCAI")
+    Call<List<Reporte6S>> obtenerEdadReporteNivelEducativoSiCAI(@Body Reporte6S edad, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Adolescente_Infractor/movil/reporteEdadNivelEducativoNoUDI")
+    Call<List<Reporte6S>> obtenerEdadReporteNivelEducativoSiUDI(@Body Reporte6S edad, @Header("Authorization") String token);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Adolescente_Infractor/reporteNacionalidadUDI")
     Call<List<Reporte3>> obtenerReporteNacionalidadUZDI(@Body String nacionalidad, @Header("Authorization") String token);
 

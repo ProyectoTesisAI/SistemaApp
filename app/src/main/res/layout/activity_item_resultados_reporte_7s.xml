@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:background="#ffff"
+        android:orientation="horizontal"
+>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/vwTipoCentro6s"
+            android:text="UZDI / CAI"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/vwNombres6s"
+            android:textSize="13sp"
+            android:text="Nombres"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/vwApellidos6s"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textSize="13sp"
+            android:text="Apellidos"/>
+
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/vwEstudia6s"
+            android:text="¿Estudia?"
+            android:textSize="14sp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:id="@+id/vwNivelEducativo6s"
+            android:text="NivelEducativo"
+            android:textSize="14sp"/>
+
+</LinearLayout>
