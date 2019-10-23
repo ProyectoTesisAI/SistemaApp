@@ -35,7 +35,7 @@ public class Reporte8SAdaptador extends RecyclerView.Adapter<Reporte8SAdaptador.
         viewHolder.txtUzdiCai.setText(listaResultadosReporte6S.get(i).getCai_uzdi());
         viewHolder.txtNombres.setText(listaResultadosReporte6S.get(i).getNombres());
         viewHolder.txtApellidos.setText(listaResultadosReporte6S.get(i).getApellidos());
-        viewHolder.txtEstudia.setText(listaResultadosReporte6S.get(i).getEdad().toString());
+        viewHolder.txtEdad.setText(listaResultadosReporte6S.get(i).getEdad().toString());
         viewHolder.txtEstudia.setText(listaResultadosReporte6S.get(i).getEstudia().toString());
         viewHolder.txtNivelEducativo.setText(listaResultadosReporte6S.get(i).getNivelEducativo());
 
