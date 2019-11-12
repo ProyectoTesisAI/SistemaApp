@@ -64,11 +64,13 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
             R.id.menu_guardar -> {
 
-                if(!informeNuevo.adolescentesJustificacion.isNullOrBlank() && !informeNuevo.socializacionDesarrollo.isNullOrBlank() && !informeNuevo.socializacionObjetivos.isNullOrBlank() && !informeNuevo.cierreEvaluacion.isNullOrBlank() && !informeNuevo.conclusiones.isNullOrBlank() ){
+                if(!informeNuevo.adolescentesJustificacion.isNullOrBlank() && !informeNuevo.socializacionDesarrollo.isNullOrBlank()
+                    && !informeNuevo.socializacionObjetivos.isNullOrBlank() && !informeNuevo.cierreEvaluacion.isNullOrBlank()
+                    && !informeNuevo.conclusiones.isNullOrBlank() ){
 
                     if(informeNuevo.numeroAdolescentes >0 ){
 
-                        if(listaFotografias?.size!! >0){
+                        if(listaFotografias.size >0){
 
                             val informeAux=guardarInforme()
                             if(informeAux != null){
@@ -79,7 +81,8 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext, "Se ha guardado correctamente el Informe", Toast.LENGTH_SHORT).show()
 
                                 val intent = Intent(this@CrearRegistroFotograficoActivity, MainActivity::class.java)
-                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent ya está en la pila de actividades,
+                                //seteo la bandera FLAG_ACTIVITY_CLEAR_TOP ya que si la actividad que se lanza con el intent
+                                // ya está en la pila de actividades,
                                 // en lugar de lanzar una nueva instancia de dicha actividad, el resto de activities en la pila serán cerradas
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 val usuarioAux=MainActivity.Companion.usuario
@@ -99,7 +102,8 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
 
                 }
                 else{
-                    Toast.makeText(applicationContext, "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Antecedenes  y justificación, Desarrollo, Objetivos Específicos, " +
+                            "Cierre y evaluación y Conclusiones son campos obligatotios, ingrese un valor", Toast.LENGTH_SHORT).show()
                 }
             }
             else -> {
@@ -202,8 +206,8 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
             object : AsyncTask<Unit, Unit, Informe>(){
 
                 override fun doInBackground(vararg p0: Unit?): Informe? {
-                    val informeEditado=servicioGuardarInforme(informe)
-                    return informeEditado
+                    val informeAux=servicioGuardarInforme(informe)
+                    return informeAux
                 }
 
             }
@@ -218,8 +222,6 @@ class CrearRegistroFotograficoActivity : AppCompatActivity() {
         }catch (e:Exception){
             return null
         }
-
-
     }
 
     private fun servicioGuardarInforme(informe: Informe): Informe? {
